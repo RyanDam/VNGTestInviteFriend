@@ -13,11 +13,15 @@
 
 @interface CSContactProvider()
 
+@property (nonatomic, strong) NSArray * allContacts;
+
 @property (nonatomic, strong) NSDictionary * contactDictionary;
 @property (nonatomic, strong) NSArray * contactIndex;
 
 @property (nonatomic, strong) NSDictionary * originalContactDictionary;
-@property (nonatomic, strong) NSDictionary * originalContactIndex;
+@property (nonatomic, strong) NSArray * originalContactIndex;
+
+@property (nonatomic, strong) NSString * lastSearchText;
 
 @end
 
@@ -91,6 +95,8 @@
                 }
             }
             
+            self.allContacts = contactNumbersArray;
+            
             self.contactIndex = contactIndex;
             self.contactDictionary = contactDicionany;
             
@@ -146,29 +152,37 @@
     return self.contactDictionary;
 }
 
+- (void)prepareForSearch {
+    
+    self.lastSearchText = @"";
+}
+
 - (void)performSearchText:(NSString *)text {
+    
     if (text.length > 0) {
-        NSString * sectionKey = [text substringWithRange:NSMakeRange(0, 1)];
-        NSArray * sectionContacts = [self.contactDictionary objectForKey:sectionKey];
+        NSMutableArray * searchedArray = [NSMutableArray array];
+        NSArray * arrayToSearch = self.allContacts;
         
-        if (sectionContacts != nil) {
-            self.contactIndex = [NSArray arrayWithObject:sectionKey];
-            
-            // TODO: search, no need to use section
-            
-//            NSMutableArray * tempData = [NSMutableArray array];
-//            for (CSContact * contact in sectionContacts) {
-//                if ()
-//            }
-            
-        } else {
-            self.contactIndex = [NSArray array];
-            self.contactDictionary = [NSDictionary dictionary];
+        for (CSContact * contact in arrayToSearch) {
+            if ([contact.fullname.lowercaseString containsString:text.lowercaseString]) {
+                [searchedArray addObject:contact];
+            }
         }
+        
+        self.contactIndex = [NSArray arrayWithObject:kCSProviderSearchKey];
+        self.contactDictionary = [NSDictionary dictionaryWithObject:searchedArray forKey:kCSProviderSearchKey];
+        
     } else {
-        self.contactIndex = [self.originalContactIndex copy];
-        self.contactDictionary = [self.originalContactDictionary copy];
+        self.contactIndex = self.originalContactIndex;
+        self.contactDictionary = self.originalContactDictionary;
     }
+    
+    self.lastSearchText = text;
+}
+
+- (void)completeSearch {
+    self.contactIndex = self.originalContactIndex;
+    self.contactDictionary = self.originalContactDictionary;
 }
 
 @end

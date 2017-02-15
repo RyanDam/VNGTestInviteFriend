@@ -8,6 +8,8 @@
 
 #import "CSBaseProvider.h"
 
+NSString * kCSProviderSearchKey = @"SEARCH";
+
 @implementation CSBaseProvider
 
 - (NSArray *) getContactIndex {
@@ -28,7 +30,21 @@
     return nil;
 }
 
+- (void)prepareForSearch {
+    
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:[NSString stringWithFormat:@"You must override method: %@", NSStringFromSelector(_cmd)]
+                                 userInfo:nil];
+}
+
 - (void)performSearchText:(NSString *)text {
+    
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:[NSString stringWithFormat:@"You must override method: %@", NSStringFromSelector(_cmd)]
+                                 userInfo:nil];
+}
+
+- (void)completeSearch {
     
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                    reason:[NSString stringWithFormat:@"You must override method: %@", NSStringFromSelector(_cmd)]

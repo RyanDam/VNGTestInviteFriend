@@ -8,12 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+extern NSString * kCSProviderSearchKey;
+
 @interface CSBaseProvider : NSObject
 
 - (NSArray *) getContactIndex;
 
 - (NSDictionary *) getContactDictionary;
 
+- (void)prepareForSearch;
+
 - (void)performSearchText:(NSString *)text;
+
+- (void)completeSearch;
 
 @end

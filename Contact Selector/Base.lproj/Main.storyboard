@@ -31,11 +31,11 @@
                                     <size key="itemSize" width="42" height="42"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
+                                    <inset key="sectionInset" minX="10" minY="10" maxX="10" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CSSelectedContactCollectionViewCell" id="Frb-io-zm6" customClass="CSSelectedContactCollectionViewCell">
-                                        <rect key="frame" x="10" y="8" width="42" height="42"/>
+                                        <rect key="frame" x="10" y="13" width="42" height="42"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
@@ -126,8 +126,12 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Cs1-Fc-Toj">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="TpB-9X-cwQ"/>
-                        <barButtonItem key="rightBarButtonItem" image="sendIcon" id="miU-zn-4A7"/>
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="TpB-9X-cwQ">
+                            <color key="tintColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="sendIcon" id="miU-zn-4A7">
+                            <color key="tintColor" red="0.22135002190102748" green="0.76440332722955151" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="friendChoosedCollectionView" destination="o67-gb-lZX" id="XAx-Vj-skD"/>

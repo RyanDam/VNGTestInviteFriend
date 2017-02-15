@@ -37,7 +37,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.maxSelectedContact = 5;
+    self.maxSelectedContact = 10;
     self.selectedContacts = [NSMutableArray array];
     self.dataProvider = [[CSContactProvider alloc] init];
     [self initFriendTableView];
@@ -56,6 +56,7 @@
 #pragma mark - Init views
 
 - (void)initHeaderTitleView {
+    
     self.headerTitleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, self.navigationController.navigationBar.frame.size.height)];
     self.headerTitleView.backgroundColor = [UIColor clearColor];
     
@@ -85,7 +86,7 @@
     self.friendChoosedCollectionView.dataSource = self;
     self.friendChoosedCollectionView.delegate = self;
     self.defaultFriendChoosedCollectionHeight = 58;
-//    self.friendChoosedcollectionHeightConstraint.constant = 0;
+    self.friendChoosedcollectionHeightConstraint.constant = 0;
     self.friendChoosedCollectionView.showsHorizontalScrollIndicator = NO;
     self.friendChoosedCollectionView.bounces = YES;
 }
@@ -100,6 +101,7 @@
 }
 
 - (void)setHeaderTitle:(NSString *)title {
+    
     self.headerTitleLabel.text = title;
 }
 
@@ -121,46 +123,69 @@
 
 #pragma mark - UISearchBarDelegate
 
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
+    
+    [self.dataProvider prepareForSearch];
+    return YES;
+}
+
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     
+    [self.dataProvider performSearchText:searchText];
+    [self.friendTableView reloadData];
+}
+
+- (void)forceEndSearch {
+    [self.dataProvider completeSearch];
+    [self.searchBarView endEditing:YES];
+    [self.searchBarView setText:@""];
+    [self.friendTableView reloadData];
 }
 
 #pragma mark - Select contact logic
 
 - (void)didSelectContact:(CSContact *)contact {
     
-//    if (self.selectedContacts.count == 0) {
-//        self.friendChoosedcollectionHeightConstraint.constant = self.defaultFriendChoosedCollectionHeight;
-//        [UIView animateWithDuration:0.2 animations:^{
-//            [self.view layoutIfNeeded];
-//        }];
-//    }
+    if (self.selectedContacts.count == 0) {
+        self.friendChoosedcollectionHeightConstraint.constant = self.defaultFriendChoosedCollectionHeight;
+        [UIView animateWithDuration:0.13 animations:^{
+            [self.view layoutIfNeeded];
+        } completion:^(BOOL finished) {
+            [self.selectedContacts addObject:contact];
+            [self.friendChoosedCollectionView reloadData];
+        }];
+    } else {
+        [self.friendChoosedCollectionView performBatchUpdates:^{
+            
+            [self.selectedContacts addObject:contact];
+            NSUInteger index = [self.selectedContacts indexOfObject:contact];
+            NSIndexPath * indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+            
+            [self.friendChoosedCollectionView insertItemsAtIndexPaths:@[indexPath]];
+            
+        } completion:^(BOOL finished) {
+            
+            [self.friendChoosedCollectionView.collectionViewLayout invalidateLayout];
+            [self.friendChoosedCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.selectedContacts.count - 1 inSection:0]
+                                                     atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
+            [self setCoutingValue:self.selectedContacts.count animate:YES];
+        }];
+        
+        [self forceEndSearch];
+    }
     
-    [self.friendChoosedCollectionView performBatchUpdates:^{
-        
-        [self.selectedContacts addObject:contact];
-        NSUInteger index = [self.selectedContacts indexOfObject:contact];
-        NSIndexPath * indexPath = [NSIndexPath indexPathForRow:index inSection:0];
-        
-        [self.friendChoosedCollectionView insertItemsAtIndexPaths:@[indexPath]];
-        
-    } completion:^(BOOL finished) {
-       
-        [self.friendChoosedCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.selectedContacts.count - 1 inSection:0]
-                                                 atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
-        [self setCoutingValue:self.selectedContacts.count animate:YES];
-    }];
 }
 
 - (void)didDeselectContact:(CSContact *)contact {
     
-//    if (self.selectedContacts.count == 1) {
-//        self.friendChoosedcollectionHeightConstraint.constant = 0;
-//        [UIView animateWithDuration:0.2 animations:^{
-//            [self.view layoutIfNeeded];
-//        }];
-//    }
+    if (self.selectedContacts.count == 1) {
+        self.friendChoosedcollectionHeightConstraint.constant = 0;
+        [UIView animateWithDuration:0.13 animations:^{
+            [self.view layoutIfNeeded];
+        } completion:nil];
+    }
     
+    [self.friendChoosedCollectionView.collectionViewLayout invalidateLayout];
     [self.friendChoosedCollectionView performBatchUpdates:^{
         
         NSUInteger index = [self.selectedContacts indexOfObject:contact];
@@ -171,12 +196,12 @@
         
     } completion:^(BOOL finished) {
         
+        [self.friendChoosedCollectionView.collectionViewLayout invalidateLayout];
         [self setCoutingValue:self.selectedContacts.count animate:YES];
+        
     }];
     
-    UICollectionViewLayout * layout = self.friendChoosedCollectionView.collectionViewLayout;
-    [layout invalidateLayout];
-    
+    [self forceEndSearch];
 }
 
 #pragma mark - UICollectionViewDelegate
@@ -190,6 +215,8 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 
+    [self forceEndSearch];
+    
     CSSelectedContactCollectionViewCell * csCell = (CSSelectedContactCollectionViewCell *) [collectionView cellForItemAtIndexPath:indexPath];
     [csCell toggleHighlight];
     
@@ -214,24 +241,34 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    [self printIndexPath:indexPath];
-    
     UICollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCSSelectedContactCollectionViewCellID forIndexPath:indexPath];
-    
     return cell;
 }
 
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     return 64;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    NSString * sectionKey = [self.dataProvider getContactIndex][section];
+    
+    if ([sectionKey compare:kCSProviderSearchKey] == NSOrderedSame) {
+        return 0;
+    }
+    
     return 24;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    NSString * sectionKey = [self.dataProvider getContactIndex][section];
+    
+    if ([sectionKey compare:kCSProviderSearchKey] == NSOrderedSame) {
+        return 0;
+    }
+    
     return 1;
 }
 
@@ -239,13 +276,25 @@
     
     CSContactTableViewCell * contactCell = (CSContactTableViewCell *) cell;
     contactCell.contact = [self getContactAtIndexPath:indexPath];
+    
+    if ([self.selectedContacts containsObject:contactCell.contact]) {
+        [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+    }
+    
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     return 3; // return 3 for showing check box in the left of each cell
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    
+    NSString * sectionKey = [self.dataProvider getContactIndex][section];
+    
+    if ([sectionKey compare:kCSProviderSearchKey] == NSOrderedSame) {
+        return nil;
+    }
     
     UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(16, 0, tableView.frame.size.width, 24)];
     headerView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.9];
@@ -253,7 +302,6 @@
     UILabel * headerKeyLabel = [[UILabel alloc] initWithFrame:headerView.frame];
     UIFont * headerFont = [UIFont boldSystemFontOfSize:12];
     headerKeyLabel.font = headerFont;
-    NSString * sectionKey = [self.dataProvider getContactIndex][section];
     headerKeyLabel.text = sectionKey;
     headerKeyLabel.textColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
     
@@ -264,12 +312,19 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     
+    NSString * sectionKey = [self.dataProvider getContactIndex][section];
+    
+    if ([sectionKey compare:kCSProviderSearchKey] == NSOrderedSame) {
+        return nil;
+    }
+    
     UIView * dividerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 1)];
     dividerView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.05];
     return dividerView;
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     if (self.selectedContacts.count < self.maxSelectedContact) {
         return indexPath;
     } else {
@@ -279,6 +334,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     CSContact * selectedContact = [self getContactAtIndexPath:indexPath];
     [self didSelectContact:selectedContact];
 }
@@ -292,6 +348,7 @@
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    
     return [[self.dataProvider getContactIndex] count];
 }
 
@@ -308,11 +365,23 @@
 }
 
 - (NSArray<NSString *> *)sectionIndexTitlesForTableView:(UITableView *)tableView {
+    NSString * firstSectionKey = [self.dataProvider getContactIndex][0];
+    if ([firstSectionKey compare:kCSProviderSearchKey] == NSOrderedSame) {
+        return nil;
+    }
     return [self.dataProvider getContactIndex];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
+    
     return index;
+}
+
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    
+    [self.searchBarView endEditing:YES];
 }
 
 #pragma mark - Utils
@@ -337,10 +406,10 @@
 }
 
 - (void)showMessage:(NSString *)message {
-    UIAlertController * alert = [UIAlertController
-                                 alertControllerWithTitle:@"Message"
-                                 message:message
-                                 preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"Message"
+                                                                    message:message
+                                                             preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDestructive handler:nil];
     [alert addAction:dismissAction];
@@ -350,12 +419,14 @@
 }
 
 - (void)printSelectedContacts {
+    
     for (CSContact * contact in self.selectedContacts) {
         NSLog(@"%@", contact.fullname);
     }
 }
 
 - (void)printIndexPath:(NSIndexPath *)index {
+    
     NSLog(@"Section %ld row %ld", (long)index.section, (long)index.row);
 }
 

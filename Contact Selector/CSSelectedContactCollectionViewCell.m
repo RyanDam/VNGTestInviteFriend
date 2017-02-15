@@ -50,4 +50,8 @@ NSString * kCSSelectedContactCollectionViewCellID = @"CSSelectedContactCollectio
     [self setHighlight:!highlight];
 }
 
+- (void)prepareForReuse {
+    [super prepareForReuse];
+}
+
 @end
