@@ -129,4 +129,9 @@
     self.highlightView.hidden = !flag;
 }
 
+- (void)resetBackColor {
+    self.backgroundColor = self.baseColor;
+    self.textContentView.backgroundColor = [UIColor clearColor];
+}
+
 @end

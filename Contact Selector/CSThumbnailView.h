@@ -16,4 +16,6 @@
 
 - (void)setHighlight:(BOOL)flag;
 
+- (void)resetBackColor;
+
 @end

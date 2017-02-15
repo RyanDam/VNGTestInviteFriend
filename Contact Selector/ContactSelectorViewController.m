@@ -277,10 +277,13 @@
     CSContactTableViewCell * contactCell = (CSContactTableViewCell *) cell;
     contactCell.contact = [self getContactAtIndexPath:indexPath];
     
+    UIView *myBackView = [[UIView alloc] initWithFrame:cell.frame];
+    myBackView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:1];
+    cell.selectedBackgroundView = myBackView;
+    
     if ([self.selectedContacts containsObject:contactCell.contact]) {
         [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
     }
-    
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {

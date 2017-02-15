@@ -29,21 +29,15 @@ NSString * kCSContactTableViewCellID = @"CSContactTableViewCell";
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
+    if (selected) {
+        [self.thumbnailView resetBackColor];
+    }
     
-//    if (selected) {
-//        [self setBackgroundColor:[UIColor colorWithRed:1 green:1 blue:0 alpha:1]];
-//        [self setAccessibilityTraits:UIAccessibilityTraitSelected];
-//        
-//        self.selectedBackgroundView.backgroundColor = [UIColor blackColor];
-//        self.multipleSelectionBackgroundView.backgroundColor = [UIColor greenColor];
-//        
-//    } else {
-//        [self setBackgroundColor:[UIColor clearColor]];
-//        [self setAccessibilityTraits:UIAccessibilityTraitNone];
-//    }
 }
 
 - (void)setContact:(CSContact *)newContact {
+    
+    [self bringSubviewToFront:self.thumbnailView];
     
     self.thumbnailView.layer.cornerRadius = self.thumbnailView.frame.size.height / 2.0;
     _contact = newContact;
