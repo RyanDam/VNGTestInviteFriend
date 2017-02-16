@@ -6,8 +6,19 @@
 //  Copyright © 2017 CPU11815. All rights reserved.
 //
 
-#import "CSBaseProvider.h"
+#import "UIKit/UIKit.h"
+#import "CSProviderDelegate.h"
 
-@interface CSContactProvider : CSBaseProvider
+@interface CSContactProvider : NSObject <CSProviderDelegate>
+
+- (NSArray *) getContactIndex;
+
+- (NSDictionary *) getContactDictionary;
+
+- (void)prepareForSearch;
+
+- (void)performSearchText:(NSString *)text;
+
+- (void)completeSearch;
 
 @end

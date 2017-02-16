@@ -10,4 +10,6 @@
 
 @interface CSCheckbox : UIView
 
+- (void)setCheck:(BOOL)flag;
+
 @end

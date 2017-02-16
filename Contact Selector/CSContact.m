@@ -24,9 +24,16 @@
                 NSString * firstName = separateString[0];
                 NSString * lastName = separateString[separateString.count - 1];
                 
-                self.shortName = [NSString stringWithFormat:@"%@%@", [firstName substringWithRange:NSMakeRange(0, 1)], [lastName substringWithRange:NSMakeRange(0, 1)]];
+                self.shortName = @"";
+                if (firstName.length > 0) {
+                    self.shortName = [self.shortName stringByAppendingString:[firstName substringWithRange:NSMakeRange(0, 1)]];
+                }
+                if (lastName.length > 0) {
+                    self.shortName = [self.shortName stringByAppendingString:[lastName substringWithRange:NSMakeRange(0, 1)]];
+                }
+                
             } else {
-                self.shortName = [newFullname substringWithRange:NSMakeRange(0, 2)];
+                self.shortName = [newFullname substringWithRange:NSMakeRange(0, 2)].uppercaseString;
             }
             
         } else {

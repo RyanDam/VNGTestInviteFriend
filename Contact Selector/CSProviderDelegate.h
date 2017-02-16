@@ -1,16 +1,16 @@
 //
-//  CSBaseProvider.h
+//  CSProviderDelegate.h
 //  Contact Selector
 //
-//  Created by CPU11815 on 2/13/17.
+//  Created by Dam Vu Duy on 2/17/17.
 //  Copyright © 2017 CPU11815. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 extern NSString * kCSProviderSearchKey;
 
-@interface CSBaseProvider : NSObject
+@protocol CSProviderDelegate <NSObject>
 
 - (NSArray *) getContactIndex;
 

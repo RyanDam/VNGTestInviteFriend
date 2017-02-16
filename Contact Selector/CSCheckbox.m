@@ -21,8 +21,6 @@
 @property (nonatomic) CGFloat lineWidth;
 @property (nonatomic) BOOL checked;
 
-@property (nonatomic) UITapGestureRecognizer * tapGesture;
-
 @end
 
 @implementation CSCheckbox
@@ -56,17 +54,11 @@
     self.tickColor = [UIColor whiteColor];
     self.lineWidth = 1.0;
     self.checked = UNCHECK;
-    
-    self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTap)];
-    [self addGestureRecognizer:self.tapGesture];
 }
 
-- (void) onTap {
-    self.checked = !self.checked;
-    
-    NSLog(@"CHECK %d", self.checked);
-    
-    [self setNeedsLayout];
+- (void)setCheck:(BOOL)flag {
+    self.checked = flag;
+    [self layoutIfNeeded];
 }
 
 - (void) drawRect:(CGRect)rect {
@@ -81,9 +73,9 @@
     
     if (self.checked) {
         [bigCircle fill];
+    } else {
+        [bigCircle stroke];
     }
-    
-    [bigCircle stroke];
     
     CGFloat deltaBottomTickWithCenter = center.y * (1.414 - 1.0);
     CGPoint bottomTickPoint = CGPointMake(center.x, center.y + deltaBottomTickWithCenter * 0.8);

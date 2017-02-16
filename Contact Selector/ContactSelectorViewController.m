@@ -7,7 +7,7 @@
 //
 
 #import "ContactSelectorViewController.h"
-#import "CSBaseProvider.h"
+#import "CSProviderDelegate.h"
 #import "CSContactProvider.h"
 #import "CSContact.h"
 #import "CSContactTableViewCell.h"
@@ -25,7 +25,7 @@
 @property (nonatomic) UILabel * headerCountingLabel;
 
 @property (nonatomic) NSMutableArray * selectedContacts;
-@property (nonatomic) CSBaseProvider * dataProvider;
+@property (nonatomic) id <CSProviderDelegate> dataProvider;
 
 @property (nonatomic) NSUInteger maxSelectedContact;
 @property (nonatomic) NSUInteger defaultFriendChoosedCollectionHeight;
@@ -39,7 +39,7 @@
     
     self.maxSelectedContact = 10;
     self.selectedContacts = [NSMutableArray array];
-    self.dataProvider = [[CSContactProvider alloc] init];
+    self.dataProvider = (id <CSProviderDelegate>)[[CSContactProvider alloc] init];
     [self initFriendTableView];
     [self initFriendCollectionView];
     [self initHeaderTitleView];
@@ -86,9 +86,10 @@
     self.friendChoosedCollectionView.dataSource = self;
     self.friendChoosedCollectionView.delegate = self;
     self.defaultFriendChoosedCollectionHeight = 58;
-    self.friendChoosedcollectionHeightConstraint.constant = 0;
+//    self.friendChoosedcollectionHeightConstraint.constant = 0;
     self.friendChoosedCollectionView.showsHorizontalScrollIndicator = NO;
     self.friendChoosedCollectionView.bounces = YES;
+    self.friendChoosedCollectionView.prefetchingEnabled = NO;
 }
 
 - (void)initFriendTableView {
@@ -97,7 +98,7 @@
     self.friendTableView.delegate = self;
     self.friendTableView.separatorColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.05];
     self.friendTableView.sectionIndexBackgroundColor = [UIColor clearColor];
-    [self.friendTableView setEditing:YES animated:YES];
+//    [self.friendTableView setEditing:YES animated:YES];
 }
 
 - (void)setHeaderTitle:(NSString *)title {
@@ -147,11 +148,12 @@
 - (void)didSelectContact:(CSContact *)contact {
     
     if (self.selectedContacts.count == 0) {
-        self.friendChoosedcollectionHeightConstraint.constant = self.defaultFriendChoosedCollectionHeight;
+//        self.friendChoosedcollectionHeightConstraint.constant = self.defaultFriendChoosedCollectionHeight;
         [UIView animateWithDuration:0.13 animations:^{
             [self.view layoutIfNeeded];
         } completion:^(BOOL finished) {
             [self.selectedContacts addObject:contact];
+            
             [self.friendChoosedCollectionView reloadData];
         }];
     } else {
@@ -179,7 +181,7 @@
 - (void)didDeselectContact:(CSContact *)contact {
     
     if (self.selectedContacts.count == 1) {
-        self.friendChoosedcollectionHeightConstraint.constant = 0;
+//        self.friendChoosedcollectionHeightConstraint.constant = 0;
         [UIView animateWithDuration:0.13 animations:^{
             [self.view layoutIfNeeded];
         } completion:nil];
@@ -223,14 +225,17 @@
     CSContact * contact = self.selectedContacts[indexPath.row];
     NSIndexPath * tableIndexPath = [self getIndexPathOfFriendTableForContact:contact];
     
-    [self.friendTableView scrollToRowAtIndexPath:tableIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    [self printIndexPath:tableIndexPath];
+    
+//    [self.friendTableView scrollToRowAtIndexPath:tableIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    [self.friendTableView selectRowAtIndexPath:tableIndexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    CSSelectedContactCollectionViewCell * csCell = (CSSelectedContactCollectionViewCell *) [collectionView cellForItemAtIndexPath:indexPath];
-    [csCell setHighlight:NO];
-}
+//- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
+//    
+//    CSSelectedContactCollectionViewCell * csCell = (CSSelectedContactCollectionViewCell *) [collectionView cellForItemAtIndexPath:indexPath];
+//    [csCell setHighlight:NO];
+//}
 
 #pragma mark - UICollectionViewDataSource
 
@@ -247,48 +252,53 @@
 
 #pragma mark - UITableViewDelegate
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     return 64;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    NSString * sectionKey = [self.dataProvider getContactIndex][section];
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForHeaderInSection:(NSInteger)section {
     
+    NSString * sectionKey = [self.dataProvider getContactIndex][section];
     if ([sectionKey compare:kCSProviderSearchKey] == NSOrderedSame) {
         return 0;
     }
-    
     return 24;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    NSString * sectionKey = [self.dataProvider getContactIndex][section];
     
+    NSString * sectionKey = [self.dataProvider getContactIndex][section];
     if ([sectionKey compare:kCSProviderSearchKey] == NSOrderedSame) {
         return 0;
     }
-    
     return 1;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     CSContactTableViewCell * contactCell = (CSContactTableViewCell *) cell;
-    contactCell.contact = [self getContactAtIndexPath:indexPath];
+    CSContact * contact = [self getContactAtIndexPath:indexPath];
+    contactCell.contact = contact;
     
     UIView *myBackView = [[UIView alloc] initWithFrame:cell.frame];
-    myBackView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:1];
+    myBackView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.05];
     cell.selectedBackgroundView = myBackView;
     
-    if ([self.selectedContacts containsObject:contactCell.contact]) {
-        [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+    if ([self.selectedContacts containsObject:contact]) {
+        NSLog(@"Select Containt %ld", indexPath.row);
+        [contactCell setSelect:YES];
+    } else {
+        NSLog(@"Containt %ld", indexPath.row);
+        [contactCell setSelect:NO];
     }
-}
-
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return 3; // return 3 for showing check box in the left of each cell
+    // hide seperator when this cell is the last cell in section
+    if (indexPath.row == [self tableView:tableView numberOfRowsInSection:indexPath.section] - 1) {
+        [contactCell hideSeperator];
+    } else {
+        [contactCell showSeperator];
+    }
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -306,7 +316,7 @@
     UIFont * headerFont = [UIFont boldSystemFontOfSize:12];
     headerKeyLabel.font = headerFont;
     headerKeyLabel.text = sectionKey;
-    headerKeyLabel.textColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
+    headerKeyLabel.textColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
     
     [headerView addSubview:headerKeyLabel];
     
@@ -316,7 +326,6 @@
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     
     NSString * sectionKey = [self.dataProvider getContactIndex][section];
-    
     if ([sectionKey compare:kCSProviderSearchKey] == NSOrderedSame) {
         return nil;
     }
@@ -331,21 +340,28 @@
     if (self.selectedContacts.count < self.maxSelectedContact) {
         return indexPath;
     } else {
+        CSContact * selectedContact = [self getContactAtIndexPath:indexPath];
+        if ([self.selectedContacts containsObject:selectedContact]) {
+            return indexPath; // case: deselect cell when maximum selected contact reached
+        }
         [self showMessage:[NSString stringWithFormat:@"You may select %ld friends at maximum", self.maxSelectedContact]];
         return nil;
     }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    CSContact * selectedContact = [self getContactAtIndexPath:indexPath];
-    [self didSelectContact:selectedContact];
-}
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
 
-- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     CSContact * selectedContact = [self getContactAtIndexPath:indexPath];
-    [self didDeselectContact:selectedContact];
+    CSContactTableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
+    
+    if ([self.selectedContacts containsObject:selectedContact]) {
+        [self didDeselectContact:selectedContact];
+        [cell setSelect:NO];
+    } else {
+        [self didSelectContact:selectedContact];
+        [cell setSelect:YES];
+    }
 }
 
 #pragma mark - UITableViewDataSource
@@ -363,8 +379,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath; {
     
-    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:kCSContactTableViewCellID];
-    return cell;
+    return [tableView dequeueReusableCellWithIdentifier:kCSContactTableViewCellID];
 }
 
 - (NSArray<NSString *> *)sectionIndexTitlesForTableView:(UITableView *)tableView {
@@ -399,7 +414,7 @@
 
 - (NSIndexPath *)getIndexPathOfFriendTableForContact:(CSContact *)contact {
     
-    NSString * sectionKey = [contact.fullname substringWithRange:NSMakeRange(0, 1)];
+    NSString * sectionKey = [contact.fullname substringWithRange:NSMakeRange(0, 1)].uppercaseString;
     NSUInteger section = [[self.dataProvider getContactIndex] indexOfObject:sectionKey];
     
     NSArray * contactList = [[self.dataProvider getContactDictionary] objectForKey:sectionKey];

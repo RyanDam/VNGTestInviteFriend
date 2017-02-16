@@ -16,4 +16,10 @@ extern NSString * kCSContactTableViewCellID;
 
 @property (nonatomic) CSContact * contact;
 
+- (void)setSelect:(BOOL)flag;
+
+- (void)showSeperator;
+
+- (void)hideSeperator;
+
 @end

@@ -50,59 +50,77 @@
         
         NSArray *keys = @[CNContactFamilyNameKey, CNContactGivenNameKey, CNContactImageDataKey];
         
-        NSString *containerId = store.defaultContainerIdentifier;
-        NSPredicate *predicate = [CNContact predicateForContactsInContainerWithIdentifier:containerId];
-        NSError *error;
-        NSArray *cnContacts = [store unifiedContactsMatchingPredicate:predicate keysToFetch:keys error:&error];
+        NSArray *allContacts = [NSArray array];
         
-        if (err) {
-            NSLog(@"Get contact error!");
+        // get all contact group info
+        NSError * error;
+        NSArray * allContainer = [store containersMatchingPredicate:nil error:&error];
+        
+        if (error) {
+            // get contact container error
         } else {
-            NSMutableArray *contactNumbersArray = [NSMutableArray array];
-            
-            for (CNContact *contact in cnContacts) {
-                CSContact * contactResult = [self getInfoFromCNContact:contact];
-                [contactNumbersArray addObject:contactResult];
-            }
-            
-            NSArray * sortedContact = [contactNumbersArray sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-                CSContact * currentContact = (CSContact *) obj1;
-                CSContact * nextContact = (CSContact *) obj2;
-                return [currentContact.fullname caseInsensitiveCompare:nextContact.fullname];
-            }];
-            
-            NSMutableArray * contactIndex = [NSMutableArray array];
-            NSMutableDictionary * contactDicionany = [NSMutableDictionary dictionary];
-            
-            for (CSContact * contact in sortedContact) {
-                NSString * currentFirstCharOfContactName = [[contact.fullname substringWithRange:NSMakeRange(0, 1)] uppercaseString];
+            for (CNContainer * container in allContainer) {
+                NSPredicate *predicate = [CNContact predicateForContactsInContainerWithIdentifier:container.identifier];
+                NSError *error;
+                NSArray *cnContacts = [store unifiedContactsMatchingPredicate:predicate keysToFetch:keys error:&error];
                 
-                if (contactIndex.count == 0) {
+                if (error) {
+                    // get contact from container error
+                } else {
+                    allContacts = [allContacts arrayByAddingObjectsFromArray:cnContacts];
+                }
+            }
+        }
+        NSMutableArray *contactNumbersArray = [NSMutableArray array];
+        
+        // convert CNContact to CSContact
+        for (CNContact *contact in allContacts) {
+            CSContact * contactResult = [self getInfoFromCNContact:contact];
+            if (contactResult.fullname.length == 0) {
+                continue;
+            }
+            [contactNumbersArray addObject:contactResult];
+        }
+        
+        // sort all contact
+        NSArray * sortedContact = [contactNumbersArray sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+            CSContact * currentContact = (CSContact *) obj1;
+            CSContact * nextContact = (CSContact *) obj2;
+            return [currentContact.fullname caseInsensitiveCompare:nextContact.fullname];
+        }];
+        
+        NSMutableArray * contactIndex = [NSMutableArray array];
+        NSMutableDictionary * contactDicionany = [NSMutableDictionary dictionary];
+        
+        // Indexing contact into dictionary
+        for (CSContact * contact in sortedContact) {
+            NSString * currentFirstCharOfContactName = [[contact.fullname substringWithRange:NSMakeRange(0, 1)] uppercaseString];
+            
+            if (contactIndex.count == 0) { // create new section array and add first data
+                [contactIndex addObject:currentFirstCharOfContactName];
+                NSMutableArray * contactArray = [NSMutableArray arrayWithObject:contact];
+                [contactDicionany setObject:contactArray forKey:currentFirstCharOfContactName];
+            } else {
+                NSString * currentLastIndex = (NSString *) contactIndex[contactIndex.count - 1];
+                
+                if ([currentFirstCharOfContactName localizedCaseInsensitiveCompare:currentLastIndex] != NSOrderedSame) { // create new section array and add first data
                     [contactIndex addObject:currentFirstCharOfContactName];
                     NSMutableArray * contactArray = [NSMutableArray arrayWithObject:contact];
                     [contactDicionany setObject:contactArray forKey:currentFirstCharOfContactName];
                 } else {
-                    NSString * currentLastIndex = (NSString *) contactIndex[contactIndex.count - 1];
-                    
-                    if ([currentFirstCharOfContactName localizedCaseInsensitiveCompare:currentLastIndex] != NSOrderedSame) {
-                        [contactIndex addObject:currentFirstCharOfContactName];
-                        NSMutableArray * contactArray = [NSMutableArray arrayWithObject:contact];
-                        [contactDicionany setObject:contactArray forKey:currentFirstCharOfContactName];
-                    } else {
-                        NSMutableArray * contactArray = [contactDicionany objectForKey:currentLastIndex];
-                        [contactArray addObject:contact];
-                    }
+                    NSMutableArray * contactArray = [contactDicionany objectForKey:currentLastIndex];
+                    [contactArray addObject:contact];
                 }
             }
-            
-            self.allContacts = contactNumbersArray;
-            
-            self.contactIndex = contactIndex;
-            self.contactDictionary = contactDicionany;
-            
-            self.originalContactIndex = [contactIndex copy];
-            self.originalContactDictionary = [contactDicionany copy];
         }
+        
+        self.allContacts = contactNumbersArray;
+        
+        self.contactIndex = contactIndex;
+        self.contactDictionary = contactDicionany;
+        
+        self.originalContactIndex = [contactIndex copy];
+        self.originalContactDictionary = [contactDicionany copy];
         
         dispatch_group_leave(waitGroup);
     }];
@@ -138,17 +156,20 @@
 
     CSContact * contactResult = [[CSContact alloc] init];
     
-    contactResult.fullname = fullName;
+    contactResult.fullname = [fullName stringByTrimmingCharactersInSet:
+                              [NSCharacterSet whitespaceCharacterSet]];
     contactResult.avatar = profileImage;
     
     return contactResult;
 }
 
 - (NSArray *) getContactIndex {
+    
     return self.contactIndex;
 }
 
 - (NSDictionary *) getContactDictionary {
+    
     return self.contactDictionary;
 }
 
