@@ -25,10 +25,13 @@ NSString * kCSContactTableViewCellID = @"CSContactTableViewCell";
 
 @synthesize contact = _contact;
 
++(CGFloat)getCellHeight {
+    return 64;
+}
+
 - (void)awakeFromNib {
     [super awakeFromNib];
 }
-
 
 /**
  This is for prevent flickering when tap on table cell

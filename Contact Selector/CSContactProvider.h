@@ -19,7 +19,7 @@
 
 - (void)prepareForSearch;
 
-- (void)performSearchText:(NSString *)text;
+- (void)performSearchText:(NSString *)text withCompletion:(void (^)(CSSearchResult result))completion;
 
 - (void)completeSearch;
 

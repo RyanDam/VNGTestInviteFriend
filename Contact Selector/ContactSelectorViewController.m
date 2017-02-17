@@ -12,6 +12,7 @@
 #import "CSContact.h"
 #import "CSContactTableViewCell.h"
 #import "CSSelectedContactCollectionViewCell.h"
+#import "CSSearchNoResultTableViewCell.h"
 
 @interface ContactSelectorViewController () <UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, UISearchBarDelegate>
 
@@ -30,6 +31,8 @@
 @property (nonatomic) NSUInteger maxSelectedContact;
 @property (nonatomic) NSUInteger defaultFriendChoosedCollectionHeight;
 
+@property (nonatomic) CSSearchResult userSearchResult;
+
 @end
 
 @implementation ContactSelectorViewController
@@ -37,7 +40,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.maxSelectedContact = 5;
+    self.maxSelectedContact = 10;
     self.selectedContacts = [NSMutableArray array];
     
     [self initFriendTableView];
@@ -153,8 +156,10 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     
-    [self.dataProvider performSearchText:searchText];
-    [self.friendTableView reloadData];
+    [self.dataProvider performSearchText:searchText withCompletion:^(CSSearchResult result) {
+        self.userSearchResult = result;
+        [self.friendTableView reloadData];
+    }];
 }
 
 - (void)forceEndSearch {
@@ -186,10 +191,11 @@
         [self.friendChoosedCollectionView insertItemsAtIndexPaths:@[indexPath]];
         
     } completion:^(BOOL finished) {
-        
-        [self.friendChoosedCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.selectedContacts.count - 1 inSection:0]
-                                                 atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
-        [self setCoutingValue:self.selectedContacts.count animate:YES];
+        if (finished) {
+            [self.friendChoosedCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.selectedContacts.count - 1 inSection:0]
+                                                     atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
+            [self setCoutingValue:self.selectedContacts.count animate:YES];
+        }
     }];
     
     [self forceEndSearch];
@@ -213,10 +219,10 @@
         [self.friendChoosedCollectionView deleteItemsAtIndexPaths:@[indexPath]];
         
     } completion:^(BOOL finished) {
-        
-        [self.friendChoosedCollectionView.collectionViewLayout invalidateLayout];
-        [self setCoutingValue:self.selectedContacts.count animate:YES];
-        
+        if (finished) {
+            [self.friendChoosedCollectionView.collectionViewLayout invalidateLayout];
+            [self setCoutingValue:self.selectedContacts.count animate:YES];
+        }
     }];
     
     [self forceEndSearch];
@@ -258,6 +264,7 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
     UICollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCSSelectedContactCollectionViewCellID forIndexPath:indexPath];
     return cell;
 }
@@ -266,13 +273,16 @@
 
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return 64;
+    if ([self isUserSearchNoResult]) {
+        return [CSSearchNoResultTableViewCell getCellHeight];
+    } else {
+        return [CSContactTableViewCell getCellHeight];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForHeaderInSection:(NSInteger)section {
     
-    NSString * sectionKey = [self.dataProvider getContactIndex][section];
-    if ([sectionKey compare:kCSProviderSearchKey] == NSOrderedSame) {
+    if ([self isUserSearching]) {
         return 0;
     }
     return 24;
@@ -280,14 +290,17 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     
-    NSString * sectionKey = [self.dataProvider getContactIndex][section];
-    if ([sectionKey compare:kCSProviderSearchKey] == NSOrderedSame) {
+    if ([self isUserSearching]) {
         return 0;
     }
     return 1;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if ([self isUserSearchNoResult]) {
+        return;
+    }
     
     CSContactTableViewCell * contactCell = (CSContactTableViewCell *) cell;
     CSContact * contact = [self getContactAtIndexPath:indexPath];
@@ -315,11 +328,11 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     
     // No need section view when user is searching
-    NSString * sectionKey = [self.dataProvider getContactIndex][section];
-    if ([sectionKey compare:kCSProviderSearchKey] == NSOrderedSame) {
+    if ([self isUserSearching]) {
         return nil;
     }
     
+    NSString * sectionKey = [self.dataProvider getContactIndex][section];
     UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(16, 0, tableView.frame.size.width, 24)];
     headerView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.9];
     
@@ -337,8 +350,7 @@
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     
     // No need footer view when user is searching
-    NSString * sectionKey = [self.dataProvider getContactIndex][section];
-    if ([sectionKey compare:kCSProviderSearchKey] == NSOrderedSame) {
+    if ([self isUserSearching]) {
         return nil;
     }
     
@@ -348,6 +360,10 @@
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if ([self isUserSearchNoResult]) {
+        return nil;
+    }
     
     if (self.selectedContacts.count < self.maxSelectedContact) {
         return indexPath;
@@ -380,10 +396,18 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
+    if ([self isUserSearchNoResult]) {
+        return 1;
+    }
+    
     return [[self.dataProvider getContactIndex] count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    if ([self isUserSearchNoResult]) {
+        return 1;
+    }
     
     NSString * sectionKey = [self.dataProvider getContactIndex][section];
     return [[[self.dataProvider getContactDictionary] objectForKey:sectionKey] count];
@@ -391,7 +415,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath; {
     
-    return [tableView dequeueReusableCellWithIdentifier:kCSContactTableViewCellID];
+    if ([self isUserSearchNoResult]) {
+        return [tableView dequeueReusableCellWithIdentifier:kCSSearchNoResultTableViewCellID];
+    } else {
+        return [tableView dequeueReusableCellWithIdentifier:kCSContactTableViewCellID];
+    }
 }
 
 - (NSArray<NSString *> *)sectionIndexTitlesForTableView:(UITableView *)tableView {
@@ -401,8 +429,7 @@
         return nil;
     }
     
-    NSString * firstSectionKey = [self.dataProvider getContactIndex][0];
-    if ([firstSectionKey compare:kCSProviderSearchKey] == NSOrderedSame) {
+    if ([self isUserSearching]) {
         return nil;
     }
     
@@ -428,6 +455,28 @@
 }
 
 #pragma mark - Utils
+
+- (BOOL)isUserSearchNoResult {
+    
+    if ([self isUserSearching]) {
+        return self.userSearchResult == CSSearchResultNoResult;
+    }
+    
+    return NO;
+}
+
+- (BOOL)isUserSearching {
+    
+    if ([self.dataProvider getContactIndex].count == 0) {
+        return NO;
+    }
+    
+    NSString * firstSectionKey = [self.dataProvider getContactIndex][0];
+    if ([firstSectionKey compare:kCSProviderSearchKey] == NSOrderedSame) {
+        return YES;
+    }
+    return NO;
+}
 
 - (CSContact *)getContactAtIndexPath: (NSIndexPath *)indexPath {
     

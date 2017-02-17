@@ -131,6 +131,7 @@ static NSDictionary * colorDictionary;
     self.highlightView = [[UIView alloc] initWithFrame:self.frame];
     self.highlightView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.2];
     [self addSubview:self.highlightView];
+    self.highlightView.hidden = YES;
 }
 
 - (void)setText:(NSString *)text {

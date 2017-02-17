@@ -21,6 +21,7 @@
 		F2F31F971E51B06B007405A7 /* CSContactTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F961E51B06B007405A7 /* CSContactTableViewCell.m */; };
 		F2F31F9A1E51B184007405A7 /* CSThumbnailView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F991E51B184007405A7 /* CSThumbnailView.m */; };
 		F2F31F9D1E52B2B5007405A7 /* CSSelectedContactCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F9C1E52B2B5007405A7 /* CSSelectedContactCollectionViewCell.m */; };
+		F2F31FA11E56E187007405A7 /* CSSearchNoResultTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31FA01E56E187007405A7 /* CSSearchNoResultTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,8 @@
 		F2F31F991E51B184007405A7 /* CSThumbnailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSThumbnailView.m; sourceTree = "<group>"; };
 		F2F31F9B1E52B2B5007405A7 /* CSSelectedContactCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSelectedContactCollectionViewCell.h; sourceTree = "<group>"; };
 		F2F31F9C1E52B2B5007405A7 /* CSSelectedContactCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSelectedContactCollectionViewCell.m; sourceTree = "<group>"; };
+		F2F31F9F1E56E187007405A7 /* CSSearchNoResultTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSearchNoResultTableViewCell.h; sourceTree = "<group>"; };
+		F2F31FA01E56E187007405A7 /* CSSearchNoResultTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSearchNoResultTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,6 +199,8 @@
 			children = (
 				F2F31F951E51B06B007405A7 /* CSContactTableViewCell.h */,
 				F2F31F961E51B06B007405A7 /* CSContactTableViewCell.m */,
+				F2F31F9F1E56E187007405A7 /* CSSearchNoResultTableViewCell.h */,
+				F2F31FA01E56E187007405A7 /* CSSearchNoResultTableViewCell.m */,
 				F2F31F9B1E52B2B5007405A7 /* CSSelectedContactCollectionViewCell.h */,
 				F2F31F9C1E52B2B5007405A7 /* CSSelectedContactCollectionViewCell.m */,
 			);
@@ -337,6 +342,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F2F31F9D1E52B2B5007405A7 /* CSSelectedContactCollectionViewCell.m in Sources */,
+				F2F31FA11E56E187007405A7 /* CSSearchNoResultTableViewCell.m in Sources */,
 				F2F31F971E51B06B007405A7 /* CSContactTableViewCell.m in Sources */,
 				F2F31F901E516221007405A7 /* CSContact.m in Sources */,
 				941B66A41E561CFA00C04A4E /* CSProviderDelegate.m in Sources */,

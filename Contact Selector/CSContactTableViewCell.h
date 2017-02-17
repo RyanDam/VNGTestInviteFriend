@@ -16,6 +16,8 @@ extern NSString * kCSContactTableViewCellID;
 
 @property (nonatomic) CSContact * contact;
 
++(CGFloat)getCellHeight;
+
 /**
  Mark cell as selected of unselected
 

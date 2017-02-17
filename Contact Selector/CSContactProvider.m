@@ -173,7 +173,7 @@
     self.lastSearchText = @"";
 }
 
-- (void)performSearchText:(NSString *)text {
+- (void)performSearchText:(NSString *)text withCompletion:(void (^)(CSSearchResult result))completion {
     
     if (text.length > 0) {
         NSMutableArray * searchedArray = [NSMutableArray array];
@@ -188,9 +188,16 @@
         self.contactIndex = [NSArray arrayWithObject:kCSProviderSearchKey];
         self.contactDictionary = [NSDictionary dictionaryWithObject:searchedArray forKey:kCSProviderSearchKey];
         
+        if (searchedArray.count == 0) {
+            completion(CSSearchResultNoResult);
+        } else {
+            completion(CSSearchResultComplete);
+        }
+        
     } else {
         self.contactIndex = self.originalContactIndex;
         self.contactDictionary = self.originalContactDictionary;
+        completion(CSSearchResultComplete);
     }
     
     self.lastSearchText = text;

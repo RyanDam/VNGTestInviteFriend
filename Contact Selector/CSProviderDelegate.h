@@ -10,6 +10,11 @@
 
 extern NSString * kCSProviderSearchKey;
 
+typedef NS_ENUM(NSInteger, CSSearchResult) {
+    CSSearchResultComplete,
+    CSSearchResultNoResult
+};
+
 @protocol CSProviderDelegate <NSObject>
 
 /**
@@ -43,7 +48,7 @@ extern NSString * kCSProviderSearchKey;
 
  @param text to search
  */
-- (void)performSearchText:(NSString *)text;
+- (void)performSearchText:(NSString *)text withCompletion:(void (^)(CSSearchResult result))completion;
 
 /**
  User complete search
