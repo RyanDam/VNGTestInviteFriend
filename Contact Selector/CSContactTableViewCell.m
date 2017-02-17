@@ -26,6 +26,7 @@ NSString * kCSContactTableViewCellID = @"CSContactTableViewCell";
 @synthesize contact = _contact;
 
 +(CGFloat)getCellHeight {
+    
     return 64;
 }
 
@@ -37,6 +38,7 @@ NSString * kCSContactTableViewCellID = @"CSContactTableViewCell";
  This is for prevent flickering when tap on table cell
  */
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    
     UIColor *color = self.thumbnailView.backgroundColor;
     [super setSelected:selected animated:animated];
     
@@ -49,6 +51,7 @@ NSString * kCSContactTableViewCellID = @"CSContactTableViewCell";
  This is for prevent flickering when tap on table cell
  */
 -(void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated{
+    
     UIColor *color = self.thumbnailView.backgroundColor;
     [super setHighlighted:highlighted animated:animated];
     
@@ -58,6 +61,7 @@ NSString * kCSContactTableViewCellID = @"CSContactTableViewCell";
 }
 
 - (void)setSelect:(BOOL)flag {
+    
     if (flag) {
         self.checkboxView.image = [UIImage imageNamed:@"selectedCheck"];
     } else {
@@ -75,10 +79,12 @@ NSString * kCSContactTableViewCellID = @"CSContactTableViewCell";
 }
 
 - (void)showSeperator {
+    
     self.seperatorView.hidden = NO;
 }
 
 - (void)hideSeperator {
+    
     self.seperatorView.hidden = YES;
 }
 

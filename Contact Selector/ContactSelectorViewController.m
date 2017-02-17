@@ -18,19 +18,22 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *friendTableView;
 @property (weak, nonatomic) IBOutlet UICollectionView *friendChoosedCollectionView;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *friendChoosedcollectionHeightConstraint;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBarView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *friendChoosedcollectionHeightConstraint;
 
+@property (nonatomic) NSUInteger defaultFriendChoosedCollectionHeight;
+
+// Navigation title view
 @property (nonatomic) UIView * headerTitleView;
 @property (nonatomic) UILabel * headerTitleLabel;
 @property (nonatomic) UILabel * headerCountingLabel;
 
+// Data select properties
+@property (nonatomic) NSUInteger maxSelectedContact;
 @property (nonatomic) NSMutableArray * selectedContacts;
 @property (nonatomic) id <CSProviderDelegate> dataProvider;
 
-@property (nonatomic) NSUInteger maxSelectedContact;
-@property (nonatomic) NSUInteger defaultFriendChoosedCollectionHeight;
-
+// Current search state of view controller
 @property (nonatomic) CSSearchResult userSearchResult;
 
 @end
@@ -60,13 +63,14 @@
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
     
-    // Without this, the collection view will crash when show and hide itself with message: attribute for indexPath not exist
+    // Without this, the collection view will crash when show then hide itself with message: attribute for indexPath not exist
     [self.friendChoosedCollectionView.collectionViewLayout invalidateLayout];
 }
 
 #pragma mark - Init
 
 - (void)initDataProvider {
+    
     self.dataProvider = (id <CSProviderDelegate>)[[CSContactProvider alloc] init];
     [self.dataProvider initDatabaseWithComplete:^(NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -129,6 +133,14 @@
     self.headerTitleLabel.text = title;
 }
 
+/**
+ Set counting number in the navigation title view
+
+ @param num 
+    current number of selected data
+ @param animated
+    zoom in then zoom out animation or not
+ */
 - (void)setCoutingValue:(NSUInteger)num animate:(BOOL)animated{
     
     self.headerCountingLabel.text = [NSString stringWithFormat:@"%ld/%ld", num, self.maxSelectedContact];
@@ -167,6 +179,9 @@
     }];
 }
 
+/**
+ force complete search
+ */
 - (void)forceEndSearch {
     
     [self.dataProvider completeSearch];
@@ -177,8 +192,15 @@
 
 #pragma mark - Select contact logic
 
+/**
+ Add selected contact when user selected it on the friendTableView
+
+ @param contact 
+    data will be added to selectedContact array
+ */
 - (void)didSelectContact:(CSContact *)contact {
     
+    // Show selected contact collection view
     if (self.selectedContacts.count == 0) {
         self.friendChoosedcollectionHeightConstraint.constant = self.defaultFriendChoosedCollectionHeight;
         [UIView animateWithDuration:0.13 animations:^{
@@ -187,6 +209,7 @@
         } completion:nil];
     }
     
+    // start add selected contact to collection view
     [self.friendChoosedCollectionView performBatchUpdates:^{
         
         [self.selectedContacts addObject:contact];
@@ -203,11 +226,19 @@
         }
     }];
     
+    // turn off search when done adding contact
     [self forceEndSearch];
 }
 
+/**
+ Remove contact from selected contact data when user deselected it
+
+ @param contact
+    data will be remove
+ */
 - (void)didDeselectContact:(CSContact *)contact {
     
+    // Hide selected contact collection view
     if (self.selectedContacts.count == 1) {
         self.friendChoosedcollectionHeightConstraint.constant = 0;
         [UIView animateWithDuration:0.13 animations:^{
@@ -215,12 +246,12 @@
         } completion:nil];
     }
     
+    // start remove selected contact from collection view
     [self.friendChoosedCollectionView performBatchUpdates:^{
         
         NSUInteger index = [self.selectedContacts indexOfObject:contact];
         [self.selectedContacts removeObject:contact];
         NSIndexPath * indexPath = [NSIndexPath indexPathForRow:index inSection:0];
-        
         [self.friendChoosedCollectionView deleteItemsAtIndexPaths:@[indexPath]];
         
     } completion:^(BOOL finished) {
@@ -230,6 +261,7 @@
         }
     }];
     
+    // turn off search when done adding contact
     [self forceEndSearch];
 }
 
@@ -346,7 +378,6 @@
     headerKeyLabel.font = headerFont;
     headerKeyLabel.text = sectionKey;
     headerKeyLabel.textColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
-    
     [headerView addSubview:headerKeyLabel];
     
     return headerView;

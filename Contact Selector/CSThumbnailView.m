@@ -28,7 +28,9 @@ static NSDictionary * colorDictionary;
 @implementation CSThumbnailView
 
 - (instancetype)init {
-    if (self = [super init]) {
+    
+    self = [super init];
+    if (self) {
         [self initView];
         return self;
     }
@@ -36,7 +38,9 @@ static NSDictionary * colorDictionary;
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    if (self = [super initWithCoder:aDecoder]) {
+    
+    self = [super initWithCoder:aDecoder];
+    if (self) {
         [self initView];
         return self;
     }
@@ -44,7 +48,9 @@ static NSDictionary * colorDictionary;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
-    if (self = [super initWithFrame:frame]) {
+    
+    self = [super initWithFrame:frame];
+    if (self) {
         [self initView];
         return self;
     }
@@ -103,8 +109,7 @@ static NSDictionary * colorDictionary;
 
 - (void)initLabelViewWithText:(NSString *)text {
 
-    CGSize size = [text sizeWithAttributes:
-                   @{NSFontAttributeName: [UIFont systemFontOfSize:textSize]}];
+    CGSize size = [text sizeWithAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:textSize]}];
     size.width *= 1.5;
     size.height *= 1.5;
     UIFont * customFont = [UIFont systemFontOfSize:textSize];

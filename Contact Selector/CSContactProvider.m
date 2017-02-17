@@ -27,13 +27,6 @@
 
 @implementation CSContactProvider
 
-- (instancetype) init {
-    if (self = [super init]) {
-        return self;
-    }
-    return nil;
-}
-
 - (void)initDatabaseWithComplete:(void (^)(NSError * error))completion; {
     
     CNContactStore * store = [[CNContactStore alloc] init];
