@@ -13,5 +13,7 @@
 @property (nonatomic) NSString * fullname;
 @property (nonatomic) NSString * shortName;
 @property (nonatomic) UIImage * avatar;
+@property (nonatomic) NSArray<NSString *> * phoneNumbers;
+@property (nonatomic) NSArray<NSString *> * emails;
 
 @end

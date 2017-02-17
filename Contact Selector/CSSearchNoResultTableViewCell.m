@@ -13,7 +13,7 @@ NSString * kCSSearchNoResultTableViewCellID = @"CSSearchNoResultTableViewCell";
 @implementation CSSearchNoResultTableViewCell
 
 +(CGFloat)getCellHeight {
-    return 200;
+    return 300;
 }
 
 - (void)awakeFromNib {

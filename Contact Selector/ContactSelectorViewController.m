@@ -158,6 +158,11 @@
     
     [self.dataProvider performSearchText:searchText withCompletion:^(CSSearchResult result) {
         self.userSearchResult = result;
+        if ([self isUserSearchNoResult]) {
+            self.friendTableView.allowsSelection = NO;
+        } else {
+            self.friendTableView.allowsSelection = YES;
+        }
         [self.friendTableView reloadData];
     }];
 }
@@ -271,7 +276,7 @@
 
 #pragma mark - UITableViewDelegate
 
-- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if ([self isUserSearchNoResult]) {
         return [CSSearchNoResultTableViewCell getCellHeight];
@@ -280,7 +285,7 @@
     }
 }
 
-- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForHeaderInSection:(NSInteger)section {
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     
     if ([self isUserSearching]) {
         return 0;

@@ -45,7 +45,7 @@
             return;
         }
         
-        NSArray *keys = @[CNContactFamilyNameKey, CNContactGivenNameKey, CNContactImageDataKey];
+        NSArray *keys = @[CNContactFamilyNameKey, CNContactGivenNameKey, CNContactImageDataKey, CNContactPhoneNumbersKey, CNContactEmailAddressesKey];
         
         // get all contact group info
         NSError * error;
@@ -123,10 +123,12 @@
 
 - (CSContact *) getInfoFromCNContact: (CNContact *) contact {
     
-    NSString *fullName;
-    NSString *firstName;
-    NSString *lastName;
-    UIImage *profileImage;
+    NSString * fullName;
+    NSString * firstName;
+    NSString * lastName;
+    NSMutableArray<NSString *> * phoneNumbers = [NSMutableArray array];
+    NSMutableArray<NSString *> * emails = [NSMutableArray array];
+    UIImage * profileImage;
     
     firstName = contact.givenName;
     lastName = contact.familyName;
@@ -144,10 +146,23 @@
     } else {
         profileImage = [UIImage imageNamed:@"person-icon.png"];
     }
-
+    
+    // get all email address
+    for (CNLabeledValue<NSString *> * emailLabeled in contact.emailAddresses) {
+        [emails addObject:emailLabeled.value];
+    }
+    
+    // get all phone number
+    for (CNLabeledValue<CNPhoneNumber *> * phoneLabeled in contact.phoneNumbers) {
+        CNPhoneNumber * phone = phoneLabeled.value;
+        [phoneNumbers addObject:phone.stringValue];
+    }
+    
     CSContact * contactResult = [[CSContact alloc] init];
     contactResult.fullname = [fullName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     contactResult.avatar = profileImage;
+    contactResult.emails = emails;
+    contactResult.phoneNumbers = phoneNumbers;
     
     return contactResult;
 }
