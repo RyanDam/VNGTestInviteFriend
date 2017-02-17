@@ -16,10 +16,23 @@ extern NSString * kCSSelectedContactCollectionViewCellID;
 
 @property (nonatomic) CSContact * contact;
 
+/**
+ Set data for this cell
+
+ @param newContact input data
+ */
 - (void)setContact:(CSContact *)newContact;
 
+/**
+ Highight cell
+
+ @param flag YES or NO
+ */
 - (void)setHighlight:(BOOL)flag;
 
+/**
+ Toggle highlight state
+ */
 - (void)toggleHighlight;
 
 @end

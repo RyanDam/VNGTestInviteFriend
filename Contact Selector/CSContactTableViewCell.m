@@ -9,7 +9,6 @@
 #import "CSContactTableViewCell.h"
 #import "CSThumbnailView.h"
 #import "CSContact.h"
-#import "CSCheckbox.h"
 
 NSString * kCSContactTableViewCellID = @"CSContactTableViewCell";
 

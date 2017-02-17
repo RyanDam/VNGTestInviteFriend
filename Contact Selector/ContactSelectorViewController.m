@@ -37,13 +37,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.maxSelectedContact = 10;
+    self.maxSelectedContact = 5;
     self.selectedContacts = [NSMutableArray array];
-    self.dataProvider = (id <CSProviderDelegate>)[[CSContactProvider alloc] init];
+    
     [self initFriendTableView];
     [self initFriendCollectionView];
     [self initHeaderTitleView];
     [self initSearchBar];
+    [self initDataProvider];
     
     [self setHeaderTitle:@"Choose Friend"];
     [self setCoutingValue:0 animate:NO];
@@ -60,7 +61,20 @@
     [self.friendChoosedCollectionView.collectionViewLayout invalidateLayout];
 }
 
-#pragma mark - Init views
+#pragma mark - Init
+
+- (void)initDataProvider {
+    self.dataProvider = (id <CSProviderDelegate>)[[CSContactProvider alloc] init];
+    [self.dataProvider initDatabaseWithComplete:^(NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (error) {
+                [self showMessage:[error localizedDescription]];
+            } else {
+                [self.friendTableView reloadData];
+            }
+        });
+    }];
+}
 
 - (void)initHeaderTitleView {
     
@@ -156,38 +170,27 @@
 - (void)didSelectContact:(CSContact *)contact {
     
     if (self.selectedContacts.count == 0) {
-        [self.friendChoosedCollectionView.collectionViewLayout invalidateLayout];
         self.friendChoosedcollectionHeightConstraint.constant = self.defaultFriendChoosedCollectionHeight;
         [UIView animateWithDuration:0.13 animations:^{
             
             [self.view layoutIfNeeded];
-            
-        } completion:^(BOOL finished) {
-            
-            [self.selectedContacts addObject:contact];
-            [self.friendChoosedCollectionView reloadData];
-            
-            [self setCoutingValue:self.selectedContacts.count animate:YES];
-        }];
-    } else {
-        [self.friendChoosedCollectionView performBatchUpdates:^{
-            
-            [self.selectedContacts addObject:contact];
-            NSUInteger index = [self.selectedContacts indexOfObject:contact];
-            NSIndexPath * indexPath = [NSIndexPath indexPathForRow:index inSection:0];
-            
-            [self.friendChoosedCollectionView insertItemsAtIndexPaths:@[indexPath]];
-            
-        } completion:^(BOOL finished) {
-            
-            [self.friendChoosedCollectionView.collectionViewLayout invalidateLayout];
-            [self.friendChoosedCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.selectedContacts.count - 1 inSection:0]
-                                                     atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
-            [self setCoutingValue:self.selectedContacts.count animate:YES];
-        }];
-        
-        
+        } completion:nil];
     }
+    
+    [self.friendChoosedCollectionView performBatchUpdates:^{
+        
+        [self.selectedContacts addObject:contact];
+        NSUInteger index = [self.selectedContacts indexOfObject:contact];
+        NSIndexPath * indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+        
+        [self.friendChoosedCollectionView insertItemsAtIndexPaths:@[indexPath]];
+        
+    } completion:^(BOOL finished) {
+        
+        [self.friendChoosedCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.selectedContacts.count - 1 inSection:0]
+                                                 atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
+        [self setCoutingValue:self.selectedContacts.count animate:YES];
+    }];
     
     [self forceEndSearch];
 }
@@ -392,10 +395,17 @@
 }
 
 - (NSArray<NSString *> *)sectionIndexTitlesForTableView:(UITableView *)tableView {
+    
+    // data not init yet
+    if ([self.dataProvider getContactIndex].count == 0) {
+        return nil;
+    }
+    
     NSString * firstSectionKey = [self.dataProvider getContactIndex][0];
     if ([firstSectionKey compare:kCSProviderSearchKey] == NSOrderedSame) {
         return nil;
     }
+    
     NSString * searchIcon = UITableViewIndexSearch;
     NSString * hastagIcon = @"#";
     NSArray * indexWithIcon = [[@[searchIcon] arrayByAddingObjectsFromArray:[self.dataProvider getContactIndex]] arrayByAddingObject:hastagIcon];

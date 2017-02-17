@@ -16,10 +16,21 @@ extern NSString * kCSContactTableViewCellID;
 
 @property (nonatomic) CSContact * contact;
 
+/**
+ Mark cell as selected of unselected
+
+ @param flag YES or NO
+ */
 - (void)setSelect:(BOOL)flag;
 
+/**
+ Show seperator between cells
+ */
 - (void)showSeperator;
 
+/**
+ Hide seperator between cells
+ */
 - (void)hideSeperator;
 
 @end

@@ -29,34 +29,31 @@
 
 - (instancetype) init {
     if (self = [super init]) {
-        [self getAllContact];
         return self;
     }
     return nil;
 }
 
-- (void) getAllContact {
-    
-    dispatch_group_t waitGroup = dispatch_group_create();
-    dispatch_group_enter(waitGroup);
+- (void)initDatabaseWithComplete:(void (^)(NSError * error))completion; {
     
     CNContactStore * store = [[CNContactStore alloc] init];
     [store requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable err) {
         
         if (!granted) {
             NSLog(@"User not granted permission");
+            completion(err);
             return;
         }
         
         NSArray *keys = @[CNContactFamilyNameKey, CNContactGivenNameKey, CNContactImageDataKey];
-       
+        
         // get all contact group info
         NSError * error;
         NSArray * allContainer = [store containersMatchingPredicate:nil error:&error];
         
         NSArray *allContacts = [NSArray array];
         if (error) {
-            // get contact container error
+            completion(error);
         } else {
             for (CNContainer * container in allContainer) {
                 NSPredicate *predicate = [CNContact predicateForContactsInContainerWithIdentifier:container.identifier];
@@ -64,12 +61,13 @@
                 NSArray *cnContacts = [store unifiedContactsMatchingPredicate:predicate keysToFetch:keys error:&error];
                 
                 if (error) {
-                    // get contact from container error
+                    completion(error);
                 } else {
                     allContacts = [allContacts arrayByAddingObjectsFromArray:cnContacts];
                 }
             }
         }
+        
         NSMutableArray *contactNumbersArray = [NSMutableArray array];
         
         // convert CNContact to CSContact
@@ -119,10 +117,8 @@
         self.originalContactIndex = [contactIndex copy];
         self.originalContactDictionary = [contactDicionany copy];
         
-        dispatch_group_leave(waitGroup);
+        completion(nil);
     }];
-    
-    dispatch_group_wait(waitGroup, DISPATCH_TIME_FOREVER);
 }
 
 - (CSContact *) getInfoFromCNContact: (CNContact *) contact {
@@ -150,8 +146,7 @@
     }
 
     CSContact * contactResult = [[CSContact alloc] init];
-    contactResult.fullname = [fullName stringByTrimmingCharactersInSet:
-                              [NSCharacterSet whitespaceCharacterSet]];
+    contactResult.fullname = [fullName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     contactResult.avatar = profileImage;
     
     return contactResult;
@@ -159,11 +154,17 @@
 
 - (NSArray *) getContactIndex {
     
+    if (self.contactIndex == nil) {
+        return @[];
+    }
     return self.contactIndex;
 }
 
 - (NSDictionary *) getContactDictionary {
     
+    if (self.contactDictionary == nil) {
+        return @{};
+    }
     return self.contactDictionary;
 }
 
@@ -196,6 +197,7 @@
 }
 
 - (void)completeSearch {
+    
     self.contactIndex = self.originalContactIndex;
     self.contactDictionary = self.originalContactDictionary;
 }

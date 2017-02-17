@@ -18,7 +18,6 @@
 		F2F31F791E515E2C007405A7 /* Contact_SelectorUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F781E515E2C007405A7 /* Contact_SelectorUITests.m */; };
 		F2F31F8C1E5160AF007405A7 /* CSContactProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F8B1E5160AF007405A7 /* CSContactProvider.m */; };
 		F2F31F901E516221007405A7 /* CSContact.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F8F1E516221007405A7 /* CSContact.m */; };
-		F2F31F931E51A2F3007405A7 /* CSCheckbox.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F921E51A2F3007405A7 /* CSCheckbox.m */; };
 		F2F31F971E51B06B007405A7 /* CSContactTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F961E51B06B007405A7 /* CSContactTableViewCell.m */; };
 		F2F31F9A1E51B184007405A7 /* CSThumbnailView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F991E51B184007405A7 /* CSThumbnailView.m */; };
 		F2F31F9D1E52B2B5007405A7 /* CSSelectedContactCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F9C1E52B2B5007405A7 /* CSSelectedContactCollectionViewCell.m */; };
@@ -64,8 +63,6 @@
 		F2F31F8B1E5160AF007405A7 /* CSContactProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSContactProvider.m; sourceTree = "<group>"; };
 		F2F31F8E1E516221007405A7 /* CSContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSContact.h; sourceTree = "<group>"; };
 		F2F31F8F1E516221007405A7 /* CSContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSContact.m; sourceTree = "<group>"; };
-		F2F31F911E51A2F3007405A7 /* CSCheckbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSCheckbox.h; sourceTree = "<group>"; };
-		F2F31F921E51A2F3007405A7 /* CSCheckbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSCheckbox.m; sourceTree = "<group>"; };
 		F2F31F951E51B06B007405A7 /* CSContactTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSContactTableViewCell.h; sourceTree = "<group>"; };
 		F2F31F961E51B06B007405A7 /* CSContactTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSContactTableViewCell.m; sourceTree = "<group>"; };
 		F2F31F981E51B184007405A7 /* CSThumbnailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSThumbnailView.h; sourceTree = "<group>"; };
@@ -188,8 +185,6 @@
 		F2F31F941E51A7A4007405A7 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				F2F31F911E51A2F3007405A7 /* CSCheckbox.h */,
-				F2F31F921E51A2F3007405A7 /* CSCheckbox.m */,
 				F2F31F981E51B184007405A7 /* CSThumbnailView.h */,
 				F2F31F991E51B184007405A7 /* CSThumbnailView.m */,
 			);
@@ -350,7 +345,6 @@
 				F2F31F8C1E5160AF007405A7 /* CSContactProvider.m in Sources */,
 				F2F31F9A1E51B184007405A7 /* CSThumbnailView.m in Sources */,
 				F2F31F551E515E2C007405A7 /* main.m in Sources */,
-				F2F31F931E51A2F3007405A7 /* CSCheckbox.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

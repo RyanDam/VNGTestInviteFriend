@@ -174,14 +174,4 @@ static NSDictionary * colorDictionary;
     self.highlightView.hidden = !flag;
 }
 
-- (void)resetBackColor {
-    UIColor * color = [colorDictionary objectForKey:[self.currentText substringWithRange:NSMakeRange(1, 1)]];
-    if (color) {
-        self.backgroundColor = color;
-    } else {
-        self.backgroundColor = self.baseColor;
-    }
-    self.textContentView.backgroundColor = [UIColor clearColor];
-}
-
 @end

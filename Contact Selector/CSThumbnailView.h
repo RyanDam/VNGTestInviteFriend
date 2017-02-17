@@ -12,10 +12,18 @@
 
 @interface CSThumbnailView : UIView
 
+/**
+ Set contact data
+
+ @param contact input
+ */
 - (void)setContact:(CSContact *)contact;
 
-- (void)setHighlight:(BOOL)flag;
+/**
+ Set a semi-white mask on top of view for highlighting
 
-- (void)resetBackColor;
+ @param flag YES or NO
+ */
+- (void)setHighlight:(BOOL)flag;
 
 @end

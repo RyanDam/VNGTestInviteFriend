@@ -11,6 +11,8 @@
 
 @interface CSContactProvider : NSObject <CSProviderDelegate>
 
+- (void)initDatabaseWithComplete:(void (^)(NSError * error))completion;
+
 - (NSArray *) getContactIndex;
 
 - (NSDictionary *) getContactDictionary;

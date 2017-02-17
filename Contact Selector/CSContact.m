@@ -14,9 +14,9 @@
 
 - (void) setFullname:(NSString *)newFullname {
     
+    // check and init short name
     if (newFullname != nil) {
         if (newFullname.length > 0) {
-            
             NSArray<NSString *> * separateString = [newFullname componentsSeparatedByString:@" "];
             
             if (separateString.count > 1) {
@@ -35,7 +35,6 @@
             } else {
                 self.shortName = [newFullname substringWithRange:NSMakeRange(0, 2)].uppercaseString;
             }
-            
         } else {
             self.shortName = @"";
         }
