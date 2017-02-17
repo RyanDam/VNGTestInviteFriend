@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		941B669F1E55FE5000C04A4E /* CSCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 941B669E1E55FE5000C04A4E /* CSCollectionViewLayout.m */; };
 		941B66A41E561CFA00C04A4E /* CSProviderDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 941B66A31E561CAD00C04A4E /* CSProviderDelegate.m */; };
 		F2F31F551E515E2C007405A7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F541E515E2C007405A7 /* main.m */; };
 		F2F31F581E515E2C007405A7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F571E515E2C007405A7 /* AppDelegate.m */; };
@@ -43,8 +42,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		941B669D1E55FE5000C04A4E /* CSCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSCollectionViewLayout.h; sourceTree = "<group>"; };
-		941B669E1E55FE5000C04A4E /* CSCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSCollectionViewLayout.m; sourceTree = "<group>"; };
 		941B66A01E561B6300C04A4E /* CSProviderDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSProviderDelegate.h; sourceTree = "<group>"; };
 		941B66A31E561CAD00C04A4E /* CSProviderDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSProviderDelegate.m; sourceTree = "<group>"; };
 		F2F31F501E515E2C007405A7 /* Contact Selector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Contact Selector.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -131,8 +128,6 @@
 				F2F31F861E515E75007405A7 /* Data Provider */,
 				F2F31F591E515E2C007405A7 /* ContactSelectorViewController.h */,
 				F2F31F5A1E515E2C007405A7 /* ContactSelectorViewController.m */,
-				941B669D1E55FE5000C04A4E /* CSCollectionViewLayout.h */,
-				941B669E1E55FE5000C04A4E /* CSCollectionViewLayout.m */,
 				F2F31F561E515E2C007405A7 /* AppDelegate.h */,
 				F2F31F571E515E2C007405A7 /* AppDelegate.m */,
 				F2F31F5C1E515E2C007405A7 /* Main.storyboard */,
@@ -351,7 +346,6 @@
 				F2F31F901E516221007405A7 /* CSContact.m in Sources */,
 				941B66A41E561CFA00C04A4E /* CSProviderDelegate.m in Sources */,
 				F2F31F5B1E515E2C007405A7 /* ContactSelectorViewController.m in Sources */,
-				941B669F1E55FE5000C04A4E /* CSCollectionViewLayout.m in Sources */,
 				F2F31F581E515E2C007405A7 /* AppDelegate.m in Sources */,
 				F2F31F8C1E5160AF007405A7 /* CSContactProvider.m in Sources */,
 				F2F31F9A1E51B184007405A7 /* CSThumbnailView.m in Sources */,

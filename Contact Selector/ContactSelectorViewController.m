@@ -53,6 +53,13 @@
     [super didReceiveMemoryWarning];
 }
 
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    
+    // Without this, the collection view will crash when show and hide itself with message: attribute for indexPath not exist
+    [self.friendChoosedCollectionView.collectionViewLayout invalidateLayout];
+}
+
 #pragma mark - Init views
 
 - (void)initHeaderTitleView {
@@ -86,7 +93,7 @@
     self.friendChoosedCollectionView.dataSource = self;
     self.friendChoosedCollectionView.delegate = self;
     self.defaultFriendChoosedCollectionHeight = 58;
-//    self.friendChoosedcollectionHeightConstraint.constant = 0;
+    self.friendChoosedcollectionHeightConstraint.constant = 0;
     self.friendChoosedCollectionView.showsHorizontalScrollIndicator = NO;
     self.friendChoosedCollectionView.bounces = YES;
     self.friendChoosedCollectionView.prefetchingEnabled = NO;
@@ -98,7 +105,6 @@
     self.friendTableView.delegate = self;
     self.friendTableView.separatorColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.05];
     self.friendTableView.sectionIndexBackgroundColor = [UIColor clearColor];
-//    [self.friendTableView setEditing:YES animated:YES];
 }
 
 - (void)setHeaderTitle:(NSString *)title {
@@ -107,6 +113,7 @@
 }
 
 - (void)setCoutingValue:(NSUInteger)num animate:(BOOL)animated{
+    
     self.headerCountingLabel.text = [NSString stringWithFormat:@"%ld/%ld", num, self.maxSelectedContact];
     
     if (animated) {
@@ -137,6 +144,7 @@
 }
 
 - (void)forceEndSearch {
+    
     [self.dataProvider completeSearch];
     [self.searchBarView endEditing:YES];
     [self.searchBarView setText:@""];
@@ -148,10 +156,14 @@
 - (void)didSelectContact:(CSContact *)contact {
     
     if (self.selectedContacts.count == 0) {
-//        self.friendChoosedcollectionHeightConstraint.constant = self.defaultFriendChoosedCollectionHeight;
+        [self.friendChoosedCollectionView.collectionViewLayout invalidateLayout];
+        self.friendChoosedcollectionHeightConstraint.constant = self.defaultFriendChoosedCollectionHeight;
         [UIView animateWithDuration:0.13 animations:^{
+            
             [self.view layoutIfNeeded];
+            
         } completion:^(BOOL finished) {
+            
             [self.selectedContacts addObject:contact];
             
             [self.friendChoosedCollectionView reloadData];
@@ -181,13 +193,12 @@
 - (void)didDeselectContact:(CSContact *)contact {
     
     if (self.selectedContacts.count == 1) {
-//        self.friendChoosedcollectionHeightConstraint.constant = 0;
+        self.friendChoosedcollectionHeightConstraint.constant = 0;
         [UIView animateWithDuration:0.13 animations:^{
             [self.view layoutIfNeeded];
         } completion:nil];
     }
     
-    [self.friendChoosedCollectionView.collectionViewLayout invalidateLayout];
     [self.friendChoosedCollectionView performBatchUpdates:^{
         
         NSUInteger index = [self.selectedContacts indexOfObject:contact];
@@ -227,15 +238,8 @@
     
     [self printIndexPath:tableIndexPath];
     
-//    [self.friendTableView scrollToRowAtIndexPath:tableIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
     [self.friendTableView selectRowAtIndexPath:tableIndexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
 }
-
-//- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
-//    
-//    CSSelectedContactCollectionViewCell * csCell = (CSSelectedContactCollectionViewCell *) [collectionView cellForItemAtIndexPath:indexPath];
-//    [csCell setHighlight:NO];
-//}
 
 #pragma mark - UICollectionViewDataSource
 
@@ -245,6 +249,8 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    [self printIndexPath:indexPath];
     
     UICollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCSSelectedContactCollectionViewCellID forIndexPath:indexPath];
     return cell;
@@ -281,15 +287,14 @@
     CSContact * contact = [self getContactAtIndexPath:indexPath];
     contactCell.contact = contact;
     
+    // Override this view for customize selection highligh color for cell
     UIView *myBackView = [[UIView alloc] initWithFrame:cell.frame];
     myBackView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.05];
     cell.selectedBackgroundView = myBackView;
     
     if ([self.selectedContacts containsObject:contact]) {
-        NSLog(@"Select Containt %ld", indexPath.row);
         [contactCell setSelect:YES];
     } else {
-        NSLog(@"Containt %ld", indexPath.row);
         [contactCell setSelect:NO];
     }
     
@@ -303,8 +308,8 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     
+    // No need section view when user is searching
     NSString * sectionKey = [self.dataProvider getContactIndex][section];
-    
     if ([sectionKey compare:kCSProviderSearchKey] == NSOrderedSame) {
         return nil;
     }
@@ -325,6 +330,7 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     
+    // No need footer view when user is searching
     NSString * sectionKey = [self.dataProvider getContactIndex][section];
     if ([sectionKey compare:kCSProviderSearchKey] == NSOrderedSame) {
         return nil;

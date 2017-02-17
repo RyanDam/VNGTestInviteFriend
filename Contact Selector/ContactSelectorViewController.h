@@ -10,6 +10,5 @@
 
 @interface ContactSelectorViewController : UIViewController
 
-
 @end
 

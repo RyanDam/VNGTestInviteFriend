@@ -49,13 +49,12 @@
         }
         
         NSArray *keys = @[CNContactFamilyNameKey, CNContactGivenNameKey, CNContactImageDataKey];
-        
-        NSArray *allContacts = [NSArray array];
-        
+       
         // get all contact group info
         NSError * error;
         NSArray * allContainer = [store containersMatchingPredicate:nil error:&error];
         
+        NSArray *allContacts = [NSArray array];
         if (error) {
             // get contact container error
         } else {
@@ -115,10 +114,8 @@
         }
         
         self.allContacts = contactNumbersArray;
-        
         self.contactIndex = contactIndex;
         self.contactDictionary = contactDicionany;
-        
         self.originalContactIndex = [contactIndex copy];
         self.originalContactDictionary = [contactDicionany copy];
         
@@ -137,7 +134,6 @@
     
     firstName = contact.givenName;
     lastName = contact.familyName;
-    
     if (lastName == nil) {
         fullName=[NSString stringWithFormat:@"%@",firstName];
     } else if (firstName == nil) {
@@ -147,7 +143,6 @@
     }
     
     UIImage *image = [UIImage imageWithData:contact.imageData];
-    
     if (image != nil) {
         profileImage = image;
     } else {
@@ -155,7 +150,6 @@
     }
 
     CSContact * contactResult = [[CSContact alloc] init];
-    
     contactResult.fullname = [fullName stringByTrimmingCharactersInSet:
                               [NSCharacterSet whitespaceCharacterSet]];
     contactResult.avatar = profileImage;
