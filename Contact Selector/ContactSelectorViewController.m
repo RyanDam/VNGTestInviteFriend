@@ -146,7 +146,7 @@
 - (void)forceEndSearch {
     
     [self.dataProvider completeSearch];
-    [self.searchBarView endEditing:YES];
+//    [self.searchBarView endEditing:YES];
     [self.searchBarView setText:@""];
     [self.friendTableView reloadData];
 }
@@ -186,9 +186,10 @@
             [self setCoutingValue:self.selectedContacts.count animate:YES];
         }];
         
-        [self forceEndSearch];
+        
     }
     
+    [self forceEndSearch];
 }
 
 - (void)didDeselectContact:(CSContact *)contact {
@@ -395,12 +396,18 @@
     if ([firstSectionKey compare:kCSProviderSearchKey] == NSOrderedSame) {
         return nil;
     }
-    return [self.dataProvider getContactIndex];
+    NSString * searchIcon = UITableViewIndexSearch;
+    NSString * hastagIcon = @"#";
+    NSArray * indexWithIcon = [[@[searchIcon] arrayByAddingObjectsFromArray:[self.dataProvider getContactIndex]] arrayByAddingObject:hastagIcon];
+    
+    return indexWithIcon;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
     
-    return index;
+    if (index == 0) return 0; // search icon
+    else if (index == [self.dataProvider getContactIndex].count + 2 - 1) return index - 2; // hastag icon
+    else return index - 1; // normal index
 }
 
 #pragma mark - UIScrollViewDelegate
