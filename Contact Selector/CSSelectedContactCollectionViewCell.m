@@ -37,7 +37,6 @@ NSString * kCSSelectedContactCollectionViewCellID = @"CSSelectedContactCollectio
     self.layer.cornerRadius = self.frame.size.height / 2.0;
     
     _contact = newContact;
-    
     [self.thumbnailView setContact:newContact];
 }
 

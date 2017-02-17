@@ -165,8 +165,9 @@
         } completion:^(BOOL finished) {
             
             [self.selectedContacts addObject:contact];
-            
             [self.friendChoosedCollectionView reloadData];
+            
+            [self setCoutingValue:self.selectedContacts.count animate:YES];
         }];
     } else {
         [self.friendChoosedCollectionView performBatchUpdates:^{
@@ -236,9 +237,13 @@
     CSContact * contact = self.selectedContacts[indexPath.row];
     NSIndexPath * tableIndexPath = [self getIndexPathOfFriendTableForContact:contact];
     
-    [self printIndexPath:tableIndexPath];
-    
     [self.friendTableView selectRowAtIndexPath:tableIndexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    CSSelectedContactCollectionViewCell * csCell = (CSSelectedContactCollectionViewCell *) [collectionView cellForItemAtIndexPath:indexPath];
+    [csCell setHighlight:NO];
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -249,9 +254,6 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    [self printIndexPath:indexPath];
-    
     UICollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCSSelectedContactCollectionViewCellID forIndexPath:indexPath];
     return cell;
 }
