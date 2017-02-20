@@ -22,7 +22,7 @@ NSString * kCSSelectedContactCollectionViewCellID = @"CSSelectedContactCollectio
 
 @implementation CSSelectedContactCollectionViewCell
 
-@synthesize contact = _contact;
+@synthesize data = _data;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -31,13 +31,13 @@ NSString * kCSSelectedContactCollectionViewCellID = @"CSSelectedContactCollectio
     highlight = NO;
 }
 
-- (void)setContact:(CSContact *)newContact {
+- (void)setData:(CSModel *)newData; {
     
     // must init child view at this time when parent view already have it's frame
     self.layer.cornerRadius = self.frame.size.height / 2.0;
     
-    _contact = newContact;
-    [self.thumbnailView setContact:newContact];
+    _data = newData;
+    [self.thumbnailView setData:newData];
 }
 
 - (void)setHighlight:(BOOL)flag;{

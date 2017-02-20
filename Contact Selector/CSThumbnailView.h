@@ -8,16 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-@class CSContact;
+@class CSModel;
 
 @interface CSThumbnailView : UIView
 
 /**
- Set contact data
+ Set data
 
- @param contact input
+ @param data input
  */
-- (void)setContact:(CSContact *)contact;
+- (void)setData:(CSModel *)data;
 
 /**
  Set a semi-white mask on top of view for highlighting

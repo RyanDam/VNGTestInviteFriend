@@ -1,5 +1,5 @@
 //
-//  CSContactProvider.h
+//  CSDataProvider.h
 //  Contact Selector
 //
 //  Created by CPU11815 on 2/20/17.
@@ -7,9 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CSDataProvider.h"
+#import "CSModel.h"
 
-@interface CSContactProvider : NSObject <CSDataProvider>
+@protocol CSDataProvider <NSObject>
+
+@required
 
 - (void)getDataArrayWithCompletion:(void (^)(NSArray<CSModel *> * data, NSError * err))completion;
 

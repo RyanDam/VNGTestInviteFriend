@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		941B66A41E561CFA00C04A4E /* CSProviderDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 941B66A31E561CAD00C04A4E /* CSProviderDelegate.m */; };
 		F2F31F551E515E2C007405A7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F541E515E2C007405A7 /* main.m */; };
 		F2F31F581E515E2C007405A7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F571E515E2C007405A7 /* AppDelegate.m */; };
 		F2F31F5B1E515E2C007405A7 /* ContactSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F5A1E515E2C007405A7 /* ContactSelectorViewController.m */; };
@@ -16,12 +15,19 @@
 		F2F31F631E515E2C007405A7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F2F31F611E515E2C007405A7 /* LaunchScreen.storyboard */; };
 		F2F31F6E1E515E2C007405A7 /* Contact_SelectorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F6D1E515E2C007405A7 /* Contact_SelectorTests.m */; };
 		F2F31F791E515E2C007405A7 /* Contact_SelectorUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F781E515E2C007405A7 /* Contact_SelectorUITests.m */; };
-		F2F31F8C1E5160AF007405A7 /* CSContactProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F8B1E5160AF007405A7 /* CSContactProvider.m */; };
 		F2F31F901E516221007405A7 /* CSContact.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F8F1E516221007405A7 /* CSContact.m */; };
 		F2F31F971E51B06B007405A7 /* CSContactTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F961E51B06B007405A7 /* CSContactTableViewCell.m */; };
 		F2F31F9A1E51B184007405A7 /* CSThumbnailView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F991E51B184007405A7 /* CSThumbnailView.m */; };
 		F2F31F9D1E52B2B5007405A7 /* CSSelectedContactCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F9C1E52B2B5007405A7 /* CSSelectedContactCollectionViewCell.m */; };
 		F2F31FA11E56E187007405A7 /* CSSearchNoResultTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31FA01E56E187007405A7 /* CSSearchNoResultTableViewCell.m */; };
+		F2F31FA81E5AC816007405A7 /* CSModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31FA71E5AC816007405A7 /* CSModel.m */; };
+		F2F31FAB1E5AC9EB007405A7 /* CSDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31FAA1E5AC9EB007405A7 /* CSDataProvider.m */; };
+		F2F31FAE1E5ACAE0007405A7 /* CSDataBusiness.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31FAD1E5ACAE0007405A7 /* CSDataBusiness.m */; };
+		F2F31FB81E5AE943007405A7 /* CSContactProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31FB71E5AE943007405A7 /* CSContactProvider.m */; };
+		F2F31FBB1E5AEA88007405A7 /* CSContactBusiness.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31FBA1E5AEA88007405A7 /* CSContactBusiness.m */; };
+		F2F31FC11E5AF03D007405A7 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31FC01E5AF03D007405A7 /* MainViewController.m */; };
+		F2F31FC51E5AFA9D007405A7 /* CSPresenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31FC31E5AFA9D007405A7 /* CSPresenterViewController.m */; };
+		F2F31FC81E5AFB08007405A7 /* ContactSelector.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F2F31FC71E5AFB08007405A7 /* ContactSelector.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,8 +48,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		941B66A01E561B6300C04A4E /* CSProviderDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSProviderDelegate.h; sourceTree = "<group>"; };
-		941B66A31E561CAD00C04A4E /* CSProviderDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSProviderDelegate.m; sourceTree = "<group>"; };
 		F2F31F501E515E2C007405A7 /* Contact Selector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Contact Selector.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2F31F541E515E2C007405A7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		F2F31F561E515E2C007405A7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -60,8 +64,6 @@
 		F2F31F741E515E2C007405A7 /* Contact SelectorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Contact SelectorUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2F31F781E515E2C007405A7 /* Contact_SelectorUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Contact_SelectorUITests.m; sourceTree = "<group>"; };
 		F2F31F7A1E515E2C007405A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F2F31F8A1E5160AF007405A7 /* CSContactProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSContactProvider.h; sourceTree = "<group>"; };
-		F2F31F8B1E5160AF007405A7 /* CSContactProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSContactProvider.m; sourceTree = "<group>"; };
 		F2F31F8E1E516221007405A7 /* CSContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSContact.h; sourceTree = "<group>"; };
 		F2F31F8F1E516221007405A7 /* CSContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSContact.m; sourceTree = "<group>"; };
 		F2F31F951E51B06B007405A7 /* CSContactTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSContactTableViewCell.h; sourceTree = "<group>"; };
@@ -72,6 +74,21 @@
 		F2F31F9C1E52B2B5007405A7 /* CSSelectedContactCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSelectedContactCollectionViewCell.m; sourceTree = "<group>"; };
 		F2F31F9F1E56E187007405A7 /* CSSearchNoResultTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSearchNoResultTableViewCell.h; sourceTree = "<group>"; };
 		F2F31FA01E56E187007405A7 /* CSSearchNoResultTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSearchNoResultTableViewCell.m; sourceTree = "<group>"; };
+		F2F31FA61E5AC816007405A7 /* CSModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSModel.h; sourceTree = "<group>"; };
+		F2F31FA71E5AC816007405A7 /* CSModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSModel.m; sourceTree = "<group>"; };
+		F2F31FA91E5AC9EB007405A7 /* CSDataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSDataProvider.h; sourceTree = "<group>"; };
+		F2F31FAA1E5AC9EB007405A7 /* CSDataProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSDataProvider.m; sourceTree = "<group>"; };
+		F2F31FAC1E5ACAE0007405A7 /* CSDataBusiness.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSDataBusiness.h; sourceTree = "<group>"; };
+		F2F31FAD1E5ACAE0007405A7 /* CSDataBusiness.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSDataBusiness.m; sourceTree = "<group>"; };
+		F2F31FB61E5AE943007405A7 /* CSContactProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSContactProvider.h; sourceTree = "<group>"; };
+		F2F31FB71E5AE943007405A7 /* CSContactProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSContactProvider.m; sourceTree = "<group>"; };
+		F2F31FB91E5AEA88007405A7 /* CSContactBusiness.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSContactBusiness.h; sourceTree = "<group>"; };
+		F2F31FBA1E5AEA88007405A7 /* CSContactBusiness.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSContactBusiness.m; sourceTree = "<group>"; };
+		F2F31FBF1E5AF03D007405A7 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		F2F31FC01E5AF03D007405A7 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		F2F31FC21E5AFA9D007405A7 /* CSPresenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSPresenterViewController.h; sourceTree = "<group>"; };
+		F2F31FC31E5AFA9D007405A7 /* CSPresenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSPresenterViewController.m; sourceTree = "<group>"; };
+		F2F31FC71E5AFB08007405A7 /* ContactSelector.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ContactSelector.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +145,11 @@
 				F2F31F861E515E75007405A7 /* Data Provider */,
 				F2F31F591E515E2C007405A7 /* ContactSelectorViewController.h */,
 				F2F31F5A1E515E2C007405A7 /* ContactSelectorViewController.m */,
+				F2F31FC21E5AFA9D007405A7 /* CSPresenterViewController.h */,
+				F2F31FC31E5AFA9D007405A7 /* CSPresenterViewController.m */,
+				F2F31FC71E5AFB08007405A7 /* ContactSelector.storyboard */,
+				F2F31FBF1E5AF03D007405A7 /* MainViewController.h */,
+				F2F31FC01E5AF03D007405A7 /* MainViewController.m */,
 				F2F31F561E515E2C007405A7 /* AppDelegate.h */,
 				F2F31F571E515E2C007405A7 /* AppDelegate.m */,
 				F2F31F5C1E515E2C007405A7 /* Main.storyboard */,
@@ -168,10 +190,14 @@
 		F2F31F861E515E75007405A7 /* Data Provider */ = {
 			isa = PBXGroup;
 			children = (
-				941B66A01E561B6300C04A4E /* CSProviderDelegate.h */,
-				941B66A31E561CAD00C04A4E /* CSProviderDelegate.m */,
-				F2F31F8A1E5160AF007405A7 /* CSContactProvider.h */,
-				F2F31F8B1E5160AF007405A7 /* CSContactProvider.m */,
+				F2F31FA91E5AC9EB007405A7 /* CSDataProvider.h */,
+				F2F31FAA1E5AC9EB007405A7 /* CSDataProvider.m */,
+				F2F31FAC1E5ACAE0007405A7 /* CSDataBusiness.h */,
+				F2F31FAD1E5ACAE0007405A7 /* CSDataBusiness.m */,
+				F2F31FB61E5AE943007405A7 /* CSContactProvider.h */,
+				F2F31FB71E5AE943007405A7 /* CSContactProvider.m */,
+				F2F31FB91E5AEA88007405A7 /* CSContactBusiness.h */,
+				F2F31FBA1E5AEA88007405A7 /* CSContactBusiness.m */,
 			);
 			name = "Data Provider";
 			sourceTree = "<group>";
@@ -181,6 +207,8 @@
 			children = (
 				F2F31F8E1E516221007405A7 /* CSContact.h */,
 				F2F31F8F1E516221007405A7 /* CSContact.m */,
+				F2F31FA61E5AC816007405A7 /* CSModel.h */,
+				F2F31FA71E5AC816007405A7 /* CSModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -316,6 +344,7 @@
 			files = (
 				F2F31F631E515E2C007405A7 /* LaunchScreen.storyboard in Resources */,
 				F2F31F601E515E2C007405A7 /* Assets.xcassets in Resources */,
+				F2F31FC81E5AFB08007405A7 /* ContactSelector.storyboard in Resources */,
 				F2F31F5E1E515E2C007405A7 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -344,13 +373,18 @@
 				F2F31F9D1E52B2B5007405A7 /* CSSelectedContactCollectionViewCell.m in Sources */,
 				F2F31FA11E56E187007405A7 /* CSSearchNoResultTableViewCell.m in Sources */,
 				F2F31F971E51B06B007405A7 /* CSContactTableViewCell.m in Sources */,
+				F2F31FAE1E5ACAE0007405A7 /* CSDataBusiness.m in Sources */,
 				F2F31F901E516221007405A7 /* CSContact.m in Sources */,
-				941B66A41E561CFA00C04A4E /* CSProviderDelegate.m in Sources */,
 				F2F31F5B1E515E2C007405A7 /* ContactSelectorViewController.m in Sources */,
+				F2F31FB81E5AE943007405A7 /* CSContactProvider.m in Sources */,
+				F2F31FBB1E5AEA88007405A7 /* CSContactBusiness.m in Sources */,
+				F2F31FC51E5AFA9D007405A7 /* CSPresenterViewController.m in Sources */,
 				F2F31F581E515E2C007405A7 /* AppDelegate.m in Sources */,
-				F2F31F8C1E5160AF007405A7 /* CSContactProvider.m in Sources */,
 				F2F31F9A1E51B184007405A7 /* CSThumbnailView.m in Sources */,
 				F2F31F551E515E2C007405A7 /* main.m in Sources */,
+				F2F31FC11E5AF03D007405A7 /* MainViewController.m in Sources */,
+				F2F31FAB1E5AC9EB007405A7 /* CSDataProvider.m in Sources */,
+				F2F31FA81E5AC816007405A7 /* CSModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

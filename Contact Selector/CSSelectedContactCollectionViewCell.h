@@ -10,18 +10,18 @@
 
 extern NSString * kCSSelectedContactCollectionViewCellID;
 
-@class CSContact;
+@class CSModel;
 
 @interface CSSelectedContactCollectionViewCell : UICollectionViewCell
 
-@property (nonatomic) CSContact * contact;
+@property (nonatomic) CSModel * data;
 
 /**
  Set data for this cell
 
- @param newContact input data
+ @param newData input data
  */
-- (void)setContact:(CSContact *)newContact;
+- (void)setData:(CSModel *)newData;
 
 /**
  Highight cell

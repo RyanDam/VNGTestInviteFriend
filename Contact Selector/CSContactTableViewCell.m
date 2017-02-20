@@ -8,7 +8,7 @@
 
 #import "CSContactTableViewCell.h"
 #import "CSThumbnailView.h"
-#import "CSContact.h"
+#import "CSModel.h"
 
 NSString * kCSContactTableViewCellID = @"CSContactTableViewCell";
 
@@ -23,7 +23,7 @@ NSString * kCSContactTableViewCellID = @"CSContactTableViewCell";
 
 @implementation CSContactTableViewCell
 
-@synthesize contact = _contact;
+@synthesize data = _data;
 
 +(CGFloat)getCellHeight {
     
@@ -69,13 +69,13 @@ NSString * kCSContactTableViewCellID = @"CSContactTableViewCell";
     }
 }
 
-- (void)setContact:(CSContact *)newContact {
+- (void)setData:(CSModel *)newData {
     
     self.thumbnailView.layer.cornerRadius = self.thumbnailView.frame.size.height / 2.0;
-    _contact = newContact;
+    _data = newData;
     
-    [self.thumbnailView setContact:newContact];
-    self.nameLabel.text = newContact.fullname;
+    [self.thumbnailView setData:newData];
+    self.nameLabel.text = newData.fullName;
 }
 
 - (void)showSeperator {

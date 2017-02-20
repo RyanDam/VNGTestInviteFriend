@@ -7,7 +7,7 @@
 //
 
 #import "CSThumbnailView.h"
-#import "CSContact.h"
+#import "CSModel.h"
 
 static NSDictionary * colorDictionary;
 
@@ -98,12 +98,12 @@ static NSDictionary * colorDictionary;
     });
 }
 
-- (void)setContact:(CSContact *)contact {
+- (void)setData:(CSModel *)data; {
     
-    if (contact.avatar == nil) {
-        [self setText:contact.shortName];
+    if (data.avatar == nil) {
+        [self setText:[data shortName]];
     } else {
-        [self setAvatar:contact.avatar];
+        [self setAvatar:data.avatar];
     }
 }
 

@@ -7,12 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CSModel.h"
 
-@interface CSContact : NSObject
+@interface CSContact : CSModel
 
-@property (nonatomic) NSString * fullname;
-@property (nonatomic) NSString * shortName;
-@property (nonatomic) UIImage * avatar;
 @property (nonatomic) NSArray<NSString *> * phoneNumbers;
 @property (nonatomic) NSArray<NSString *> * emails;
 

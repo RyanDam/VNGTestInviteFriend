@@ -10,11 +10,11 @@
 
 extern NSString * kCSContactTableViewCellID;
 
-@class CSContact;
+@class CSModel;
 
 @interface CSContactTableViewCell : UITableViewCell
 
-@property (nonatomic) CSContact * contact;
+@property (nonatomic) CSModel * data;
 
 +(CGFloat)getCellHeight;
 
