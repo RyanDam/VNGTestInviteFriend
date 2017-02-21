@@ -10,14 +10,31 @@
 #import "CSContact.h"
 @import Contacts;
 
+@interface CSContactProvider()
+
+@property (nonatomic) float currentIOSVersion;
+
+@end
+
 @implementation CSContactProvider
 
-- (void)getDataArrayWithCompletion:(void (^)(NSArray<CSModel *> * data, NSError * err))completion {
+- (float)currentIOSVersion {
+    return 9.0;
+}
+
+- (void)getDataArrayWithCompletion:(void (^)(NSArray<CSModel *> *, NSError *))completion {
     
-    if (completion == nil) {
+    if (completion == nil)
         return;
-    }
     
+    if (self.currentIOSVersion >= 9.0) {
+        [self getDataArrayUsingContactFramework:completion];
+    } else {
+        [self getDataArrayUsingAddressBook:completion];
+    }
+}
+
+- (void) getDataArrayUsingContactFramework:(void (^)(NSArray<CSModel *> * data, NSError * err))completion {
     CNContactStore * store = [[CNContactStore alloc] init];
     [store requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable err) {
         
@@ -63,6 +80,10 @@
         
         completion(contactNumbersArray ,nil);
     }];
+}
+
+- (void) getDataArrayUsingAddressBook:(void (^)(NSArray<CSModel *> * data, NSError * err))completion {
+    
 }
 
 - (CSContact *) getInfoFromCNContact: (CNContact *) contact {
