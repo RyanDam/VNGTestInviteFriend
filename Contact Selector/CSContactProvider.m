@@ -230,8 +230,12 @@
     
     CFRelease(abEmails);
     
-    // because under ios 9.0, contact has no profile image
-    profileImage = [UIImage imageNamed:@"person-icon.png"];
+    // get image
+    NSData  *imgData = (__bridge NSData *)ABPersonCopyImageData(person);
+    if (imgData != nil)
+        profileImage = [UIImage imageWithData:imgData];
+    else
+        profileImage = [UIImage imageNamed:@"person-icon.png"];
 
     CSContact *contactResult = [CSContact new];
     contactResult.fullName = [fullName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
