@@ -22,4 +22,6 @@
  */
 + (instancetype)presenter;
 
+- (void)notifyDatasetChanged;
+
 @end

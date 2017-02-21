@@ -32,6 +32,10 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)notifyDatasetChanged {
+    [[self getCSViewController] notifyDatasetChanged];
+}
+
 - (void)setDelegateCS:(id<CSViewControllerDelegate>)newDelegateCS {
     
     _delegateCS = newDelegateCS;

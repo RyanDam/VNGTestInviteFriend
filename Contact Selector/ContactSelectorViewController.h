@@ -64,7 +64,7 @@
 /**
  Call before view controller is exit
 
- @param csViewController view controller will be exited
+ @param csViewController view controller will exit
  */
 - (void)onExitCSViewController:(ContactSelectorViewController *)csViewController;
 

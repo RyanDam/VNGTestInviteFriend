@@ -28,6 +28,10 @@
 		F2F31FC11E5AF03D007405A7 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31FC01E5AF03D007405A7 /* MainViewController.m */; };
 		F2F31FC51E5AFA9D007405A7 /* CSPresenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31FC31E5AFA9D007405A7 /* CSPresenterViewController.m */; };
 		F2F31FC81E5AFB08007405A7 /* ContactSelector.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F2F31FC71E5AFB08007405A7 /* ContactSelector.storyboard */; };
+		F2F31FCC1E5BF37E007405A7 /* LRUCache.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31FCB1E5BF37E007405A7 /* LRUCache.m */; };
+		F2F31FD01E5BF3A1007405A7 /* LRUCacheItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31FCF1E5BF3A1007405A7 /* LRUCacheItem.m */; };
+		F2F31FD41E5BF59E007405A7 /* LRUCacheDisk.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31FD31E5BF59E007405A7 /* LRUCacheDisk.m */; };
+		F2F31FD71E5C2F51007405A7 /* LRUFileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31FD61E5C2F51007405A7 /* LRUFileUtils.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +93,14 @@
 		F2F31FC21E5AFA9D007405A7 /* CSPresenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSPresenterViewController.h; sourceTree = "<group>"; };
 		F2F31FC31E5AFA9D007405A7 /* CSPresenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSPresenterViewController.m; sourceTree = "<group>"; };
 		F2F31FC71E5AFB08007405A7 /* ContactSelector.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ContactSelector.storyboard; sourceTree = "<group>"; };
+		F2F31FCA1E5BF37E007405A7 /* LRUCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRUCache.h; sourceTree = "<group>"; };
+		F2F31FCB1E5BF37E007405A7 /* LRUCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRUCache.m; sourceTree = "<group>"; };
+		F2F31FCE1E5BF3A1007405A7 /* LRUCacheItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRUCacheItem.h; sourceTree = "<group>"; };
+		F2F31FCF1E5BF3A1007405A7 /* LRUCacheItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRUCacheItem.m; sourceTree = "<group>"; };
+		F2F31FD21E5BF59E007405A7 /* LRUCacheDisk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRUCacheDisk.h; sourceTree = "<group>"; };
+		F2F31FD31E5BF59E007405A7 /* LRUCacheDisk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRUCacheDisk.m; sourceTree = "<group>"; };
+		F2F31FD51E5C2F51007405A7 /* LRUFileUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRUFileUtils.h; sourceTree = "<group>"; };
+		F2F31FD61E5C2F51007405A7 /* LRUFileUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRUFileUtils.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +151,7 @@
 		F2F31F521E515E2C007405A7 /* Contact Selector */ = {
 			isa = PBXGroup;
 			children = (
+				F2F31FCD1E5BF38C007405A7 /* LRUCache */,
 				F2F31FC91E5B0056007405A7 /* ContactSelector */,
 				F2F31FBF1E5AF03D007405A7 /* MainViewController.h */,
 				F2F31FC01E5AF03D007405A7 /* MainViewController.m */,
@@ -241,6 +254,29 @@
 				F2F31FC71E5AFB08007405A7 /* ContactSelector.storyboard */,
 			);
 			name = ContactSelector;
+			sourceTree = "<group>";
+		};
+		F2F31FCD1E5BF38C007405A7 /* LRUCache */ = {
+			isa = PBXGroup;
+			children = (
+				F2F31FD11E5BF3BB007405A7 /* Model */,
+				F2F31FD51E5C2F51007405A7 /* LRUFileUtils.h */,
+				F2F31FD61E5C2F51007405A7 /* LRUFileUtils.m */,
+				F2F31FD21E5BF59E007405A7 /* LRUCacheDisk.h */,
+				F2F31FD31E5BF59E007405A7 /* LRUCacheDisk.m */,
+				F2F31FCA1E5BF37E007405A7 /* LRUCache.h */,
+				F2F31FCB1E5BF37E007405A7 /* LRUCache.m */,
+			);
+			name = LRUCache;
+			sourceTree = "<group>";
+		};
+		F2F31FD11E5BF3BB007405A7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F2F31FCE1E5BF3A1007405A7 /* LRUCacheItem.h */,
+				F2F31FCF1E5BF3A1007405A7 /* LRUCacheItem.m */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -379,6 +415,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				F2F31F9D1E52B2B5007405A7 /* CSSelectedContactCollectionViewCell.m in Sources */,
+				F2F31FD71E5C2F51007405A7 /* LRUFileUtils.m in Sources */,
+				F2F31FD41E5BF59E007405A7 /* LRUCacheDisk.m in Sources */,
 				F2F31FA11E56E187007405A7 /* CSSearchNoResultTableViewCell.m in Sources */,
 				F2F31F971E51B06B007405A7 /* CSContactTableViewCell.m in Sources */,
 				F2F31FAE1E5ACAE0007405A7 /* CSDataBusiness.m in Sources */,
@@ -386,10 +424,12 @@
 				F2F31F5B1E515E2C007405A7 /* ContactSelectorViewController.m in Sources */,
 				F2F31FB81E5AE943007405A7 /* CSContactProvider.m in Sources */,
 				F2F31FBB1E5AEA88007405A7 /* CSContactBusiness.m in Sources */,
+				F2F31FD01E5BF3A1007405A7 /* LRUCacheItem.m in Sources */,
 				F2F31FC51E5AFA9D007405A7 /* CSPresenterViewController.m in Sources */,
 				F2F31F581E515E2C007405A7 /* AppDelegate.m in Sources */,
 				F2F31F9A1E51B184007405A7 /* CSThumbnailView.m in Sources */,
 				F2F31F551E515E2C007405A7 /* main.m in Sources */,
+				F2F31FCC1E5BF37E007405A7 /* LRUCache.m in Sources */,
 				F2F31FC11E5AF03D007405A7 /* MainViewController.m in Sources */,
 				F2F31FAB1E5AC9EB007405A7 /* CSDataProvider.m in Sources */,
 				F2F31FA81E5AC816007405A7 /* CSModel.m in Sources */,
