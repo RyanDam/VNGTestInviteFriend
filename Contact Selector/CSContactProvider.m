@@ -32,70 +32,86 @@
     return self;
 }
 
-- (void)getDataArrayWithCompletion:(void (^)(NSArray<CSModel *> *, NSError *))completion {
+- (void)getDataArrayWithCompletion:(void (^)(NSArray<CSModel *> *, NSError *))completion{
+    
+    if (completion == nil)
+        return;
+
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9.0")) {
+        [self usingContactFrameworkWithCompletion:completion andCustomQueue:self.serialQueue];
+    } else {
+        [self usingAddressBookWithCompletion:completion andCustomQueue:self.serialQueue];
+    }
+}
+
+- (void)getDataArrayWithCompletion:(void (^)(NSArray<CSModel *> *, NSError *))completion andCustomQueue:(dispatch_queue_t)queue {
     
     if (completion == nil)
         return;
     
-    dispatch_async(self.serialQueue, ^{
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9.0")) {
-            [self getDataArrayUsingContactFramework:completion];
-        } else {
-            [self getDataArrayUsingAddressBook:completion];
-        }
-    });
+    if (queue == NULL) {
+        queue = self.serialQueue;
+    }
+
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9.0")) {
+        [self usingContactFrameworkWithCompletion:completion andCustomQueue:queue];
+    } else {
+        [self usingAddressBookWithCompletion:completion andCustomQueue:queue];
+    }
 }
 
-- (void)getDataArrayUsingContactFramework:(void (^)(NSArray<CSModel *> * data, NSError * err))completion {
+- (void)usingContactFrameworkWithCompletion:(void (^)(NSArray<CSModel *> * data, NSError * err))completion andCustomQueue:(dispatch_queue_t)queue{
     
     CNContactStore * store = [[CNContactStore alloc] init];
     [store requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable err) {
         
-        if (!granted) {
-            NSLog(@"User not granted permission");
-            completion(nil, err);
-            return;
-        }
-        
-        NSArray *keys = @[CNContactFamilyNameKey, CNContactGivenNameKey, CNContactImageDataKey, CNContactPhoneNumbersKey, CNContactEmailAddressesKey];
-        
-        // get all contact group info
-        NSError * error;
-        NSArray * allContainer = [store containersMatchingPredicate:nil error:&error];
-        
-        NSArray *allContacts = [NSArray array];
-        if (error) {
-            completion(nil, error);
-        } else {
-            for (CNContainer * container in allContainer) {
-                NSPredicate *predicate = [CNContact predicateForContactsInContainerWithIdentifier:container.identifier];
-                NSError *error;
-                NSArray *cnContacts = [store unifiedContactsMatchingPredicate:predicate keysToFetch:keys error:&error];
-                
-                if (error) {
-                    completion(nil, error);
-                } else {
-                    allContacts = [allContacts arrayByAddingObjectsFromArray:cnContacts];
+        dispatch_async(queue, ^{
+            if (!granted) {
+                NSLog(@"User not granted permission");
+                completion(nil, err);
+                return;
+            }
+            
+            NSArray *keys = @[CNContactFamilyNameKey, CNContactGivenNameKey, CNContactImageDataKey, CNContactPhoneNumbersKey, CNContactEmailAddressesKey];
+            
+            // get all contact group info
+            NSError * error;
+            NSArray * allContainer = [store containersMatchingPredicate:nil error:&error];
+            
+            NSArray *allContacts = [NSArray array];
+            if (error) {
+                completion(nil, error);
+            } else {
+                for (CNContainer * container in allContainer) {
+                    NSPredicate *predicate = [CNContact predicateForContactsInContainerWithIdentifier:container.identifier];
+                    NSError *error;
+                    NSArray *cnContacts = [store unifiedContactsMatchingPredicate:predicate keysToFetch:keys error:&error];
+                    
+                    if (error) {
+                        completion(nil, error);
+                    } else {
+                        allContacts = [allContacts arrayByAddingObjectsFromArray:cnContacts];
+                    }
                 }
             }
-        }
-        
-        NSMutableArray *contactNumbersArray = [NSMutableArray array];
-        
-        // convert CNContact to CSContact
-        for (CNContact *contact in allContacts) {
-            CSContact * contactResult = [self getInfoFromCNContact:contact];
-            if (contactResult.fullName.length == 0) {
-                continue;
+            
+            NSMutableArray *contactNumbersArray = [NSMutableArray array];
+            
+            // convert CNContact to CSContact
+            for (CNContact *contact in allContacts) {
+                CSContact * contactResult = [self getInfoFromCNContact:contact];
+                if (contactResult.fullName.length == 0) {
+                    continue;
+                }
+                [contactNumbersArray addObject:contactResult];
             }
-            [contactNumbersArray addObject:contactResult];
-        }
-        
-        completion(contactNumbersArray ,nil);
+            
+            completion(contactNumbersArray ,nil);
+        });
     }];
 }
 
-- (void)getDataArrayUsingAddressBook:(void (^)(NSArray<CSModel *> * data, NSError * err))completion {
+- (void)usingAddressBookWithCompletion:(void (^)(NSArray<CSModel *> * data, NSError * err))completion andCustomQueue:(dispatch_queue_t)queue{
     
     ABAuthorizationStatus status = ABAddressBookGetAuthorizationStatus();
     
@@ -120,36 +136,38 @@
     
     ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error) {
         
-        if (error) {
-            NSLog(@"ABAddressBookRequestAccessWithCompletion error: %@", CFBridgingRelease(error));
-            completion(nil, (__bridge NSError *)(error));
-        }
-        
-        if (granted) {
-            // if they gave you permission, then just carry on
-            NSArray *allPeople = CFBridgingRelease(ABAddressBookCopyArrayOfAllPeople(addressBook));
-            NSInteger numberOfPeople = [allPeople count];
-            
-            NSMutableArray *contactNumbersArray = [NSMutableArray array];
-            
-            for (NSInteger i = 0; i < numberOfPeople; i++) {
-                ABRecordRef person = (__bridge ABRecordRef)allPeople[i];
-                
-                CSContact *contact = [self getInfoFromABRecord:person];
-                if (contact.fullName.length == 0) {
-                    continue;
-                }
-                
-                [contactNumbersArray addObject:contact];
+        dispatch_async(queue, ^{
+            if (error) {
+                NSLog(@"ABAddressBookRequestAccessWithCompletion error: %@", CFBridgingRelease(error));
+                completion(nil, (__bridge NSError *)(error));
             }
             
-            completion(contactNumbersArray, (__bridge NSError *)(error));
-        } else {
-            // however, if they didn't give you permission, handle it gracefully, for example...
-            completion(nil, (__bridge NSError *)(error));
-        }
-        
-        CFRelease(addressBook);
+            if (granted) {
+                // if they gave you permission, then just carry on
+                NSArray *allPeople = CFBridgingRelease(ABAddressBookCopyArrayOfAllPeople(addressBook));
+                NSInteger numberOfPeople = [allPeople count];
+                
+                NSMutableArray *contactNumbersArray = [NSMutableArray array];
+                
+                for (NSInteger i = 0; i < numberOfPeople; i++) {
+                    ABRecordRef person = (__bridge ABRecordRef)allPeople[i];
+                    
+                    CSContact *contact = [self getInfoFromABRecord:person];
+                    if (contact.fullName.length == 0) {
+                        continue;
+                    }
+                    
+                    [contactNumbersArray addObject:contact];
+                }
+                
+                completion(contactNumbersArray, (__bridge NSError *)(error));
+            } else {
+                // however, if they didn't give you permission, handle it gracefully, for example...
+                completion(nil, (__bridge NSError *)(error));
+            }
+            
+            CFRelease(addressBook);
+        });
     });
 }
 
