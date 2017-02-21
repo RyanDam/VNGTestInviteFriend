@@ -23,7 +23,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
     self.contactBusiness = [[CSContactBusiness alloc] init];
     self.contactProvider = [[CSContactProvider alloc] init];
@@ -31,7 +30,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (IBAction)onPressButton:(id)sender {
@@ -42,14 +40,17 @@
     [vc setDataSourceCS:self];
     
     [self presentViewController:vc animated:YES completion:nil];
-    
 }
 
+#pragma mark - CSViewControllerDataSource
+
 - (id<CSDataProvider>)dataProviderForContactSelector:(ContactSelectorViewController *)csViewController {
+    
     return self.contactProvider;
 }
 
 - (id<CSDataBusiness>)dataBusinessForContactSelector:(ContactSelectorViewController *)csViewController {
+    
     return self.contactBusiness;
 }
 

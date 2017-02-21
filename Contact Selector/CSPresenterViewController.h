@@ -14,6 +14,12 @@
 @property (nonatomic, weak) id<CSViewControllerDataSource> dataSourceCS;
 @property (nonatomic, weak) id<CSViewControllerDelegate> delegateCS;
 
+
+/**
+ Get presenter instance for present
+
+ @return navigation controller wrapper for ContactSelectorViewController
+ */
 + (instancetype)presenter;
 
 @end

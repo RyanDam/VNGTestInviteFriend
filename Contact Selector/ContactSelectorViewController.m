@@ -31,6 +31,7 @@
 @property (nonatomic, weak) id<CSDataBusiness> dataBusiness;
 @property (nonatomic, weak) id<CSDataProvider> dataProvider;
 @property (nonatomic) NSUInteger maxSelectedData;
+@property (nonatomic) NSMutableArray<CSModel *> * selectedDatas;
 @property (nonatomic, copy) NSArray<CSModel *> * dataArray;
 
 @property (nonatomic, copy) NSArray<NSString *> * originalDataIndex;

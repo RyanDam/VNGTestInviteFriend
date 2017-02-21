@@ -17,18 +17,71 @@
 
 @optional
 
+/**
+ Call before data is selected
+
+ @param csViewController 
+    view controller hold the data
+ @param data 
+    data will be selected
+ @return 
+    return data will be selected, return nil if don't want that data be selected
+ */
 - (CSModel *)csViewController:(ContactSelectorViewController *)csViewController willSelectData:(CSModel *)data;
 
+/**
+ Call after data is selected
+
+ @param csViewController 
+    view controller hold the data
+ @param data 
+    data selected
+ */
 - (void)csViewController:(ContactSelectorViewController *)csViewController didSelectData:(CSModel *)data;
 
+/**
+ Call before data is deselected
+ 
+ @param csViewController
+    view controller hold the data
+ @param data
+    data will be deselected
+ @return
+    return data will be deselected, return nil if don't want that data be deselected
+ */
 - (CSModel *)csViewController:(ContactSelectorViewController *)csViewController willDeselectData:(CSModel *)data;
 
+/**
+ Call after data is deselected
+ 
+ @param csViewController
+    view controller hold the data
+ @param data
+    data deselected
+ */
 - (void)csViewController:(ContactSelectorViewController *)csViewController didDeselectData:(CSModel *)data;
 
+/**
+ Call before view controller is exit
+
+ @param csViewController view controller will be exited
+ */
 - (void)onExitCSViewController:(ContactSelectorViewController *)csViewController;
 
+/**
+ Call before view controller export it datas
+
+ @param csViewController view controller will export
+ @param datas array of expoted datas
+ */
 - (void)onExportCSViewController:(ContactSelectorViewController *)csViewController withSelectedDatas:(NSArray<CSModel *> *)datas;
 
+/**
+ call when max data reached
+
+ @param csViewController vew controller be reached
+ @param datas current selected data
+ */
 - (void)csViewController:(ContactSelectorViewController *)csViewController reachedMaxSelectedDatas:(NSArray<CSModel *> *)datas;
 
 @end
@@ -37,15 +90,25 @@
 
 @required
 
+/**
+ Return data provider
+
+ @param csViewController view controller need data provider
+ @return data provider
+ */
 - (id<CSDataProvider>)dataProviderForContactSelector:(ContactSelectorViewController *)csViewController;
 
+/**
+ Return data business
+ 
+ @param csViewController view controller need data business
+ @return data business
+ */
 - (id<CSDataBusiness>)dataBusinessForContactSelector:(ContactSelectorViewController *)csViewController;
 
 @end
 
 @interface ContactSelectorViewController : UIViewController
-
-@property (nonatomic) NSMutableArray<CSModel *> * selectedDatas;
 
 @property (nonatomic, weak) id<CSViewControllerDelegate> delegate;
 @property (nonatomic, weak) id<CSViewControllerDataSource> dataSource;

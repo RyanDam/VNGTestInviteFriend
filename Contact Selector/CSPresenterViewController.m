@@ -47,7 +47,6 @@
 - (ContactSelectorViewController *)getCSViewController {
     
     return (ContactSelectorViewController*)self.viewControllers[0];
-    
 }
 
 @end

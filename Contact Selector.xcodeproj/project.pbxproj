@@ -139,15 +139,7 @@
 		F2F31F521E515E2C007405A7 /* Contact Selector */ = {
 			isa = PBXGroup;
 			children = (
-				F2F31F9E1E52B2CC007405A7 /* Cell */,
-				F2F31F941E51A7A4007405A7 /* View */,
-				F2F31F8D1E5161FB007405A7 /* Model */,
-				F2F31F861E515E75007405A7 /* Data Provider */,
-				F2F31F591E515E2C007405A7 /* ContactSelectorViewController.h */,
-				F2F31F5A1E515E2C007405A7 /* ContactSelectorViewController.m */,
-				F2F31FC21E5AFA9D007405A7 /* CSPresenterViewController.h */,
-				F2F31FC31E5AFA9D007405A7 /* CSPresenterViewController.m */,
-				F2F31FC71E5AFB08007405A7 /* ContactSelector.storyboard */,
+				F2F31FC91E5B0056007405A7 /* ContactSelector */,
 				F2F31FBF1E5AF03D007405A7 /* MainViewController.h */,
 				F2F31FC01E5AF03D007405A7 /* MainViewController.m */,
 				F2F31F561E515E2C007405A7 /* AppDelegate.h */,
@@ -233,6 +225,22 @@
 				F2F31F9C1E52B2B5007405A7 /* CSSelectedContactCollectionViewCell.m */,
 			);
 			name = Cell;
+			sourceTree = "<group>";
+		};
+		F2F31FC91E5B0056007405A7 /* ContactSelector */ = {
+			isa = PBXGroup;
+			children = (
+				F2F31F9E1E52B2CC007405A7 /* Cell */,
+				F2F31F941E51A7A4007405A7 /* View */,
+				F2F31F8D1E5161FB007405A7 /* Model */,
+				F2F31F861E515E75007405A7 /* Data Provider */,
+				F2F31F591E515E2C007405A7 /* ContactSelectorViewController.h */,
+				F2F31F5A1E515E2C007405A7 /* ContactSelectorViewController.m */,
+				F2F31FC21E5AFA9D007405A7 /* CSPresenterViewController.h */,
+				F2F31FC31E5AFA9D007405A7 /* CSPresenterViewController.m */,
+				F2F31FC71E5AFB08007405A7 /* ContactSelector.storyboard */,
+			);
+			name = ContactSelector;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
