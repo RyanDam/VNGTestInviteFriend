@@ -19,24 +19,34 @@
 
 @interface CSContactProvider()
 
+@property (nonatomic) dispatch_queue_t serialQueue;
 
 @end
 
 @implementation CSContactProvider
+
+- (instancetype)init {
+    if (self = [super init]) {
+        self.serialQueue = dispatch_queue_create("com.vng.ContactSelector.CSContactProvider", DISPATCH_QUEUE_SERIAL);
+    }
+    return self;
+}
 
 - (void)getDataArrayWithCompletion:(void (^)(NSArray<CSModel *> *, NSError *))completion {
     
     if (completion == nil)
         return;
     
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9.0")) {
-        [self getDataArrayUsingContactFramework:completion];
-    } else {
-        [self getDataArrayUsingAddressBook:completion];
-    }
+    dispatch_async(self.serialQueue, ^{
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9.0")) {
+            [self getDataArrayUsingContactFramework:completion];
+        } else {
+            [self getDataArrayUsingAddressBook:completion];
+        }
+    });
 }
 
-- (void) getDataArrayUsingContactFramework:(void (^)(NSArray<CSModel *> * data, NSError * err))completion {
+- (void)getDataArrayUsingContactFramework:(void (^)(NSArray<CSModel *> * data, NSError * err))completion {
     
     CNContactStore * store = [[CNContactStore alloc] init];
     [store requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable err) {
@@ -85,7 +95,7 @@
     }];
 }
 
-- (void) getDataArrayUsingAddressBook:(void (^)(NSArray<CSModel *> * data, NSError * err))completion {
+- (void)getDataArrayUsingAddressBook:(void (^)(NSArray<CSModel *> * data, NSError * err))completion {
     
     ABAuthorizationStatus status = ABAddressBookGetAuthorizationStatus();
     
@@ -143,7 +153,7 @@
     });
 }
 
-- (CSContact *) getInfoFromCNContact: (CNContact *) contact {
+- (CSContact *)getInfoFromCNContact: (CNContact *)contact {
     
     NSString * fullName;
     NSString * firstName;
@@ -189,7 +199,7 @@
     return contactResult;
 }
 
-- (CSContact *) getInfoFromABRecord: (ABRecordRef) person {
+- (CSContact *)getInfoFromABRecord: (ABRecordRef)person {
     
     NSString * fullName;
     NSString * firstName;
