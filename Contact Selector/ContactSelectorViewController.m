@@ -126,7 +126,6 @@
     self.friendChoosedcollectionHeightConstraint.constant = 0;
     self.friendChoosedCollectionView.showsHorizontalScrollIndicator = NO;
     self.friendChoosedCollectionView.bounces = YES;
-    self.friendChoosedCollectionView.prefetchingEnabled = NO;
 }
 
 - (void)initFriendTableView {
