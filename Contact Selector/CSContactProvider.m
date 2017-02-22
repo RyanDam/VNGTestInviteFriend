@@ -121,7 +121,11 @@
         // perhaps telling the user that they have to go to settings to grant access
         // to contacts
         
-        completion(nil, nil);
+        NSMutableDictionary* details = [NSMutableDictionary dictionary];
+        [details setValue:@"User had previously denied/revoked permission for your app to access the contacts." forKey:NSLocalizedDescriptionKey];
+        NSError *err = [NSError errorWithDomain:@"com.vng.ContactSelector.CSContactProvider" code:1000 userInfo:details];
+        
+        completion(nil, err);
         return;
     }
     
