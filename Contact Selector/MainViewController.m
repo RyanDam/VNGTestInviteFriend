@@ -10,13 +10,16 @@
 #import "ContactSelectorViewController.h"
 #import "CSContactProvider.h"
 #import "CSContactBusiness.h"
+#import "CSDataProvider.h"
+#import "CSDataBusiness.h"
 #import "CSPresenterViewController.h"
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
+#import "FBContactProvider.h"
 
 @interface MainViewController () <CSViewControllerDelegate, CSViewControllerDataSource, FBSDKLoginButtonDelegate>
 
-@property (nonatomic) CSContactBusiness * contactBusiness;
-@property (nonatomic) CSContactProvider * contactProvider;
+@property (nonatomic) id<CSDataBusiness> contactBusiness;
+@property (nonatomic) id<CSDataProvider> contactProvider;
 @property (strong, nonatomic) IBOutlet FBSDKLoginButton *loginButton;
 
 @end
@@ -74,6 +77,8 @@
         NSLog(@"%@", [error localizedDescription]);
         return;
     }
+    
+    self.contactProvider = [FBContactProvider new];
     
     CSPresenterViewController * vc = [CSPresenterViewController presenter];
     

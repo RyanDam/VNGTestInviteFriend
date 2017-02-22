@@ -11,6 +11,8 @@
 		8A0D00431E5D467B002B0C67 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A0D00391E5D467B002B0C67 /* FBSDKShareKit.framework */; };
 		8A0D00461E5D467B002B0C67 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A0D003C1E5D467B002B0C67 /* Bolts.framework */; };
 		8A0D004A1E5D467B002B0C67 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A0D00401E5D467B002B0C67 /* FBSDKCoreKit.framework */; };
+		8AF6AC3D1E5D8091004F84FA /* FBContactProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AF6AC3C1E5D8091004F84FA /* FBContactProvider.m */; };
+		8AF6AC3F1E5D8310004F84FA /* AccountKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AF6AC3E1E5D8310004F84FA /* AccountKit.framework */; };
 		F2F31F551E515E2C007405A7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F541E515E2C007405A7 /* main.m */; };
 		F2F31F581E515E2C007405A7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F571E515E2C007405A7 /* AppDelegate.m */; };
 		F2F31F5B1E515E2C007405A7 /* ContactSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F5A1E515E2C007405A7 /* ContactSelectorViewController.m */; };
@@ -60,6 +62,9 @@
 		8A0D00391E5D467B002B0C67 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		8A0D003C1E5D467B002B0C67 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		8A0D00401E5D467B002B0C67 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		8AF6AC3B1E5D8091004F84FA /* FBContactProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBContactProvider.h; sourceTree = "<group>"; };
+		8AF6AC3C1E5D8091004F84FA /* FBContactProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBContactProvider.m; sourceTree = "<group>"; };
+		8AF6AC3E1E5D8310004F84FA /* AccountKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AccountKit.framework; path = ../AccountKit.framework; sourceTree = "<group>"; };
 		F2F31F501E515E2C007405A7 /* Contact Selector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Contact Selector.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2F31F541E515E2C007405A7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		F2F31F561E515E2C007405A7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -118,6 +123,7 @@
 			files = (
 				8A0D00461E5D467B002B0C67 /* Bolts.framework in Frameworks */,
 				8A0D004A1E5D467B002B0C67 /* FBSDKCoreKit.framework in Frameworks */,
+				8AF6AC3F1E5D8310004F84FA /* AccountKit.framework in Frameworks */,
 				8A0D00411E5D467B002B0C67 /* FBSDKLoginKit.framework in Frameworks */,
 				8A0D00431E5D467B002B0C67 /* FBSDKShareKit.framework in Frameworks */,
 			);
@@ -143,6 +149,7 @@
 		8A0D004B1E5D467F002B0C67 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8AF6AC3E1E5D8310004F84FA /* AccountKit.framework */,
 				8A0D00371E5D467B002B0C67 /* FBSDKLoginKit.framework */,
 				8A0D00391E5D467B002B0C67 /* FBSDKShareKit.framework */,
 				8A0D003C1E5D467B002B0C67 /* Bolts.framework */,
@@ -228,6 +235,8 @@
 				F2F31FB71E5AE943007405A7 /* CSContactProvider.m */,
 				F2F31FB91E5AEA88007405A7 /* CSContactBusiness.h */,
 				F2F31FBA1E5AEA88007405A7 /* CSContactBusiness.m */,
+				8AF6AC3B1E5D8091004F84FA /* FBContactProvider.h */,
+				8AF6AC3C1E5D8091004F84FA /* FBContactProvider.m */,
 			);
 			name = "Data Provider";
 			sourceTree = "<group>";
@@ -455,6 +464,7 @@
 				F2F31F551E515E2C007405A7 /* main.m in Sources */,
 				F2F31FCC1E5BF37E007405A7 /* LRUCache.m in Sources */,
 				F2F31FC11E5AF03D007405A7 /* MainViewController.m in Sources */,
+				8AF6AC3D1E5D8091004F84FA /* FBContactProvider.m in Sources */,
 				F2F31FAB1E5AC9EB007405A7 /* CSDataProvider.m in Sources */,
 				F2F31FA81E5AC816007405A7 /* CSModel.m in Sources */,
 			);
@@ -620,6 +630,8 @@
 					"$(PROJECT_DIR)/Contact\\ Selector",
 					"$(PROJECT_DIR)/Contact\\ Selector",
 					"$(PROJECT_DIR)/Contact\\ Selector",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Contact\\ Selector/Frameworks",
 				);
 				INFOPLIST_FILE = "Contact Selector/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -647,6 +659,8 @@
 					"$(PROJECT_DIR)/Contact\\ Selector",
 					"$(PROJECT_DIR)/Contact\\ Selector",
 					"$(PROJECT_DIR)/Contact\\ Selector",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Contact\\ Selector/Frameworks",
 				);
 				INFOPLIST_FILE = "Contact Selector/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
