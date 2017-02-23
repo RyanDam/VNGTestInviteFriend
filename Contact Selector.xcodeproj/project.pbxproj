@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		94A6A9F11E5E8CF50087DE74 /* CSThumbnailCreater.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A6A9F01E5E8CF50087DE74 /* CSThumbnailCreater.m */; };
 		F2F31F551E515E2C007405A7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F541E515E2C007405A7 /* main.m */; };
 		F2F31F581E515E2C007405A7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F571E515E2C007405A7 /* AppDelegate.m */; };
 		F2F31F5B1E515E2C007405A7 /* ContactSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F5A1E515E2C007405A7 /* ContactSelectorViewController.m */; };
@@ -52,6 +53,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		94A6A9EF1E5E8CF50087DE74 /* CSThumbnailCreater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSThumbnailCreater.h; sourceTree = "<group>"; };
+		94A6A9F01E5E8CF50087DE74 /* CSThumbnailCreater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSThumbnailCreater.m; sourceTree = "<group>"; };
 		F2F31F501E515E2C007405A7 /* Contact Selector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Contact Selector.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2F31F541E515E2C007405A7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		F2F31F561E515E2C007405A7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -128,6 +131,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		94A6A9EE1E5E8CC50087DE74 /* CSThumbnailCreater */ = {
+			isa = PBXGroup;
+			children = (
+				94A6A9EF1E5E8CF50087DE74 /* CSThumbnailCreater.h */,
+				94A6A9F01E5E8CF50087DE74 /* CSThumbnailCreater.m */,
+			);
+			name = CSThumbnailCreater;
+			sourceTree = "<group>";
+		};
 		F2F31F471E515E2B007405A7 = {
 			isa = PBXGroup;
 			children = (
@@ -151,6 +163,7 @@
 		F2F31F521E515E2C007405A7 /* Contact Selector */ = {
 			isa = PBXGroup;
 			children = (
+				94A6A9EE1E5E8CC50087DE74 /* CSThumbnailCreater */,
 				F2F31FCD1E5BF38C007405A7 /* LRUCache */,
 				F2F31FC91E5B0056007405A7 /* ContactSelector */,
 				F2F31FBF1E5AF03D007405A7 /* MainViewController.h */,
@@ -425,6 +438,7 @@
 				F2F31FB81E5AE943007405A7 /* CSContactProvider.m in Sources */,
 				F2F31FBB1E5AEA88007405A7 /* CSContactBusiness.m in Sources */,
 				F2F31FD01E5BF3A1007405A7 /* LRUCacheItem.m in Sources */,
+				94A6A9F11E5E8CF50087DE74 /* CSThumbnailCreater.m in Sources */,
 				F2F31FC51E5AFA9D007405A7 /* CSPresenterViewController.m in Sources */,
 				F2F31F581E515E2C007405A7 /* AppDelegate.m in Sources */,
 				F2F31F9A1E51B184007405A7 /* CSThumbnailView.m in Sources */,
