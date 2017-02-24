@@ -659,7 +659,6 @@
 					"$(PROJECT_DIR)/Contact\\ Selector",
 					"$(PROJECT_DIR)/Contact\\ Selector",
 					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/Contact\\ Selector/Frameworks",
 				);
 				INFOPLIST_FILE = "Contact Selector/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -688,7 +687,6 @@
 					"$(PROJECT_DIR)/Contact\\ Selector",
 					"$(PROJECT_DIR)/Contact\\ Selector",
 					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/Contact\\ Selector/Frameworks",
 				);
 				INFOPLIST_FILE = "Contact Selector/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
