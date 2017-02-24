@@ -45,6 +45,8 @@
 
 - (IBAction)onPressButton:(id)sender {
     
+    self.contactProvider = [[CSContactProvider alloc] init];
+    
     CSPresenterViewController * vc = [CSPresenterViewController presenter];
 
     [vc setDelegateCS:self];
