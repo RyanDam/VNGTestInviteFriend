@@ -11,6 +11,11 @@
 
 extern NSString * kCSProviderSearchKey;
 
+typedef NS_ENUM(NSInteger, CSContactListState) {
+    CSContactListStateLoading,
+    CSContactListStateNormal
+};
+
 typedef NS_ENUM(NSInteger, CSSearchResult) {
     CSSearchResultComplete,
     CSSearchResultNoResult

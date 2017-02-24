@@ -149,6 +149,23 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CSContactLoadingCell" rowHeight="184" id="3cw-Xd-AkB">
+                                        <rect key="frame" x="0.0" y="283" width="375" height="184"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3cw-Xd-AkB" id="BMp-iG-K8K">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="184"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Axr-nL-4Rc">
+                                                    <rect key="frame" x="177" y="82" width="20" height="20"/>
+                                                </activityIndicatorView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Axr-nL-4Rc" firstAttribute="centerX" secondItem="BMp-iG-K8K" secondAttribute="centerX" id="2qB-Fi-bMf"/>
+                                                <constraint firstItem="Axr-nL-4Rc" firstAttribute="centerY" secondItem="BMp-iG-K8K" secondAttribute="centerY" id="34d-OQ-SQ8"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </prototypes>
                             </tableView>
                         </subviews>
@@ -212,6 +229,6 @@
     </scenes>
     <resources>
         <image name="sendIcon" width="24" height="24"/>
-        <image name="unselectedCheck" width="24" height="24"/>
+        <image name="unselectedCheck" width="25" height="25"/>
     </resources>
 </document>
