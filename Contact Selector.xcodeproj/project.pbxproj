@@ -659,9 +659,9 @@
 					"$(PROJECT_DIR)/Contact\\ Selector",
 					"$(PROJECT_DIR)/Contact\\ Selector",
 					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/Contact\\ Selector/Frameworks",
 				);
 				INFOPLIST_FILE = "Contact Selector/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.vng.duydv2.Contact-Selector";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -688,9 +688,9 @@
 					"$(PROJECT_DIR)/Contact\\ Selector",
 					"$(PROJECT_DIR)/Contact\\ Selector",
 					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/Contact\\ Selector/Frameworks",
 				);
 				INFOPLIST_FILE = "Contact Selector/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.vng.duydv2.Contact-Selector";
 				PRODUCT_NAME = "$(TARGET_NAME)";

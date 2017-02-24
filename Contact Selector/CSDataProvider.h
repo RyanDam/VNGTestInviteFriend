@@ -15,4 +15,6 @@
 
 - (void)getDataArrayWithCompletion:(void (^)(NSArray<CSModel *> * data, NSError * err))completion;
 
+- (void)getDataArrayWithCompletion:(void (^)(NSArray<CSModel *> *, NSError *))completion andCustomQueue:(dispatch_queue_t)queue;
+
 @end
