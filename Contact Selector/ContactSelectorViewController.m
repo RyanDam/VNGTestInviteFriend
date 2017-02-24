@@ -40,8 +40,9 @@
 @property (nonatomic, copy) NSArray<NSString *> * dataIndex;
 @property (nonatomic, copy) NSDictionary<NSString *, NSArray<CSModel *> *> * dataDictionary;
 
-// Current search state of view controller
+// Current state of view controller
 @property (nonatomic) CSSearchResult userSearchResult;
+@property (nonatomic) CSContactListState currentContactListState;
 
 @end
 
@@ -71,6 +72,12 @@
     [self setCoutingValue:0 animate:NO];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self notifyDatasetChanged];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
@@ -88,8 +95,6 @@
     
     self.dataIndex = [NSArray array];
     self.dataDictionary = [NSDictionary dictionary];
-    
-    [self notifyDatasetChanged];
 }
 
 - (void)initHeaderTitleView {
@@ -151,6 +156,8 @@
     self.dataBusiness = [self.dataSource dataBusinessForContactSelector:self];
     self.dataProvider = [self.dataSource dataProviderForContactSelector:self];
     
+    [self showLoadingState];
+    
     if (self.dataBusiness && self.dataProvider) {
         [self.dataProvider getDataArrayWithCompletion:^(NSArray<CSModel *> *data, NSError *err) {
             
@@ -168,10 +175,20 @@
             }
             
             dispatch_async(dispatch_get_main_queue(), ^{
+                [self hideLoadingState];
                 [self.friendTableView reloadData];
             });
         }];
     }
+}
+
+- (void)showLoadingState {
+    self.currentContactListState = CSContactListStateLoading;
+    [self.friendTableView reloadData];
+}
+
+- (void)hideLoadingState {
+    self.currentContactListState = CSContactListStateNormal;
 }
 
 /**
@@ -418,6 +435,8 @@
     
     if ([self isUserSearchNoResult]) {
         return [CSSearchNoResultTableViewCell getCellHeight];
+    } else if (self.currentContactListState == CSContactListStateLoading) {
+        return [CSSearchNoResultTableViewCell getCellHeight];
     } else {
         return [CSContactTableViewCell getCellHeight];
     }
@@ -428,6 +447,11 @@
     if ([self isUserSearching]) {
         return 0;
     }
+    
+    if (self.currentContactListState == CSContactListStateLoading) {
+        return 0;
+    }
+    
     return 24;
 }
 
@@ -436,12 +460,21 @@
     if ([self isUserSearching]) {
         return 0;
     }
+    
+    if (self.currentContactListState == CSContactListStateLoading) {
+        return 0;
+    }
+    
     return 1;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if ([self isUserSearchNoResult]) {
+        return;
+    }
+    
+    if (self.currentContactListState == CSContactListStateLoading) {
         return;
     }
     
@@ -475,6 +508,10 @@
         return nil;
     }
     
+    if (self.currentContactListState == CSContactListStateLoading) {
+        return nil;
+    }
+    
     NSString * sectionKey = self.dataIndex[section];
     UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(16, 0, tableView.frame.size.width, 24)];
     headerView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.9];
@@ -496,6 +533,10 @@
         return nil;
     }
     
+    if (self.currentContactListState == CSContactListStateLoading) {
+        return nil;
+    }
+    
     UIView * dividerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 1)];
     dividerView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.05];
     return dividerView;
@@ -504,6 +545,10 @@
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if ([self isUserSearchNoResult]) {
+        return nil;
+    }
+    
+    if (self.currentContactListState == CSContactListStateLoading) {
         return nil;
     }
     
@@ -547,12 +592,20 @@
         return 1;
     }
     
+    if (self.currentContactListState == CSContactListStateLoading) {
+        return 1;
+    }
+    
     return [self.dataIndex count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     if ([self isUserSearchNoResult]) {
+        return 1;
+    }
+    
+    if (self.currentContactListState == CSContactListStateLoading) {
         return 1;
     }
     
@@ -564,6 +617,8 @@
     
     if ([self isUserSearchNoResult]) {
         return [tableView dequeueReusableCellWithIdentifier:kCSSearchNoResultTableViewCellID];
+    } else if (self.currentContactListState == CSContactListStateLoading) {
+        return [tableView dequeueReusableCellWithIdentifier:@"CSContactLoadingCell"];
     } else {
         return [tableView dequeueReusableCellWithIdentifier:kCSContactTableViewCellID];
     }
@@ -577,6 +632,10 @@
     }
     
     if ([self isUserSearching]) {
+        return nil;
+    }
+    
+    if (self.currentContactListState == CSContactListStateLoading) {
         return nil;
     }
     
