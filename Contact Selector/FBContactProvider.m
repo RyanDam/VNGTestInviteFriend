@@ -11,7 +11,20 @@
 @import FBSDKCoreKit;
 @import AccountKit;
 
+@interface FBContactProvider()
+
+@property (nonatomic) dispatch_queue_t serialQueue;
+
+@end
+
 @implementation FBContactProvider
+
+- (instancetype)init {
+    if (self = [super init]) {
+        self.serialQueue = dispatch_queue_create("com.vng.ContactSelector.FBContactProvider", DISPATCH_QUEUE_SERIAL);
+    }
+    return self;
+}
 
 - (void)getDataArrayWithCompletion:(void (^)(NSArray<CSModel *> *, NSError *))completion {
     
@@ -22,23 +35,25 @@
     [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me/friends" parameters:nil]
      startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
          
-         if (error) {
-             completion(nil, error);
-             return;
-         }
-         
-         NSArray *friends = [result objectForKey:@"data"];
-         
-         NSMutableArray* contacts = [NSMutableArray new];
-         
-         for (id user in friends) {
-             CSContact *contact = [CSContact new];
+         dispatch_async(self.serialQueue, ^{
+             if (error) {
+                 completion(nil, error);
+                 return;
+             }
              
-             contact.fullName = [user objectForKey:@"name"];
-             [contacts addObject:contact];
-         }
-         
-         completion(contacts, nil);
+             NSArray *friends = [result objectForKey:@"data"];
+             
+             NSMutableArray* contacts = [NSMutableArray new];
+             
+             for (id user in friends) {
+                 CSContact *contact = [CSContact new];
+                 
+                 contact.fullName = [user objectForKey:@"name"];
+                 [contacts addObject:contact];
+             }
+             
+             completion(contacts, nil);
+         });
      }];
 }
 
