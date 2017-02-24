@@ -112,8 +112,11 @@
 
 @property (nonatomic, weak) id<CSViewControllerDelegate> delegate;
 @property (nonatomic, weak) id<CSViewControllerDataSource> dataSource;
+@property (nonatomic) BOOL allowMutilSelection;
 
 + (ContactSelectorViewController *)viewController;
+
+- (void)setHeaderTitle:(NSString *)title;
 
 - (void)notifyDatasetChanged;
 

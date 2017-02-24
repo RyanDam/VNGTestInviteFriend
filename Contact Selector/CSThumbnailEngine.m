@@ -15,7 +15,7 @@
 
 - (void)setThumbnailText:(NSString *)text withCompletion:(void (^)(UIImage * image))completion {
     
-    LRUCache * cacher = [LRUCache getInstanceWithName:@"CSThumbnailEngineCache" hopeSize:50];
+    LRUCache * cacher = [LRUCache getInstanceWithName:@"CSThumbnailEngineCache" hopeSize:400];
     
     [self setImage:nil];
     
@@ -29,6 +29,7 @@
             }];
             NSLog(@"Create %@", text);
         }
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             [self setImage:image];
             if (completion != nil) {

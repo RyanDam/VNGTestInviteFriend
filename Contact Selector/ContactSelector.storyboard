@@ -110,12 +110,12 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="2c1-ty-cPA" firstAttribute="leading" secondItem="5q2-Pm-4Jm" secondAttribute="leading" constant="16" id="9cK-bA-bF1"/>
+                                                <constraint firstItem="knW-IZ-YxD" firstAttribute="leading" secondItem="5q2-Pm-4Jm" secondAttribute="leading" constant="56" id="9xf-RB-XTf"/>
                                                 <constraint firstItem="Zek-ze-Ztl" firstAttribute="leading" secondItem="SpW-28-vAj" secondAttribute="leading" id="DcX-rw-OZu"/>
                                                 <constraint firstAttribute="trailing" secondItem="Zek-ze-Ztl" secondAttribute="trailing" id="Ess-eE-Fdj"/>
                                                 <constraint firstItem="knW-IZ-YxD" firstAttribute="centerY" secondItem="5q2-Pm-4Jm" secondAttribute="centerY" id="Hix-Hd-jx8"/>
                                                 <constraint firstItem="SpW-28-vAj" firstAttribute="leading" secondItem="knW-IZ-YxD" secondAttribute="trailing" constant="16" id="POe-Ds-KPp"/>
                                                 <constraint firstAttribute="bottom" secondItem="Zek-ze-Ztl" secondAttribute="bottom" id="Ryi-5e-eag"/>
-                                                <constraint firstItem="knW-IZ-YxD" firstAttribute="leading" secondItem="2c1-ty-cPA" secondAttribute="trailing" constant="16" id="YMV-nc-eDN"/>
                                                 <constraint firstAttribute="trailing" secondItem="SpW-28-vAj" secondAttribute="trailing" constant="16" id="Yg8-R3-JA4"/>
                                                 <constraint firstItem="SpW-28-vAj" firstAttribute="centerY" secondItem="5q2-Pm-4Jm" secondAttribute="centerY" id="thY-Ol-jrl"/>
                                                 <constraint firstItem="2c1-ty-cPA" firstAttribute="centerY" secondItem="5q2-Pm-4Jm" secondAttribute="centerY" id="yy5-uQ-w5V"/>
@@ -124,6 +124,7 @@
                                         <inset key="separatorInset" minX="120" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <connections>
                                             <outlet property="checkboxView" destination="2c1-ty-cPA" id="Khy-VA-jL9"/>
+                                            <outlet property="leftConstraintThumbnailView" destination="9xf-RB-XTf" id="bGW-jj-UmH"/>
                                             <outlet property="nameLabel" destination="SpW-28-vAj" id="AT3-2I-aCU"/>
                                             <outlet property="seperatorView" destination="Zek-ze-Ztl" id="jzA-IK-fjp"/>
                                             <outlet property="thumbnailView" destination="knW-IZ-YxD" id="2cI-8Q-2OM"/>

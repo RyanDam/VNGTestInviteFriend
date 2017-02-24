@@ -32,7 +32,13 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)allowMutilSelection:(BOOL)flag {
+    
+    [self getCSViewController].allowMutilSelection = flag;
+}
+
 - (void)notifyDatasetChanged {
+    
     [[self getCSViewController] notifyDatasetChanged];
 }
 

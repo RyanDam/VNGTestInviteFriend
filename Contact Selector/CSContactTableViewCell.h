@@ -35,4 +35,11 @@ extern NSString * kCSContactTableViewCellID;
  */
 - (void)hideSeperator;
 
+/**
+ Allow cell showing checkbox
+
+ @param flag Showing or not
+ */
+- (void)allowCheckbox:(BOOL)flag;
+
 @end

@@ -29,6 +29,12 @@
 
 @implementation MainViewController
 
++ (instancetype)viewController {
+    UIStoryboard * storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    MainViewController * vc = [storyboard instantiateViewControllerWithIdentifier:@"MainViewController"];
+    return vc;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
