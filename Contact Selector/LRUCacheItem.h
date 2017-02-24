@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface LRUCacheItem : NSObject
+@interface LRUCacheItem : NSObject <NSCoding>
 
 @property (nonatomic) NSObject * value;
 @property (nonatomic) NSUInteger size;

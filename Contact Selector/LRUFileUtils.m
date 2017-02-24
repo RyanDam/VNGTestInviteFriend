@@ -21,20 +21,55 @@
 
 + (NSString *)getCachePathWithCacheName:(NSString *)cacheName {
     
+    NSFileManager * manager = [NSFileManager defaultManager];
+    
     NSString * appPath = [self getAppPath];
-    return [[appPath stringByAppendingPathComponent:CACHE_PATH_NAME] stringByAppendingPathComponent:cacheName];
+    NSString * grandCachePath = [appPath stringByAppendingPathComponent:CACHE_PATH_NAME];
+    
+    if ([manager fileExistsAtPath:grandCachePath] == NO) {
+        // WARNING ERROR
+        [manager createDirectoryAtPath:grandCachePath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
+    NSString * result = [grandCachePath stringByAppendingPathComponent:cacheName];
+    if ([manager fileExistsAtPath:result] == NO) {
+        // WARNING ERROR
+        [manager createDirectoryAtPath:result withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
+    return result;
 }
 
 + (NSString *)getCacheInfoFilePathWithCacheName:(NSString *)cacheName {
     
+//    NSFileManager * manager = [NSFileManager defaultManager];
+    
     NSString * cachePath = [self getCachePathWithCacheName:cacheName];
-    return [cachePath stringByAppendingPathComponent:CACHE_INFO_FILE];
+    NSString * result = [cachePath stringByAppendingPathComponent:CACHE_INFO_FILE];
+    
+//    if ([manager fileExistsAtPath:result] == NO) {
+//        // WARNING ERROR
+//        [manager createFileAtPath:result contents:nil attributes:nil];
+//    }
+    
+    NSLog(@"%@", result);
+    
+    return result;
 }
 
 + (NSString *)getFilePathForKey:(NSString *)key withCacheName:(NSString *)cacheName {
     
+    NSFileManager * manager = [NSFileManager defaultManager];
+    
     NSString * cachePath = [self getCachePathWithCacheName:cacheName];
-    return [cachePath stringByAppendingPathComponent:key];
+    NSString * result = [cachePath stringByAppendingPathComponent:key];
+    
+    if ([manager fileExistsAtPath:result] == NO) {
+        // WARNING ERROR
+        [manager createDirectoryAtPath:result withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
+    return result;
 }
 
 @end

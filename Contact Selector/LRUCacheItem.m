@@ -52,4 +52,20 @@
     });
 }
 
+#pragma mark - NSCoding
+
+- (void)encodeWithCoder:(NSCoder *)aCoder{
+    [aCoder encodeObject:[NSNumber numberWithUnsignedInteger:self.size] forKey:@"size"];
+    [aCoder encodeObject:self.value forKey:@"value"];
+}
+
+-(id)initWithCoder:(NSCoder *)aDecoder{
+    if(self = [super init]){
+        self.value = [aDecoder decodeObjectForKey:@"value"];
+        NSNumber * num = [aDecoder decodeObjectForKey:@"size"];
+        self.size = num.unsignedIntegerValue;
+    }
+    return self;
+}
+
 @end

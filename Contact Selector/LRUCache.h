@@ -14,6 +14,7 @@ typedef void(^LRUHandlerCompleteBlock)(LRUCacheItem * item);
 
 @interface LRUCache : NSObject
 
+@property (nonatomic) NSString * cacheName;
 @property (nonatomic, readonly) NSUInteger maxSize;
 
 + (instancetype)getInstanceWithName:(NSString *)cacheName hopeSize:(NSUInteger)maxSize;
@@ -27,5 +28,7 @@ typedef void(^LRUHandlerCompleteBlock)(LRUCacheItem * item);
 - (void)objectForKey:(NSString *)key withCompletion:(LRUHandlerCompleteBlock)completion;
 
 - (void)removeObjectForKey:(NSString *)key withCompletion:(LRUHandlerCompleteBlock)completion;
+
+- (void)removeAllObjectWithCompletion:(LRUHandlerCompleteBlock)completion;
 
 @end

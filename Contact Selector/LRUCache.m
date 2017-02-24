@@ -17,7 +17,7 @@
 @property (nonatomic) NSUInteger internalMaxSize;
 @property (nonatomic) NSUInteger currentSize;
 @property (nonatomic) dispatch_queue_t internalQueue;
-
+@property (nonatomic) NSString * internalCacheName;
 @property (nonatomic) LRUCacheDisk * diskCacher;
 
 @end
@@ -27,9 +27,10 @@
 + (instancetype)getInstanceWithName:(NSString *)cacheName hopeSize:(NSUInteger)maxSize {
     
     static NSMutableDictionary * diskCacheDictionary = nil;
-    if (diskCacheDictionary == nil) {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
         diskCacheDictionary = [NSMutableDictionary dictionary];
-    }
+    });
     
     LRUCache * cacher = [diskCacheDictionary objectForKey:cacheName];
     
@@ -43,17 +44,16 @@
 
 - (instancetype)initWithName:(NSString *)cacheName maxSize:(NSUInteger)maxSize {
     
-    static NSUInteger queueCouter = 0;
-    
     self = [super init];
     
     if (self) {
+        self.internalCacheName = cacheName;
         self.internalMaxSize = maxSize;
         self.currentSize = 0;
         self.dictionary = [NSMutableDictionary dictionary];
         self.keySet = [NSMutableOrderedSet orderedSet];
         
-        NSString * queueName = [NSString stringWithFormat:@"queue#%lu", (unsigned long)queueCouter++];
+        NSString * queueName = [NSString stringWithFormat:@"queue#%@", cacheName];
         self.internalQueue = dispatch_queue_create(queueName.UTF8String, DISPATCH_QUEUE_CONCURRENT);
         
         [LRUCacheDisk getInstanceWithName:cacheName hopeMaxSize:maxSize withCompletion:^(LRUCacheDisk *diskCacher) {
@@ -62,6 +62,11 @@
     }
     
     return self;
+}
+
+- (NSString *)cacheName {
+    
+    return self.internalCacheName;
 }
 
 - (NSUInteger)maxSize {
@@ -78,25 +83,33 @@
     
     dispatch_barrier_async(self.internalQueue, ^{
         
+        
+        
         LRUCacheItem * item = [[LRUCacheItem alloc] initWithObject:object andSize:size];
         
+        if ([self.keySet containsObject:key]) {
+            LRUCacheItem * oldItem = [self.dictionary objectForKey:key];
+            self.currentSize -= oldItem.size;
+        }
+        
         while (self.currentSize + item.size > self.internalMaxSize) {
+            dispatch_group_t group = dispatch_group_create();
+            dispatch_group_enter(group);
             [self tryMoveMostRareUsageObjectToDiskWithCompletion:^(LRUCacheItem *item) {
                 // TODO handle
+                dispatch_group_leave(group);
             }];
+            dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
         }
         
         if ([self.keySet containsObject:key]) {
             [self.keySet moveObjectsAtIndexes:[NSIndexSet indexSetWithIndex:[self.keySet indexOfObject:key]] toIndex:0];
-            LRUCacheItem * oldItem = [self.dictionary objectForKey:key];
-            self.currentSize -= oldItem.size;
-            [self.dictionary setObject:item forKey:key];
-            self.currentSize += item.size;
         } else {
             [self.keySet insertObject:key atIndex:0];
-            [self.dictionary setObject:item forKey:key];
-            self.currentSize += item.size;
         }
+        
+        [self.dictionary setObject:item forKey:key];
+        self.currentSize += item.size;
         
         if (completion != nil) {
             completion(item);
@@ -115,12 +128,30 @@
                 completion(item);
             }
         } else {
-            [self tryGetObjectFromDiskWithKey:key withCompletion:completion];
+            [self tryGetObjectFromDiskWithKey:key withCompletion:^(LRUCacheItem *item) {
+                
+                if (item != nil) {
+                    // move item from disk to ram cache
+                    [self.diskCacher removeObjectForKey:key withCompletion:^(LRUCacheItem *item, NSString *path, NSError *error) {
+                        
+                        if (error == nil && item != nil) {
+                            [self addObject:item forKey:key withCompletion:^(LRUCacheItem *item) {
+                                completion(item);
+                            }];
+                        } else {
+                            completion(nil);
+                        }
+                    }];
+                } else {
+                    completion(nil);
+                }
+            }];
         }
     });
 }
 
 - (void)tryGetObjectFromDiskWithKey:(NSString *)key withCompletion:(LRUHandlerCompleteBlock)completion {
+    
     NSString * mostRareKey = [self.keySet lastObject];
     if (mostRareKey != nil) {
         [self.diskCacher objectForKey:key withCompletion:^(LRUCacheItem *item, NSString *path, NSError *error) {
@@ -154,6 +185,15 @@
     }
 }
 
+- (void)removeAllObjectWithCompletion:(LRUHandlerCompleteBlock)completion {
+    [self.diskCacher removeAllObjectWithCompletion:^(LRUCacheItem *item, NSString *path, NSError *error) {
+        [self.keySet removeAllObjects];
+        [self.dictionary removeAllObjects];
+        self.currentSize = 0;
+        completion(nil);
+    }];
+}
+
 - (void)removeObjectForKey:(NSString *)key withCompletion:(LRUHandlerCompleteBlock)completion {
     
     dispatch_barrier_async(self.internalQueue, ^{
@@ -179,6 +219,24 @@
             completion(item);
         }
     }
+}
+
+#pragma mark - Testing
+
+- (NSString *)printAll {
+    
+    NSString * ret = @"";
+    for (NSString * key in self.keySet) {
+        LRUCacheItem * item = [self.dictionary objectForKey:key];
+        ret = [NSString stringWithFormat:@"%@,%@", ret, item.value];
+    }
+    
+    if (self.diskCacher) {
+        NSString * disk = [self.diskCacher printAll];
+        ret = [NSString stringWithFormat:@"%@,%@", ret, disk];
+    }
+    
+    return ret;
 }
 
 @end

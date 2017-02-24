@@ -29,9 +29,10 @@
 + (void)getInstanceWithName:(NSString *)cacheName hopeMaxSize:(NSUInteger)maxSize withCompletion:(void(^)(LRUCacheDisk * diskCacher))completion {
     
     static NSMutableDictionary * diskCacheDictionary = nil;
-    if (diskCacheDictionary == nil) {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
         diskCacheDictionary = [NSMutableDictionary dictionary];
-    }
+    });
     
     if (completion == nil) {
         return;
@@ -51,6 +52,10 @@
                 
                 if (error) {
                     // TODO handle error
+                } else if (cacheInfoContent == nil || cacheInfoContent.length == 0) {
+                    LRUCacheDisk * cacheDisk = [[LRUCacheDisk alloc] initCacheDiskName:cacheName withMaxSize:maxSize];
+                    [diskCacheDictionary setObject:cacheDisk forKey:cacheName];
+                    completion(cacheDisk);
                 } else {
                     LRUCacheDisk * cacheDisk = [[LRUCacheDisk alloc] initCacheDiskName:cacheName fromStringInfo:cacheInfoContent];
                     [diskCacheDictionary setObject:cacheDisk forKey:cacheName];
@@ -75,8 +80,10 @@
         NSString * info = contents[0];
         NSArray * infos = [info componentsSeparatedByString:@","];
 //        NSUInteger totalKey = [infos[0] unsignedIntegerValue];
-        NSUInteger totalSize = [infos[1] unsignedIntegerValue];
-        NSUInteger maxSize = [infos[2] unsignedIntegerValue];
+        
+        NSUInteger totalSize = [infos[1] integerValue];
+        
+        NSUInteger maxSize = [infos[2] integerValue];
         
         NSArray * itemStrings = [contents subarrayWithRange:NSMakeRange(1, contents.count - 1)];
         
@@ -84,9 +91,12 @@
         NSMutableDictionary * dictionary = [NSMutableDictionary dictionary];
         
         for (NSString * itemString in itemStrings) {
+            if (itemString == nil || itemString.length == 0) {
+                continue;
+            }
             NSArray * infos = [itemString componentsSeparatedByString:@","];
             NSString * key = infos[0];
-            NSNumber * size = [NSNumber numberWithUnsignedInteger:[infos[1] unsignedIntegerValue]];
+            NSNumber * size = [NSNumber numberWithUnsignedInteger:[infos[1] integerValue]];
             [keySet insertObject:key atIndex:0];
             [dictionary setObject:size forKey:key];
         }
@@ -115,6 +125,8 @@
         
         NSString * queueName = [NSString stringWithFormat:@"queueDisk#%@", cacheName];
         self.internalQueue = dispatch_queue_create(queueName.UTF8String, DISPATCH_QUEUE_CONCURRENT);
+        
+        [self writeCurrentCacheDiskState];
     }
     return self;
 }
@@ -130,11 +142,7 @@
 }
 
 - (void)addItem:(LRUCacheItem *)item forKey:(NSString *)key withCompletion:(ReadWriteCacheItemCompletion)completion {
-    
-    if (completion == nil) {
-        return;
-    }
-    
+
     dispatch_barrier_async(self.internalQueue, ^{
        
         while (self.currentSize + item.size > self.maxSize) {
@@ -156,7 +164,9 @@
             if ([manager fileExistsAtPath:dataPath]) {
                 [manager removeItemAtPath:dataPath error:&error];
                 if (error) {
-                    completion(nil, nil, error);
+                    if (completion) {
+                        completion(nil, nil, error);
+                    }
                     return;
                 }
             }
@@ -168,11 +178,17 @@
             if (data != nil) {
                 self.currentSize += data.size;
                 [self.dictionary setObject:[NSNumber numberWithUnsignedInteger:data.size] forKey:key];
-                completion(data, dataPath, nil);
+                if (completion) {
+                    completion(data, dataPath, nil);
+                }
             } else {
-                completion(nil, nil, [self getErrorWithMessage:@"Can't write LRUCacheItem"]);
+                if (completion) {
+                    completion(nil, nil, [self getErrorWithMessage:@"Can't write LRUCacheItem"]);
+                }
             }
         }];
+        
+        [self writeCurrentCacheDiskState];
     });
 }
 
@@ -204,14 +220,12 @@
         } else {
             completion(nil, nil, [self getErrorWithMessage:@"LRUCacheItem not exist"]);
         }
+        
+        [self writeCurrentCacheDiskState];
     });
 }
 
 - (void)removeObjectForKey:(NSString *)key withCompletion:(ReadWriteCacheItemCompletion)completion {
-    
-    if (completion == nil) {
-        return;
-    }
     
     dispatch_barrier_async(self.internalQueue, ^{
         
@@ -234,13 +248,47 @@
                     return;
                 }
             }
-            
-            completion(nil, dataPath, nil);
+            if (completion) {
+                completion(nil, dataPath, nil);
+            }
         } else {
             // do nothing
-             completion(nil, dataPath, nil);
+            if (completion) {
+                completion(nil, dataPath, nil);
+            }
         }
+        
+        [self writeCurrentCacheDiskState];
     });
+}
+
+- (void)removeAllObjectWithCompletion:(ReadWriteCacheItemCompletion)completion {
+    
+    if (completion == nil) {
+        return;
+    }
+    
+    dispatch_barrier_async(self.internalQueue, ^{
+       
+        dispatch_group_t group = dispatch_group_create();
+        
+        for (NSString * key in self.keySet) {
+            dispatch_group_enter(group);
+            [self removeObjectForKey:key withCompletion:^(LRUCacheItem *item, NSString *path, NSError *error) {
+                dispatch_group_leave(group);
+            }];
+            dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+        }
+        
+        [self.keySet removeAllObjects];
+        [self.dictionary removeAllObjects];
+        self.currentSize = 0;
+        
+        completion(nil, nil, nil);
+        
+        [self writeCurrentCacheDiskState];
+    });
+    
 }
 
 - (void)removeRareUsageData {
@@ -257,6 +305,49 @@
 - (NSError *)getErrorWithMessage:(NSString *)message {
     
     return [NSError errorWithDomain:@"writeCache" code:1 userInfo:@{NSLocalizedDescriptionKey:message}];
+}
+
+- (void)writeCurrentCacheDiskState {
+    
+    dispatch_async(self.internalQueue, ^{
+        
+        NSFileManager * manager = [NSFileManager defaultManager];
+        NSString * cacheFile = [LRUFileUtils getCacheInfoFilePathWithCacheName:self.cacheName];
+        
+        NSString * info = [NSString stringWithFormat:@"%lu,%lu,%lu\n", (unsigned long)self.keySet.count, (unsigned long)self.currentSize, (unsigned long)self.maxSize];
+        
+        for (NSString * key in self.keySet) {
+            NSNumber * size = [self.dictionary objectForKey:key];
+            info = [NSString stringWithFormat:@"%@%@,%ld\n", info, key, size.unsignedIntegerValue];
+        }
+        
+        if ([manager fileExistsAtPath:cacheFile]) {
+            // WARNING ERROR
+            [manager removeItemAtPath:cacheFile error:nil];
+        }
+        
+        [info writeToFile:cacheFile atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    });
+}
+
+- (NSString *)printAll {
+    
+    dispatch_group_t group = dispatch_group_create();
+    
+    __block NSString * ret = @"";
+    for (NSString * key in self.keySet) {
+        
+        dispatch_group_enter(group);
+        [self objectForKey:key withCompletion:^(LRUCacheItem *item, NSString *path, NSError *error) {
+            ret = [NSString stringWithFormat:@"%@:%@", ret, item.value];
+            dispatch_group_leave(group);
+        }];
+        
+    }
+    
+    dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+    
+    return ret == nil ? @"": ret;
 }
 
 @end

@@ -27,4 +27,8 @@ typedef void (^ReadWriteCacheItemCompletion)(LRUCacheItem * item, NSString * pat
 
 - (void)removeObjectForKey:(NSString *)key withCompletion:(ReadWriteCacheItemCompletion)completion;
 
+- (void)removeAllObjectWithCompletion:(ReadWriteCacheItemCompletion)completion;
+
+- (NSString *)printAll;
+
 @end
