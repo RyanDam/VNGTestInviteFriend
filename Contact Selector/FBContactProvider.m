@@ -46,7 +46,7 @@
              NSMutableArray* contacts = [NSMutableArray new];
              
              for (id user in friends) {
-                 CSContact *contact = [CSContact new];
+                 CSModel *contact = [CSModel new];
                  
                  contact.fullName = [user objectForKey:@"name"];
                  [contacts addObject:contact];
