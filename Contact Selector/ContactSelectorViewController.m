@@ -48,6 +48,8 @@
 
 @implementation ContactSelectorViewController
 
+@synthesize allowMutilSelection = _allowMutilSelection;
+
 + (ContactSelectorViewController *)viewController {
     
     UIStoryboard * storyboard = [UIStoryboard storyboardWithName:@"ContactSelector" bundle:nil];
@@ -99,22 +101,11 @@
 
 - (void)initHeaderTitleView {
     
-    self.headerTitleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, self.navigationController.navigationBar.frame.size.height)];
-    self.headerTitleView.backgroundColor = [UIColor clearColor];
-    
-    self.headerTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.headerTitleView.frame.size.width, 0.4*self.headerTitleView.frame.size.height)];
-    self.headerTitleLabel.textColor = [UIColor blackColor];
-    self.headerTitleLabel.font = [UIFont systemFontOfSize:16];
-    self.headerTitleLabel.textAlignment = NSTextAlignmentCenter;
-    [self.headerTitleView addSubview:self.headerTitleLabel];
-    
-    self.headerCountingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0.4*self.headerTitleView.frame.size.height, self.headerTitleView.frame.size.width, 18.0)];
-    self.headerCountingLabel.textColor = [UIColor blackColor];
-    self.headerCountingLabel.font = [UIFont systemFontOfSize:12];
-    self.headerCountingLabel.textAlignment = NSTextAlignmentCenter;
-    [self.headerTitleView addSubview:self.headerCountingLabel];
-    
-    self.navigationItem.titleView = self.headerTitleView;
+    if (self.allowMutilSelection) {
+        [self setupNavigationForMutilChoiceMode];
+    } else {
+        [self setupNavigationForSingleChoiseMode];
+    }
 }
 
 - (void)initSearchBar {
@@ -141,9 +132,40 @@
     self.friendTableView.sectionIndexBackgroundColor = [UIColor clearColor];
 }
 
+- (void)setupNavigationForMutilChoiceMode {
+    
+    self.headerTitleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, self.navigationController.navigationBar.frame.size.height)];
+    self.headerTitleView.backgroundColor = [UIColor clearColor];
+    
+    self.headerTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.headerTitleView.frame.size.width, 0.4*self.headerTitleView.frame.size.height)];
+    self.headerTitleLabel.textColor = [UIColor blackColor];
+    self.headerTitleLabel.font = [UIFont systemFontOfSize:16];
+    self.headerTitleLabel.textAlignment = NSTextAlignmentCenter;
+    [self.headerTitleView addSubview:self.headerTitleLabel];
+    
+    self.headerCountingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0.4*self.headerTitleView.frame.size.height, self.headerTitleView.frame.size.width, 18.0)];
+    self.headerCountingLabel.textColor = [UIColor blackColor];
+    self.headerCountingLabel.font = [UIFont systemFontOfSize:12];
+    self.headerCountingLabel.textAlignment = NSTextAlignmentCenter;
+    [self.headerTitleView addSubview:self.headerCountingLabel];
+    
+    self.navigationItem.titleView = self.headerTitleView;
+}
+
+- (void)setupNavigationForSingleChoiseMode {
+    
+    self.navigationItem.titleView = nil;
+    self.navigationItem.leftBarButtonItem = nil;
+    self.navigationItem.rightBarButtonItem = nil;
+}
+
 - (void)setHeaderTitle:(NSString *)title {
     
-    self.headerTitleLabel.text = title;
+    if (self.allowMutilSelection) {
+        self.headerTitleLabel.text = title;
+    } else {
+        self.navigationItem.title = title;
+    }
 }
 
 - (void)notifyDatasetChanged {
@@ -213,6 +235,12 @@
             }];
         }];
     }
+}
+
+- (void)setAllowMutilSelection:(BOOL)newAllowMutilSelection {
+    
+    _allowMutilSelection = newAllowMutilSelection;
+    [self.friendTableView reloadData];
 }
 
 #pragma mark - Navigation bar button event handler
@@ -304,6 +332,13 @@
         }
     }
     
+    if (self.allowMutilSelection == NO) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(csViewController:didSelectData:)]) {
+            [self.delegate csViewController:self didSelectData:finalData];
+        }
+        return;
+    }
+    
     // Show selected contact collection view
     if (self.selectedDatas.count == 0) {
         self.friendChoosedcollectionHeightConstraint.constant = self.defaultFriendChoosedCollectionHeight;
@@ -355,6 +390,13 @@
         if (finalData == nil) {
             return;
         }
+    }
+    
+    if (self.allowMutilSelection == NO) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(csViewController:didDeselectData:)]) {
+            [self.delegate csViewController:self didDeselectData:finalData];
+        }
+        return;
     }
     
     // Hide selected contact collection view
@@ -498,6 +540,8 @@
     } else {
         [contactCell showSeperator];
     }
+    
+    [contactCell allowCheckbox:self.allowMutilSelection];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -576,10 +620,14 @@
     
     if ([self.selectedDatas containsObject:selectedData]) {
         [self didDeselectData:selectedData];
-        [cell setSelect:NO];
+        if (self.allowMutilSelection) {
+            [cell setSelect:NO];
+        }
     } else {
         [self didSelectData:selectedData];
-        [cell setSelect:YES];
+        if (self.allowMutilSelection) {
+            [cell setSelect:YES];
+        }
     }
 }
 

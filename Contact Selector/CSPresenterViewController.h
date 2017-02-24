@@ -22,6 +22,8 @@
  */
 + (instancetype)presenter;
 
+- (void)allowMutilSelection:(BOOL)flag;
+
 - (void)notifyDatasetChanged;
 
 @end

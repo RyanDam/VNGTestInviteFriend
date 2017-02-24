@@ -18,6 +18,12 @@ NSString * kCSContactTableViewCellID = @"CSContactTableViewCell";
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UIView *seperatorView;
 @property (weak, nonatomic) IBOutlet UIImageView *checkboxView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *leftConstraintThumbnailView;
+
+@property (nonatomic) NSInteger defaultLeftAvatarContraintValue;
+@property (nonatomic) NSInteger defaultHideCheckboxContraintValue;
+
+@property (nonatomic) BOOL checkBoxHidden;
 
 @end
 
@@ -32,6 +38,9 @@ NSString * kCSContactTableViewCellID = @"CSContactTableViewCell";
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    
+    self.defaultLeftAvatarContraintValue = 56;
+    self.defaultHideCheckboxContraintValue = 16;
 }
 
 /**
@@ -86,6 +95,12 @@ NSString * kCSContactTableViewCellID = @"CSContactTableViewCell";
 - (void)hideSeperator {
     
     self.seperatorView.hidden = YES;
+}
+
+- (void)allowCheckbox:(BOOL)flag {
+    
+    self.leftConstraintThumbnailView.constant = flag == YES ? self.defaultLeftAvatarContraintValue : self.defaultHideCheckboxContraintValue;
+    self.checkboxView.hidden = !flag;
 }
 
 @end
