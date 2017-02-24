@@ -131,7 +131,6 @@
     self.friendChoosedcollectionHeightConstraint.constant = 0;
     self.friendChoosedCollectionView.showsHorizontalScrollIndicator = NO;
     self.friendChoosedCollectionView.bounces = YES;
-    self.friendChoosedCollectionView.prefetchingEnabled = NO;
 }
 
 - (void)initFriendTableView {
@@ -711,7 +710,7 @@
     
     UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDestructive handler:nil];
     [alert addAction:dismissAction];
-    [dismissAction setValue:[UIColor blueColor] forKey:@"titleTextColor"];
+    //[dismissAction setValue:[UIColor blueColor] forKey:@"titleTextColor"];
     
     [self presentViewController:alert animated:YES completion:nil];
 }
