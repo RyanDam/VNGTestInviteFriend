@@ -52,8 +52,6 @@
 //        [manager createFileAtPath:result contents:nil attributes:nil];
 //    }
     
-    NSLog(@"%@", result);
-    
     return result;
 }
 

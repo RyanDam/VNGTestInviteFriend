@@ -8,6 +8,7 @@
 
 #import "CSThumbnailView.h"
 #import "CSModel.h"
+#import "CSThumbnailEngine.h"
 
 static NSDictionary * colorDictionary;
 
@@ -99,11 +100,14 @@ static NSDictionary * colorDictionary;
 }
 
 - (void)setData:(CSModel *)data; {
+    if (self.avatarView == nil) {
+        [self initAvatarView];
+    }
     
     if (data.avatar == nil) {
-        [self setText:[data shortName]];
+        [self.avatarView setThumbnailText:[data shortName] withCompletion:nil];
     } else {
-        [self setAvatar:data.avatar];
+        [self.avatarView setImage:data.avatar];
     }
 }
 

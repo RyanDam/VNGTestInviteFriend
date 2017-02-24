@@ -18,7 +18,6 @@
 
 @property (nonatomic) CSContactBusiness * contactBusiness;
 @property (nonatomic) CSContactProvider * contactProvider;
-@property (weak, nonatomic) IBOutlet UIImageView *imageView;
 
 @end
 
@@ -33,13 +32,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    CGSize size = CGSizeMake(42, 42);
-    
-    UIImage * img = [[CSThumbnailCreater getInstance] getThumbnailImageWithText:@"AA" withSize:size];
-    
-    [self.imageView setImage:img];
-    
 }
 
 - (void)didReceiveMemoryWarning {

@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "LRUCache.h"
+#import "LRUCacheDisk.h"
 #import "LRUCacheItem.h"
 
 @interface LRUCache(test)
@@ -32,85 +33,128 @@
     [super tearDown];
 }
 
-- (void)testAdd2Data {
-    
-    XCTestExpectation *ce1 = [self expectationWithDescription:@"1"];
-    XCTestExpectation *ce2 = [self expectationWithDescription:@"2"];
-    
-    LRUCache * cacher = [LRUCache getInstanceWithName:@"firstCache" hopeSize:2];
-    
-//    dispatch_group_t group = dispatch_group_create();
-//    dispatch_group_enter(group);
-//    [cacher removeAllObjectWithCompletion:^(LRUCacheItem *item) {
-//        dispatch_group_leave(group);
+//- (void)testAdd2Data {
+//    
+//    XCTestExpectation *ce1 = [self expectationWithDescription:@"1"];
+//    XCTestExpectation *ce2 = [self expectationWithDescription:@"2"];
+//    
+//    LRUCache * cacher = [LRUCache getInstanceWithName:@"firstCache" hopeSize:2];
+//    
+//    [cacher addObject:@"abc" forKey:@"1" withCompletion:^(LRUCacheItem *item) {
+//        XCTAssertNotNil(item, "Append 1 nil");
+//        XCTAssertEqual(@"abc", item.value);
+//        [ce1 fulfill];
 //    }];
-//    dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
-    
-    [cacher addObject:@"abc" forKey:@"1" withCompletion:^(LRUCacheItem *item) {
-        XCTAssertNotNil(item, "Append 1 nil");
-        XCTAssertEqual(@"abc", item.value);
-        [ce1 fulfill];
-    }];
-    
-    [cacher addObject:@"def" forKey:@"2" withCompletion:^(LRUCacheItem *item) {
-        XCTAssertNotNil(item, "Append 2 nil");
-        XCTAssertEqual(@"def", item.value);
-        [ce2 fulfill];
-    }];
-    
-    [self waitForExpectationsWithTimeout:2.0 handler:nil];
-    
-    NSString * ret = [cacher printAll];
-    
-    XCTAssertEqualObjects(@",def,abc,", ret);
-}
+//    
+//    [cacher addObject:@"def" forKey:@"2" withCompletion:^(LRUCacheItem *item) {
+//        XCTAssertNotNil(item, "Append 2 nil");
+//        XCTAssertEqual(@"def", item.value);
+//        [ce2 fulfill];
+//    }];
+//    
+//    [self waitForExpectationsWithTimeout:2.0 handler:nil];
+//    
+//    NSString * ret = [cacher printAll];
+//    
+//    XCTAssertEqualObjects(@",def,abc,", ret);
+//}
+//
+//- (void)testRecallCacher {
+//    
+//    LRUCache * cacher = [LRUCache getInstanceWithName:@"firstCache" hopeSize:2];
+//    
+//    NSString * ret = [cacher printAll];
+//    
+//    XCTAssertEqualObjects(@",def,abc,", ret);
+//}
+//
+//- (void)testRecent {
+//    
+//    XCTestExpectation *ce1 = [self expectationWithDescription:@"1"];
+//    
+//    LRUCache * cacher = [LRUCache getInstanceWithName:@"firstCache" hopeSize:2];
+//    
+//    [cacher objectForKey:@"1" withCompletion:^(LRUCacheItem *item) {
+//        XCTAssertNotNil(item, "Append 1 nil");
+//        XCTAssertEqual(@"abc", item.value);
+//        [ce1 fulfill];
+//    }];
+//    
+//    [self waitForExpectationsWithTimeout:2.0 handler:nil];
+//    
+//    NSString * ret = [cacher printAll];
+//    
+//    XCTAssertEqualObjects(@",abc,def,", ret);
+//}
+//
+//- (void)testReSet {
+//    
+//    XCTestExpectation *ce2 = [self expectationWithDescription:@"2"];
+//    
+//    LRUCache * cacher = [LRUCache getInstanceWithName:@"firstCache" hopeSize:2];
+//    
+//    [cacher addObject:@"haha" forKey:@"2" withCompletion:^(LRUCacheItem *item) {
+//        XCTAssertNotNil(item, "Reset 2 nil");
+//        XCTAssertEqual(@"haha", item.value);
+//        [ce2 fulfill];
+//    }];
+//    
+//    [self waitForExpectationsWithTimeout:2.0 handler:nil];
+//    
+//    NSString * ret = [cacher printAll];
+//    
+//    XCTAssertEqualObjects(@",haha,abc,", ret);
+//}
 
-- (void)testRecallCacher {
-    
-    LRUCache * cacher = [LRUCache getInstanceWithName:@"firstCache" hopeSize:2];
-    
-    NSString * ret = [cacher printAll];
-    
-    XCTAssertEqualObjects(@",def,abc,", ret);
-}
-
-- (void)testRecent {
-    
-    XCTestExpectation *ce1 = [self expectationWithDescription:@"1"];
-    
-    LRUCache * cacher = [LRUCache getInstanceWithName:@"firstCache" hopeSize:2];
-    
-    [cacher objectForKey:@"1" withCompletion:^(LRUCacheItem *item) {
-        XCTAssertNotNil(item, "Append 1 nil");
-        XCTAssertEqual(@"abc", item.value);
-        [ce1 fulfill];
-    }];
-    
-    [self waitForExpectationsWithTimeout:2.0 handler:nil];
-    
-    NSString * ret = [cacher printAll];
-    
-    XCTAssertEqualObjects(@",abc,def,", ret);
-}
-
-- (void)testReSet {
-    
-    XCTestExpectation *ce2 = [self expectationWithDescription:@"2"];
-    
-    LRUCache * cacher = [LRUCache getInstanceWithName:@"firstCache" hopeSize:2];
-    
-    [cacher addObject:@"haha" forKey:@"2" withCompletion:^(LRUCacheItem *item) {
-        XCTAssertNotNil(item, "Reset 2 nil");
-        XCTAssertEqual(@"haha", item.value);
-        [ce2 fulfill];
-    }];
-    
-    [self waitForExpectationsWithTimeout:2.0 handler:nil];
-    
-    NSString * ret = [cacher printAll];
-    
-    XCTAssertEqualObjects(@",haha,abc,", ret);
-}
+//- (void)testDiskAdd1Data {
+//    
+//    XCTestExpectation *ce1 = [self expectationWithDescription:@"1"];
+//    
+//    __block LRUCacheDisk * cacher;
+//    
+//     [LRUCacheDisk getInstanceWithName:@"diskCache" hopeMaxSize:2 withCompletion:^(LRUCacheDisk *diskCacher) {
+//         cacher = diskCacher;
+//         
+//         LRUCacheItem * item = [[LRUCacheItem alloc] initWithObject:@"abc" andSize:1];
+//         [cacher addItem:item forKey:@"1" withCompletion:^(LRUCacheItem *item, NSString *path, NSError *error) {
+//             XCTAssertNotNil(item, "Append 1 nil");
+//             XCTAssertEqual(@"abc", item.value);
+//             
+//             [ce1 fulfill];
+//         }];
+//    }];
+//    
+//    [self waitForExpectationsWithTimeout:5.0 handler:nil];
+//    
+//    NSString * ret = [cacher printAll];
+//    
+//    XCTAssertEqualObjects(@":abc", ret);
+//}
+//
+//- (void)testDiskAdd2Data {
+//    
+//    XCTestExpectation *ce2 = [self expectationWithDescription:@"2"];
+//    
+//    __block LRUCacheDisk * cacher;
+//    
+//    [LRUCacheDisk getInstanceWithName:@"diskCache" hopeMaxSize:2 withCompletion:^(LRUCacheDisk *diskCacher) {
+//
+//        cacher = diskCacher;
+//        
+//        LRUCacheItem * item2 = [[LRUCacheItem alloc] initWithObject:@"def" andSize:1];
+//        [cacher addItem:item2 forKey:@"2" withCompletion:^(LRUCacheItem *item, NSString *path, NSError *error) {
+//            XCTAssertNotNil(item, "Append 2 nil");
+//            XCTAssertEqual(@"def", item.value);
+//            [ce2 fulfill];
+//        }];
+//    }];
+//    
+//    [self waitForExpectationsWithTimeout:5.0 handler:nil];
+//    
+//    NSString * ret = [cacher printAll];
+//    
+//    XCTAssertEqualObjects(@":def:abc", ret);
+//}
 
 //- (void)testAddDisk {
 //    
@@ -124,13 +168,13 @@
 //        [ce3 fulfill];
 //    }];
 //    
-//    [self waitForExpectationsWithTimeout:2.0 handler:nil];
+//    [self waitForExpectationsWithTimeout:5.0 handler:nil];
 //    
 //    NSString * ret = [cacher printAll];
 //    
 //    XCTAssertEqualObjects(@",hahahi,haha,:abc", ret);
 //}
-//
+
 //- (void)testGetDisk {
 //    
 //    XCTestExpectation *ce3 = [self expectationWithDescription:@"3"];

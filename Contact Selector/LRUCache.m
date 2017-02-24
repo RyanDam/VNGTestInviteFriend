@@ -82,9 +82,6 @@
 - (void)addObject:(NSObject *)object forKey:(NSString *)key withSize:(NSUInteger)size withCompletion:(LRUHandlerCompleteBlock)completion {
     
     dispatch_barrier_async(self.internalQueue, ^{
-        
-        
-        
         LRUCacheItem * item = [[LRUCacheItem alloc] initWithObject:object andSize:size];
         
         if ([self.keySet containsObject:key]) {
@@ -120,6 +117,7 @@
 - (void)objectForKey:(NSString *)key withCompletion:(LRUHandlerCompleteBlock)completion {
     
     dispatch_sync(self.internalQueue, ^{
+        
         if ([self.keySet containsObject:key]) {
             [self.keySet moveObjectsAtIndexes:[NSIndexSet indexSetWithIndex:[self.keySet indexOfObject:key]] toIndex:0];
             LRUCacheItem * item = [self.dictionary objectForKey:key];
@@ -157,10 +155,14 @@
         [self.diskCacher objectForKey:key withCompletion:^(LRUCacheItem *item, NSString *path, NSError *error) {
             if (error) {
                 // TODO print error
+                NSLog(@"ERRRROR: %@", [error localizedDescription]);
+                completion(nil);
             } else {
                 completion(item);
             }
         }];
+    } else {
+        completion(nil);
     }
 }
 
@@ -233,6 +235,7 @@
     
     if (self.diskCacher) {
         NSString * disk = [self.diskCacher printAll];
+        
         ret = [NSString stringWithFormat:@"%@,%@", ret, disk];
     }
     

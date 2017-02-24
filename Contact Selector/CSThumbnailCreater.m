@@ -84,10 +84,10 @@ static NSDictionary * colorDictionary;
     CGRect rect = CGRectMake(0, 0, size.width, size.height);
     
     // Font attributes
-    int fontSize = size.height / 1.8;
-    CGSize textSizeRect = [text sizeWithAttributes:@{NSFontAttributeName: [UIFont boldSystemFontOfSize:fontSize]}];
+    int fontSize = size.height / 2.0;
+    CGSize textSizeRect = [text sizeWithAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:fontSize]}];
     CGRect textRect = CGRectMake(midPoint.x - textSizeRect.width/2.1, midPoint.y - textSizeRect.height/2, textSizeRect.width, textSizeRect.height);
-    UIFont *font = [UIFont boldSystemFontOfSize:fontSize];
+    UIFont *font = [UIFont systemFontOfSize:fontSize];
     NSDictionary *att = @{NSFontAttributeName:font, NSForegroundColorAttributeName:[UIColor whiteColor]};
     
     //// Create image

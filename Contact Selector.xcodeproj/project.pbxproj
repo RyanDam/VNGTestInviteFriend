@@ -33,6 +33,7 @@
 		F2F31FD01E5BF3A1007405A7 /* LRUCacheItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31FCF1E5BF3A1007405A7 /* LRUCacheItem.m */; };
 		F2F31FD41E5BF59E007405A7 /* LRUCacheDisk.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31FD31E5BF59E007405A7 /* LRUCacheDisk.m */; };
 		F2F31FD71E5C2F51007405A7 /* LRUFileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31FD61E5C2F51007405A7 /* LRUFileUtils.m */; };
+		F2F31FDB1E5FE76F007405A7 /* CSThumbnailEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31FDA1E5FE76F007405A7 /* CSThumbnailEngine.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,6 +105,8 @@
 		F2F31FD31E5BF59E007405A7 /* LRUCacheDisk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRUCacheDisk.m; sourceTree = "<group>"; };
 		F2F31FD51E5C2F51007405A7 /* LRUFileUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRUFileUtils.h; sourceTree = "<group>"; };
 		F2F31FD61E5C2F51007405A7 /* LRUFileUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRUFileUtils.m; sourceTree = "<group>"; };
+		F2F31FD91E5FE76F007405A7 /* CSThumbnailEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSThumbnailEngine.h; sourceTree = "<group>"; };
+		F2F31FDA1E5FE76F007405A7 /* CSThumbnailEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSThumbnailEngine.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,13 +134,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		94A6A9EE1E5E8CC50087DE74 /* CSThumbnailCreater */ = {
+		94A6A9EE1E5E8CC50087DE74 /* ThumbnailCreater */ = {
 			isa = PBXGroup;
 			children = (
 				94A6A9EF1E5E8CF50087DE74 /* CSThumbnailCreater.h */,
 				94A6A9F01E5E8CF50087DE74 /* CSThumbnailCreater.m */,
 			);
-			name = CSThumbnailCreater;
+			name = ThumbnailCreater;
 			sourceTree = "<group>";
 		};
 		F2F31F471E515E2B007405A7 = {
@@ -163,8 +166,7 @@
 		F2F31F521E515E2C007405A7 /* Contact Selector */ = {
 			isa = PBXGroup;
 			children = (
-				94A6A9EE1E5E8CC50087DE74 /* CSThumbnailCreater */,
-				F2F31FCD1E5BF38C007405A7 /* LRUCache */,
+				F2F31FD81E5FE743007405A7 /* ThumbnailEngine */,
 				F2F31FC91E5B0056007405A7 /* ContactSelector */,
 				F2F31FBF1E5AF03D007405A7 /* MainViewController.h */,
 				F2F31FC01E5AF03D007405A7 /* MainViewController.m */,
@@ -290,6 +292,17 @@
 				F2F31FCF1E5BF3A1007405A7 /* LRUCacheItem.m */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		F2F31FD81E5FE743007405A7 /* ThumbnailEngine */ = {
+			isa = PBXGroup;
+			children = (
+				94A6A9EE1E5E8CC50087DE74 /* ThumbnailCreater */,
+				F2F31FCD1E5BF38C007405A7 /* LRUCache */,
+				F2F31FD91E5FE76F007405A7 /* CSThumbnailEngine.h */,
+				F2F31FDA1E5FE76F007405A7 /* CSThumbnailEngine.m */,
+			);
+			name = ThumbnailEngine;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -437,6 +450,7 @@
 				F2F31F5B1E515E2C007405A7 /* ContactSelectorViewController.m in Sources */,
 				F2F31FB81E5AE943007405A7 /* CSContactProvider.m in Sources */,
 				F2F31FBB1E5AEA88007405A7 /* CSContactBusiness.m in Sources */,
+				F2F31FDB1E5FE76F007405A7 /* CSThumbnailEngine.m in Sources */,
 				F2F31FD01E5BF3A1007405A7 /* LRUCacheItem.m in Sources */,
 				94A6A9F11E5E8CF50087DE74 /* CSThumbnailCreater.m in Sources */,
 				F2F31FC51E5AFA9D007405A7 /* CSPresenterViewController.m in Sources */,

@@ -13,7 +13,7 @@
 @property (nonatomic) NSObject * value;
 @property (nonatomic) NSUInteger size;
 
-+ (void)readFromFilePath:(NSString *)path withCompletion:(void (^)(LRUCacheItem *))completion;
++ (void)readFromFilePath:(NSString *)path size:(NSUInteger)size withCompletion:(void (^)(LRUCacheItem *))completion;
 
 - (instancetype)initWithObject:(NSObject *)object andSize:(NSUInteger)size;
 
