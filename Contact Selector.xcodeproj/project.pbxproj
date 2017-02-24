@@ -38,6 +38,8 @@
 		F2F31FD01E5BF3A1007405A7 /* LRUCacheItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31FCF1E5BF3A1007405A7 /* LRUCacheItem.m */; };
 		F2F31FD41E5BF59E007405A7 /* LRUCacheDisk.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31FD31E5BF59E007405A7 /* LRUCacheDisk.m */; };
 		F2F31FD71E5C2F51007405A7 /* LRUFileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31FD61E5C2F51007405A7 /* LRUFileUtils.m */; };
+		F2F31FE01E5FF54E007405A7 /* CSThumbnailCreater.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31FDF1E5FF54E007405A7 /* CSThumbnailCreater.m */; };
+		F2F31FE31E5FF558007405A7 /* CSThumbnailEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31FE21E5FF558007405A7 /* CSThumbnailEngine.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,6 +116,10 @@
 		F2F31FD31E5BF59E007405A7 /* LRUCacheDisk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRUCacheDisk.m; sourceTree = "<group>"; };
 		F2F31FD51E5C2F51007405A7 /* LRUFileUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRUFileUtils.h; sourceTree = "<group>"; };
 		F2F31FD61E5C2F51007405A7 /* LRUFileUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRUFileUtils.m; sourceTree = "<group>"; };
+		F2F31FDE1E5FF54E007405A7 /* CSThumbnailCreater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSThumbnailCreater.h; sourceTree = "<group>"; };
+		F2F31FDF1E5FF54E007405A7 /* CSThumbnailCreater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSThumbnailCreater.m; sourceTree = "<group>"; };
+		F2F31FE11E5FF558007405A7 /* CSThumbnailEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSThumbnailEngine.h; sourceTree = "<group>"; };
+		F2F31FE21E5FF558007405A7 /* CSThumbnailEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSThumbnailEngine.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,7 +189,7 @@
 		F2F31F521E515E2C007405A7 /* Contact Selector */ = {
 			isa = PBXGroup;
 			children = (
-				F2F31FCD1E5BF38C007405A7 /* LRUCache */,
+				F2F31FDC1E5FF50C007405A7 /* Thumbnail Engine */,
 				F2F31FC91E5B0056007405A7 /* ContactSelector */,
 				F2F31FBF1E5AF03D007405A7 /* MainViewController.h */,
 				F2F31FC01E5AF03D007405A7 /* MainViewController.m */,
@@ -311,6 +317,26 @@
 				F2F31FCF1E5BF3A1007405A7 /* LRUCacheItem.m */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		F2F31FDC1E5FF50C007405A7 /* Thumbnail Engine */ = {
+			isa = PBXGroup;
+			children = (
+				F2F31FDD1E5FF527007405A7 /* ThumbnailCreator */,
+				F2F31FCD1E5BF38C007405A7 /* LRUCache */,
+				F2F31FE11E5FF558007405A7 /* CSThumbnailEngine.h */,
+				F2F31FE21E5FF558007405A7 /* CSThumbnailEngine.m */,
+			);
+			name = "Thumbnail Engine";
+			sourceTree = "<group>";
+		};
+		F2F31FDD1E5FF527007405A7 /* ThumbnailCreator */ = {
+			isa = PBXGroup;
+			children = (
+				F2F31FDE1E5FF54E007405A7 /* CSThumbnailCreater.h */,
+				F2F31FDF1E5FF54E007405A7 /* CSThumbnailCreater.m */,
+			);
+			name = ThumbnailCreator;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -461,7 +487,9 @@
 				F2F31FC51E5AFA9D007405A7 /* CSPresenterViewController.m in Sources */,
 				F2F31F581E515E2C007405A7 /* AppDelegate.m in Sources */,
 				F2F31F9A1E51B184007405A7 /* CSThumbnailView.m in Sources */,
+				F2F31FE01E5FF54E007405A7 /* CSThumbnailCreater.m in Sources */,
 				F2F31F551E515E2C007405A7 /* main.m in Sources */,
+				F2F31FE31E5FF558007405A7 /* CSThumbnailEngine.m in Sources */,
 				F2F31FCC1E5BF37E007405A7 /* LRUCache.m in Sources */,
 				F2F31FC11E5AF03D007405A7 /* MainViewController.m in Sources */,
 				8AF6AC3D1E5D8091004F84FA /* FBContactProvider.m in Sources */,
