@@ -11,6 +11,7 @@
 		8A0D00431E5D467B002B0C67 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A0D00391E5D467B002B0C67 /* FBSDKShareKit.framework */; };
 		8A0D00461E5D467B002B0C67 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A0D003C1E5D467B002B0C67 /* Bolts.framework */; };
 		8A0D004A1E5D467B002B0C67 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A0D00401E5D467B002B0C67 /* FBSDKCoreKit.framework */; };
+		8A3F0AB21E6043D1008B5717 /* FBContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A3F0AB11E6043D1008B5717 /* FBContact.m */; };
 		8AF6AC3D1E5D8091004F84FA /* FBContactProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AF6AC3C1E5D8091004F84FA /* FBContactProvider.m */; };
 		8AF6AC3F1E5D8310004F84FA /* AccountKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AF6AC3E1E5D8310004F84FA /* AccountKit.framework */; };
 		F2F31F551E515E2C007405A7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F541E515E2C007405A7 /* main.m */; };
@@ -64,6 +65,8 @@
 		8A0D00391E5D467B002B0C67 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		8A0D003C1E5D467B002B0C67 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		8A0D00401E5D467B002B0C67 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		8A3F0AB01E6043D1008B5717 /* FBContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBContact.h; sourceTree = "<group>"; };
+		8A3F0AB11E6043D1008B5717 /* FBContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBContact.m; sourceTree = "<group>"; };
 		8AF6AC3B1E5D8091004F84FA /* FBContactProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBContactProvider.h; sourceTree = "<group>"; };
 		8AF6AC3C1E5D8091004F84FA /* FBContactProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBContactProvider.m; sourceTree = "<group>"; };
 		8AF6AC3E1E5D8310004F84FA /* AccountKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AccountKit.framework; path = ../AccountKit.framework; sourceTree = "<group>"; };
@@ -254,6 +257,8 @@
 				F2F31F8F1E516221007405A7 /* CSContact.m */,
 				F2F31FA61E5AC816007405A7 /* CSModel.h */,
 				F2F31FA71E5AC816007405A7 /* CSModel.m */,
+				8A3F0AB01E6043D1008B5717 /* FBContact.h */,
+				8A3F0AB11E6043D1008B5717 /* FBContact.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -495,6 +500,7 @@
 				8AF6AC3D1E5D8091004F84FA /* FBContactProvider.m in Sources */,
 				F2F31FAB1E5AC9EB007405A7 /* CSDataProvider.m in Sources */,
 				F2F31FA81E5AC816007405A7 /* CSModel.m in Sources */,
+				8A3F0AB21E6043D1008B5717 /* FBContact.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

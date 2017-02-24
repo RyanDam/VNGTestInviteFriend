@@ -7,7 +7,7 @@
 //
 
 #import "FBContactProvider.h"
-#import "CSContact.h"
+#import "FBContact.h"
 @import FBSDKCoreKit;
 @import AccountKit;
 
@@ -26,13 +26,44 @@
     return self;
 }
 
+//- (void)getDataArrayWithCompletion:(void (^)(NSArray<CSModel *> *, NSError *))completion {
+//    
+//    if (!completion) {
+//        return;
+//    }
+//    
+//    [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me/friends" parameters:nil]
+//     startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+//         
+//         dispatch_async(self.serialQueue, ^{
+//             if (error) {
+//                 completion(nil, error);
+//                 return;
+//             }
+//             
+//             NSArray *friends = [result objectForKey:@"data"];
+//             
+//             NSMutableArray* contacts = [NSMutableArray new];
+//             
+//             for (id user in friends) {
+//                 CSModel *contact = [CSModel new];
+//                 
+//                 contact.fullName = [user objectForKey:@"name"];
+//                 [contacts addObject:contact];
+//             }
+//             
+//             completion(contacts, nil);
+//         });
+//     }];
+//}
+
 - (void)getDataArrayWithCompletion:(void (^)(NSArray<CSModel *> *, NSError *))completion {
     
     if (!completion) {
         return;
     }
     
-    [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me/friends" parameters:nil]
+    [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me/taggable_friends?limit=5000" parameters:nil]
      startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
          
          dispatch_async(self.serialQueue, ^{
@@ -41,14 +72,17 @@
                  return;
              }
              
-             NSArray *friends = [result objectForKey:@"data"];
+             NSArray *friends = result[@"data"];
              
              NSMutableArray* contacts = [NSMutableArray new];
              
              for (id user in friends) {
-                 CSModel *contact = [CSModel new];
+                 FBContact *contact = [FBContact new];
                  
-                 contact.fullName = [user objectForKey:@"name"];
+                 contact.fullName = user[@"name"];
+                 
+                 contact.avatarUrl = user[@"picture"][@"data"][@"url"];
+                 
                  [contacts addObject:contact];
              }
              
