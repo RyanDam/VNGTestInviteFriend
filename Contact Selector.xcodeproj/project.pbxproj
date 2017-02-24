@@ -40,7 +40,6 @@
 		F2F31FD71E5C2F51007405A7 /* LRUFileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31FD61E5C2F51007405A7 /* LRUFileUtils.m */; };
 		F2F31FE01E5FF54E007405A7 /* CSThumbnailCreater.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31FDF1E5FF54E007405A7 /* CSThumbnailCreater.m */; };
 		F2F31FE31E5FF558007405A7 /* CSThumbnailEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31FE21E5FF558007405A7 /* CSThumbnailEngine.m */; };
-		F2F31FE61E602815007405A7 /* MainTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31FE51E602815007405A7 /* MainTabViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -121,8 +120,6 @@
 		F2F31FDF1E5FF54E007405A7 /* CSThumbnailCreater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSThumbnailCreater.m; sourceTree = "<group>"; };
 		F2F31FE11E5FF558007405A7 /* CSThumbnailEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSThumbnailEngine.h; sourceTree = "<group>"; };
 		F2F31FE21E5FF558007405A7 /* CSThumbnailEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSThumbnailEngine.m; sourceTree = "<group>"; };
-		F2F31FE41E602815007405A7 /* MainTabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTabViewController.h; sourceTree = "<group>"; };
-		F2F31FE51E602815007405A7 /* MainTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTabViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,8 +193,6 @@
 				F2F31FC91E5B0056007405A7 /* ContactSelector */,
 				F2F31FBF1E5AF03D007405A7 /* MainViewController.h */,
 				F2F31FC01E5AF03D007405A7 /* MainViewController.m */,
-				F2F31FE41E602815007405A7 /* MainTabViewController.h */,
-				F2F31FE51E602815007405A7 /* MainTabViewController.m */,
 				F2F31F561E515E2C007405A7 /* AppDelegate.h */,
 				F2F31F571E515E2C007405A7 /* AppDelegate.m */,
 				F2F31F5C1E515E2C007405A7 /* Main.storyboard */,
@@ -496,7 +491,6 @@
 				F2F31F551E515E2C007405A7 /* main.m in Sources */,
 				F2F31FE31E5FF558007405A7 /* CSThumbnailEngine.m in Sources */,
 				F2F31FCC1E5BF37E007405A7 /* LRUCache.m in Sources */,
-				F2F31FE61E602815007405A7 /* MainTabViewController.m in Sources */,
 				F2F31FC11E5AF03D007405A7 /* MainViewController.m in Sources */,
 				8AF6AC3D1E5D8091004F84FA /* FBContactProvider.m in Sources */,
 				F2F31FAB1E5AC9EB007405A7 /* CSDataProvider.m in Sources */,
