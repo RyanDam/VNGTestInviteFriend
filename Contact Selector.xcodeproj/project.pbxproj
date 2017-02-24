@@ -7,7 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		94A6A9F11E5E8CF50087DE74 /* CSThumbnailCreater.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A6A9F01E5E8CF50087DE74 /* CSThumbnailCreater.m */; };
+		8A0D00411E5D467B002B0C67 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A0D00371E5D467B002B0C67 /* FBSDKLoginKit.framework */; };
+		8A0D00431E5D467B002B0C67 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A0D00391E5D467B002B0C67 /* FBSDKShareKit.framework */; };
+		8A0D00461E5D467B002B0C67 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A0D003C1E5D467B002B0C67 /* Bolts.framework */; };
+		8A0D004A1E5D467B002B0C67 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A0D00401E5D467B002B0C67 /* FBSDKCoreKit.framework */; };
+		8AF6AC3D1E5D8091004F84FA /* FBContactProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AF6AC3C1E5D8091004F84FA /* FBContactProvider.m */; };
+		8AF6AC3F1E5D8310004F84FA /* AccountKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AF6AC3E1E5D8310004F84FA /* AccountKit.framework */; };
 		F2F31F551E515E2C007405A7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F541E515E2C007405A7 /* main.m */; };
 		F2F31F581E515E2C007405A7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F571E515E2C007405A7 /* AppDelegate.m */; };
 		F2F31F5B1E515E2C007405A7 /* ContactSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F5A1E515E2C007405A7 /* ContactSelectorViewController.m */; };
@@ -33,7 +38,6 @@
 		F2F31FD01E5BF3A1007405A7 /* LRUCacheItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31FCF1E5BF3A1007405A7 /* LRUCacheItem.m */; };
 		F2F31FD41E5BF59E007405A7 /* LRUCacheDisk.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31FD31E5BF59E007405A7 /* LRUCacheDisk.m */; };
 		F2F31FD71E5C2F51007405A7 /* LRUFileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31FD61E5C2F51007405A7 /* LRUFileUtils.m */; };
-		F2F31FDB1E5FE76F007405A7 /* CSThumbnailEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31FDA1E5FE76F007405A7 /* CSThumbnailEngine.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,8 +58,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		94A6A9EF1E5E8CF50087DE74 /* CSThumbnailCreater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSThumbnailCreater.h; sourceTree = "<group>"; };
-		94A6A9F01E5E8CF50087DE74 /* CSThumbnailCreater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSThumbnailCreater.m; sourceTree = "<group>"; };
+		8A0D00371E5D467B002B0C67 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		8A0D00391E5D467B002B0C67 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
+		8A0D003C1E5D467B002B0C67 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
+		8A0D00401E5D467B002B0C67 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		8AF6AC3B1E5D8091004F84FA /* FBContactProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBContactProvider.h; sourceTree = "<group>"; };
+		8AF6AC3C1E5D8091004F84FA /* FBContactProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBContactProvider.m; sourceTree = "<group>"; };
+		8AF6AC3E1E5D8310004F84FA /* AccountKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AccountKit.framework; path = ../AccountKit.framework; sourceTree = "<group>"; };
 		F2F31F501E515E2C007405A7 /* Contact Selector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Contact Selector.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2F31F541E515E2C007405A7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		F2F31F561E515E2C007405A7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -105,8 +114,6 @@
 		F2F31FD31E5BF59E007405A7 /* LRUCacheDisk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRUCacheDisk.m; sourceTree = "<group>"; };
 		F2F31FD51E5C2F51007405A7 /* LRUFileUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRUFileUtils.h; sourceTree = "<group>"; };
 		F2F31FD61E5C2F51007405A7 /* LRUFileUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRUFileUtils.m; sourceTree = "<group>"; };
-		F2F31FD91E5FE76F007405A7 /* CSThumbnailEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSThumbnailEngine.h; sourceTree = "<group>"; };
-		F2F31FDA1E5FE76F007405A7 /* CSThumbnailEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSThumbnailEngine.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +121,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8A0D00461E5D467B002B0C67 /* Bolts.framework in Frameworks */,
+				8A0D004A1E5D467B002B0C67 /* FBSDKCoreKit.framework in Frameworks */,
+				8AF6AC3F1E5D8310004F84FA /* AccountKit.framework in Frameworks */,
+				8A0D00411E5D467B002B0C67 /* FBSDKLoginKit.framework in Frameworks */,
+				8A0D00431E5D467B002B0C67 /* FBSDKShareKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -134,18 +146,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		94A6A9EE1E5E8CC50087DE74 /* ThumbnailCreater */ = {
+		8A0D004B1E5D467F002B0C67 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				94A6A9EF1E5E8CF50087DE74 /* CSThumbnailCreater.h */,
-				94A6A9F01E5E8CF50087DE74 /* CSThumbnailCreater.m */,
+				8AF6AC3E1E5D8310004F84FA /* AccountKit.framework */,
+				8A0D00371E5D467B002B0C67 /* FBSDKLoginKit.framework */,
+				8A0D00391E5D467B002B0C67 /* FBSDKShareKit.framework */,
+				8A0D003C1E5D467B002B0C67 /* Bolts.framework */,
+				8A0D00401E5D467B002B0C67 /* FBSDKCoreKit.framework */,
 			);
-			name = ThumbnailCreater;
+			name = Frameworks;
+			path = "Contact Selector";
 			sourceTree = "<group>";
 		};
 		F2F31F471E515E2B007405A7 = {
 			isa = PBXGroup;
 			children = (
+				8A0D004B1E5D467F002B0C67 /* Frameworks */,
 				F2F31F521E515E2C007405A7 /* Contact Selector */,
 				F2F31F6C1E515E2C007405A7 /* Contact SelectorTests */,
 				F2F31F771E515E2C007405A7 /* Contact SelectorUITests */,
@@ -166,7 +183,7 @@
 		F2F31F521E515E2C007405A7 /* Contact Selector */ = {
 			isa = PBXGroup;
 			children = (
-				F2F31FD81E5FE743007405A7 /* ThumbnailEngine */,
+				F2F31FCD1E5BF38C007405A7 /* LRUCache */,
 				F2F31FC91E5B0056007405A7 /* ContactSelector */,
 				F2F31FBF1E5AF03D007405A7 /* MainViewController.h */,
 				F2F31FC01E5AF03D007405A7 /* MainViewController.m */,
@@ -218,6 +235,8 @@
 				F2F31FB71E5AE943007405A7 /* CSContactProvider.m */,
 				F2F31FB91E5AEA88007405A7 /* CSContactBusiness.h */,
 				F2F31FBA1E5AEA88007405A7 /* CSContactBusiness.m */,
+				8AF6AC3B1E5D8091004F84FA /* FBContactProvider.h */,
+				8AF6AC3C1E5D8091004F84FA /* FBContactProvider.m */,
 			);
 			name = "Data Provider";
 			sourceTree = "<group>";
@@ -294,17 +313,6 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
-		F2F31FD81E5FE743007405A7 /* ThumbnailEngine */ = {
-			isa = PBXGroup;
-			children = (
-				94A6A9EE1E5E8CC50087DE74 /* ThumbnailCreater */,
-				F2F31FCD1E5BF38C007405A7 /* LRUCache */,
-				F2F31FD91E5FE76F007405A7 /* CSThumbnailEngine.h */,
-				F2F31FDA1E5FE76F007405A7 /* CSThumbnailEngine.m */,
-			);
-			name = ThumbnailEngine;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -372,7 +380,6 @@
 				TargetAttributes = {
 					F2F31F4F1E515E2C007405A7 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = M3984GFJZF;
 						ProvisioningStyle = Automatic;
 					};
 					F2F31F681E515E2C007405A7 = {
@@ -450,15 +457,14 @@
 				F2F31F5B1E515E2C007405A7 /* ContactSelectorViewController.m in Sources */,
 				F2F31FB81E5AE943007405A7 /* CSContactProvider.m in Sources */,
 				F2F31FBB1E5AEA88007405A7 /* CSContactBusiness.m in Sources */,
-				F2F31FDB1E5FE76F007405A7 /* CSThumbnailEngine.m in Sources */,
 				F2F31FD01E5BF3A1007405A7 /* LRUCacheItem.m in Sources */,
-				94A6A9F11E5E8CF50087DE74 /* CSThumbnailCreater.m in Sources */,
 				F2F31FC51E5AFA9D007405A7 /* CSPresenterViewController.m in Sources */,
 				F2F31F581E515E2C007405A7 /* AppDelegate.m in Sources */,
 				F2F31F9A1E51B184007405A7 /* CSThumbnailView.m in Sources */,
 				F2F31F551E515E2C007405A7 /* main.m in Sources */,
 				F2F31FCC1E5BF37E007405A7 /* LRUCache.m in Sources */,
 				F2F31FC11E5AF03D007405A7 /* MainViewController.m in Sources */,
+				8AF6AC3D1E5D8091004F84FA /* FBContactProvider.m in Sources */,
 				F2F31FAB1E5AC9EB007405A7 /* CSDataProvider.m in Sources */,
 				F2F31FA81E5AC816007405A7 /* CSModel.m in Sources */,
 			);
@@ -609,7 +615,24 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = M3984GFJZF;
+				DEVELOPMENT_TEAM = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Contact\\ Selector",
+					"$(PROJECT_DIR)/Contact\\ Selector",
+					"$(PROJECT_DIR)/Contact\\ Selector",
+					"$(PROJECT_DIR)/Contact\\ Selector",
+					"$(PROJECT_DIR)/Contact\\ Selector",
+					"$(PROJECT_DIR)/Contact\\ Selector",
+					"$(PROJECT_DIR)/Contact\\ Selector",
+					"$(PROJECT_DIR)/Contact\\ Selector",
+					"$(PROJECT_DIR)/Contact\\ Selector",
+					"$(PROJECT_DIR)/Contact\\ Selector",
+					"$(PROJECT_DIR)/Contact\\ Selector",
+					"$(PROJECT_DIR)/Contact\\ Selector",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Contact\\ Selector/Frameworks",
+				);
 				INFOPLIST_FILE = "Contact Selector/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.vng.duydv2.Contact-Selector";
@@ -621,7 +644,24 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = M3984GFJZF;
+				DEVELOPMENT_TEAM = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Contact\\ Selector",
+					"$(PROJECT_DIR)/Contact\\ Selector",
+					"$(PROJECT_DIR)/Contact\\ Selector",
+					"$(PROJECT_DIR)/Contact\\ Selector",
+					"$(PROJECT_DIR)/Contact\\ Selector",
+					"$(PROJECT_DIR)/Contact\\ Selector",
+					"$(PROJECT_DIR)/Contact\\ Selector",
+					"$(PROJECT_DIR)/Contact\\ Selector",
+					"$(PROJECT_DIR)/Contact\\ Selector",
+					"$(PROJECT_DIR)/Contact\\ Selector",
+					"$(PROJECT_DIR)/Contact\\ Selector",
+					"$(PROJECT_DIR)/Contact\\ Selector",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Contact\\ Selector/Frameworks",
+				);
 				INFOPLIST_FILE = "Contact Selector/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.vng.duydv2.Contact-Selector";
