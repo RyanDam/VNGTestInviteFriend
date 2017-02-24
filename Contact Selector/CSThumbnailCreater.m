@@ -10,6 +10,12 @@
 
 static NSDictionary * colorDictionary;
 
+@interface CSThumbnailCreater ()
+
+@property (nonatomic) dispatch_queue_t internalQueue;
+
+@end
+
 @implementation CSThumbnailCreater
 
 + (instancetype)getInstance {
@@ -23,7 +29,10 @@ static NSDictionary * colorDictionary;
 
 - (instancetype)init {
     self = [super init];
+    static int i = 0;
     if (self) {
+        NSString * s = [NSString stringWithFormat:@"queue#%d", i++];
+        self.internalQueue = dispatch_queue_create([s UTF8String], DISPATCH_QUEUE_CONCURRENT);
         [self initColor];
     }
     return self;
@@ -65,45 +74,53 @@ static NSDictionary * colorDictionary;
     });
 }
 
-- (UIImage *)getThumbnailImageWithText:(NSString *)text withSize:(CGSize)size {
-    UIColor * color = nil;
+- (void)getThumbnailImageWithText:(NSString *)text withSize:(CGSize)size withCompletion:(void (^)(UIImage * image))completion {
     
-    CGPoint midPoint = CGPointMake(size.width / 2, size.height / 2);
-    
-    if (text == nil || text.length == 0) {
-        color = [colorDictionary objectForKey:@"default"];
-    } else if (text.length == 1) {
-        color = [colorDictionary objectForKey:[text substringWithRange:NSMakeRange(0, 1)]];
-    } else {
-        color = [colorDictionary objectForKey:[text substringWithRange:NSMakeRange(1, 1)]];
-    }
-    if (color == nil) {
-        color = [colorDictionary objectForKey:@"default"];
+    if (completion == nil) {
+        return;
     }
     
-    CGRect rect = CGRectMake(0, 0, size.width, size.height);
-    
-    // Font attributes
-    int fontSize = size.height / 2.0;
-    CGSize textSizeRect = [text sizeWithAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:fontSize]}];
-    CGRect textRect = CGRectMake(midPoint.x - textSizeRect.width/2.1, midPoint.y - textSizeRect.height/2, textSizeRect.width, textSizeRect.height);
-    UIFont *font = [UIFont systemFontOfSize:fontSize];
-    NSDictionary *att = @{NSFontAttributeName:font, NSForegroundColorAttributeName:[UIColor whiteColor]};
-    
-    //// Create image
-    UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    // set color for circle
-    [color set];
-    // draw circle
-    CGContextFillEllipseInRect(context, rect);
-    // draw text
-    [text drawInRect:CGRectIntegral(textRect) withAttributes:att];
-    // get image
-    UIImage * image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    return image;
+    dispatch_async(self.internalQueue, ^{
+        
+        UIColor * color = nil;
+        
+        CGPoint midPoint = CGPointMake(size.width / 2, size.height / 2);
+        
+        if (text == nil || text.length == 0) {
+            color = [colorDictionary objectForKey:@"default"];
+        } else if (text.length == 1) {
+            color = [colorDictionary objectForKey:[text substringWithRange:NSMakeRange(0, 1)]];
+        } else {
+            color = [colorDictionary objectForKey:[text substringWithRange:NSMakeRange(1, 1)]];
+        }
+        if (color == nil) {
+            color = [colorDictionary objectForKey:@"default"];
+        }
+        
+        CGRect rect = CGRectMake(0, 0, size.width, size.height);
+        
+        // Font attributes
+        int fontSize = size.height / 2.0;
+        CGSize textSizeRect = [text sizeWithAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:fontSize]}];
+        CGRect textRect = CGRectMake(midPoint.x - textSizeRect.width/2.1, midPoint.y - textSizeRect.height/2, textSizeRect.width, textSizeRect.height);
+        UIFont *font = [UIFont systemFontOfSize:fontSize];
+        NSDictionary *att = @{NSFontAttributeName:font, NSForegroundColorAttributeName:[UIColor whiteColor]};
+        
+        //// Create image
+        UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0);
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        // set color for circle
+        [color set];
+        // draw circle
+        CGContextFillEllipseInRect(context, rect);
+        // draw text
+        [text drawInRect:CGRectIntegral(textRect) withAttributes:att];
+        // get image
+        UIImage * image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        completion(image);
+    });
 }
 
 @end

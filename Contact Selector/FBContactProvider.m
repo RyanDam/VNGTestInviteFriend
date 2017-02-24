@@ -63,7 +63,7 @@
         return;
     }
     
-    [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me/taggable_friends?limit=5000" parameters:nil]
+    [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me/taggable_friends?limit=500" parameters:nil]
      startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
          
          dispatch_async(self.serialQueue, ^{

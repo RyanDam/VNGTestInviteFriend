@@ -19,22 +19,35 @@
     
     [self setImage:nil];
     
+    static int count = 0;
+    
     [cacher objectForKey:text withCompletion:^(LRUCacheItem *item) {
         UIImage * image = (UIImage *)item.value;
         
         if (image == nil) {
-            image = [[CSThumbnailCreater getInstance] getThumbnailImageWithText:text withSize:self.frame.size];
-            [cacher addObject:image forKey:text withCompletion:^(LRUCacheItem *item) {
-               // do nothing
+            [[CSThumbnailCreater getInstance] getThumbnailImageWithText:text withSize:self.frame.size withCompletion:^(UIImage *image) {
+                [cacher addObject:image forKey:text withCompletion:^(LRUCacheItem *item) {
+                    // do nothing
+                }];
+                count ++;
+                NSLog(@"Create %@ %d", text, count);
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self setImage:image];
+                    if (completion != nil) {
+                        completion(image);
+                    }
+                });
+                
             }];
-            NSLog(@"Create %@", text);
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self setImage:image];
+                if (completion != nil) {
+                    completion(image);
+                }
+            });
         }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self setImage:image];
-            if (completion != nil) {
-                completion(image);
-            }
-        });
     }];
 }
 

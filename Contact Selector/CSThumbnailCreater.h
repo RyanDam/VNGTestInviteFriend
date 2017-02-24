@@ -12,6 +12,6 @@
 
 + (instancetype)getInstance;
 
-- (UIImage *)getThumbnailImageWithText:(NSString *)text withSize:(CGSize)size;
+- (void)getThumbnailImageWithText:(NSString *)text withSize:(CGSize)size withCompletion:(void (^)(UIImage * image))completion;
 
 @end
