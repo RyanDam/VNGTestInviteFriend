@@ -254,7 +254,6 @@
         [self.dataBusiness performSearch:searchText onDataArray:self.dataArray withCompletion:^(CSSearchResult searchResult, NSArray<NSString *> *index, NSDictionary<NSString *,NSArray<CSModel *> *> *dictionary) {
             
             self.userSearchResult = searchResult;
-            
             self.dataIndex = index;
             self.dataDictionary = dictionary;
             
