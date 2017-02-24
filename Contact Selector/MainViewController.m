@@ -65,6 +65,7 @@
 - (IBAction)onPressFacebookButton:(id)sender {
     
     if ([FBSDKAccessToken currentAccessToken]) {
+        
         self.contactProvider = [[FBContactProvider alloc] init];
         
         CSPresenterViewController * vc = [CSPresenterViewController presenter];
@@ -74,7 +75,7 @@
         
         [self presentViewController:vc animated:YES completion:nil];
     } else {
-        //NSLog(@"require login");
+        
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Access Denied" message:@"You must login facebook first!" preferredStyle:UIAlertControllerStyleAlert];
         
         UIAlertAction* ok = [UIAlertAction
@@ -86,8 +87,6 @@
         
         [self presentViewController:alert animated:YES completion:nil];
     }
-    
-    
 }
 
 #pragma mark - CSViewControllerDataSource
