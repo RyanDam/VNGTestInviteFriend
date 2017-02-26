@@ -7,12 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0FABE4C9999D4A486DA942D5 /* libPods-Contact SelectorUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 27BCF9E1FC31AFA068BD64E3 /* libPods-Contact SelectorUITests.a */; };
+		26DCB320193E9CEC657C1E1B /* libPods-Contact SelectorTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A7DDF31D6C8021AB98088802 /* libPods-Contact SelectorTests.a */; };
+		578EDD1139B8D87DEA011F52 /* libPods-Contact Selector Block.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 403BF93407882A1430452A16 /* libPods-Contact Selector Block.a */; };
 		8A0D00411E5D467B002B0C67 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A0D00371E5D467B002B0C67 /* FBSDKLoginKit.framework */; };
 		8A0D00431E5D467B002B0C67 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A0D00391E5D467B002B0C67 /* FBSDKShareKit.framework */; };
 		8A0D00461E5D467B002B0C67 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A0D003C1E5D467B002B0C67 /* Bolts.framework */; };
 		8A0D004A1E5D467B002B0C67 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A0D00401E5D467B002B0C67 /* FBSDKCoreKit.framework */; };
 		8AF6AC3D1E5D8091004F84FA /* FBContactProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AF6AC3C1E5D8091004F84FA /* FBContactProvider.m */; };
 		8AF6AC3F1E5D8310004F84FA /* AccountKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AF6AC3E1E5D8310004F84FA /* AccountKit.framework */; };
+		948C32971E62A44E001F235D /* CallDirectoryHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 948C32961E62A44E001F235D /* CallDirectoryHandler.m */; };
+		948C329B1E62A44E001F235D /* Contact Selector Block.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 948C32931E62A44E001F235D /* Contact Selector Block.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		948C32A11E62B2CE001F235D /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 948C32A01E62B2CE001F235D /* libsqlite3.tbd */; };
+		948C32A21E62B2D8001F235D /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 948C32A01E62B2CE001F235D /* libsqlite3.tbd */; };
+		948C32A61E62CB5E001F235D /* CSDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 948C32A51E62CB5E001F235D /* CSDatabaseManager.m */; };
+		948C32A71E62D02E001F235D /* CSDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 948C32A51E62CB5E001F235D /* CSDatabaseManager.m */; };
+		948C32AA1E62DC04001F235D /* CSBlockDatebaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 948C32A91E62DC04001F235D /* CSBlockDatebaseManager.m */; };
+		948C32AC1E62F02F001F235D /* TestCSBlockDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 948C32AB1E62F02F001F235D /* TestCSBlockDatabaseManager.m */; };
+		E90A5A55B46885D16176EBD4 /* libPods-Contact Selector.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 942CF2838AAFD29F331FE0A4 /* libPods-Contact Selector.a */; };
 		F2F31F551E515E2C007405A7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F541E515E2C007405A7 /* main.m */; };
 		F2F31F581E515E2C007405A7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F571E515E2C007405A7 /* AppDelegate.m */; };
 		F2F31F5B1E515E2C007405A7 /* ContactSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F5A1E515E2C007405A7 /* ContactSelectorViewController.m */; };
@@ -49,6 +61,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		948C32991E62A44E001F235D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F2F31F481E515E2B007405A7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 948C32921E62A44E001F235D;
+			remoteInfo = "Contact Selector Block";
+		};
 		F2F31F6A1E515E2C007405A7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F2F31F481E515E2B007405A7 /* Project object */;
@@ -65,7 +84,27 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		948C329F1E62A44E001F235D /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				948C329B1E62A44E001F235D /* Contact Selector Block.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		1E00B9514368C1F1571C2AC5 /* Pods-Contact SelectorUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contact SelectorUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Contact SelectorUITests/Pods-Contact SelectorUITests.release.xcconfig"; sourceTree = "<group>"; };
+		27BCF9E1FC31AFA068BD64E3 /* libPods-Contact SelectorUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Contact SelectorUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		403BF93407882A1430452A16 /* libPods-Contact Selector Block.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Contact Selector Block.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		578CA5E5AC92B0DA3C70EB20 /* Pods-Contact SelectorTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contact SelectorTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Contact SelectorTests/Pods-Contact SelectorTests.debug.xcconfig"; sourceTree = "<group>"; };
+		729CE17A86E55A9D607A7D3C /* Pods-Contact SelectorTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contact SelectorTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Contact SelectorTests/Pods-Contact SelectorTests.release.xcconfig"; sourceTree = "<group>"; };
+		76EA5E48145619366A3202A2 /* Pods-Contact Selector Block.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contact Selector Block.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Contact Selector Block/Pods-Contact Selector Block.debug.xcconfig"; sourceTree = "<group>"; };
 		8A0D00371E5D467B002B0C67 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		8A0D00391E5D467B002B0C67 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		8A0D003C1E5D467B002B0C67 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
@@ -73,6 +112,21 @@
 		8AF6AC3B1E5D8091004F84FA /* FBContactProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBContactProvider.h; sourceTree = "<group>"; };
 		8AF6AC3C1E5D8091004F84FA /* FBContactProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBContactProvider.m; sourceTree = "<group>"; };
 		8AF6AC3E1E5D8310004F84FA /* AccountKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AccountKit.framework; path = ../AccountKit.framework; sourceTree = "<group>"; };
+		942CF2838AAFD29F331FE0A4 /* libPods-Contact Selector.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Contact Selector.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		948C32931E62A44E001F235D /* Contact Selector Block.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Contact Selector Block.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		948C32951E62A44E001F235D /* CallDirectoryHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CallDirectoryHandler.h; sourceTree = "<group>"; };
+		948C32961E62A44E001F235D /* CallDirectoryHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CallDirectoryHandler.m; sourceTree = "<group>"; };
+		948C32981E62A44E001F235D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		948C32A01E62B2CE001F235D /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		948C32A41E62CB5E001F235D /* CSDatabaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSDatabaseManager.h; sourceTree = "<group>"; };
+		948C32A51E62CB5E001F235D /* CSDatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSDatabaseManager.m; sourceTree = "<group>"; };
+		948C32A81E62DC04001F235D /* CSBlockDatebaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSBlockDatebaseManager.h; sourceTree = "<group>"; };
+		948C32A91E62DC04001F235D /* CSBlockDatebaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSBlockDatebaseManager.m; sourceTree = "<group>"; };
+		948C32AB1E62F02F001F235D /* TestCSBlockDatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestCSBlockDatabaseManager.m; sourceTree = "<group>"; };
+		A0C761B54E8ABA5DE1E4C01E /* Pods-Contact Selector Block.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contact Selector Block.release.xcconfig"; path = "Pods/Target Support Files/Pods-Contact Selector Block/Pods-Contact Selector Block.release.xcconfig"; sourceTree = "<group>"; };
+		A7DDF31D6C8021AB98088802 /* libPods-Contact SelectorTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Contact SelectorTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C41F8593C1D2E702072891AB /* Pods-Contact SelectorUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contact SelectorUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Contact SelectorUITests/Pods-Contact SelectorUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		E02D3DAEDC5DD250CD4B84AD /* Pods-Contact Selector.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contact Selector.release.xcconfig"; path = "Pods/Target Support Files/Pods-Contact Selector/Pods-Contact Selector.release.xcconfig"; sourceTree = "<group>"; };
 		F2F31F501E515E2C007405A7 /* Contact Selector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Contact Selector.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2F31F541E515E2C007405A7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		F2F31F561E515E2C007405A7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -136,18 +190,30 @@
 		F2F31FF41E602C5F007405A7 /* Block.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Block.storyboard; sourceTree = "<group>"; };
 		F2F31FFB1E6031D2007405A7 /* ContactViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactViewController.h; sourceTree = "<group>"; };
 		F2F31FFC1E6031D2007405A7 /* ContactViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactViewController.m; sourceTree = "<group>"; };
+		F851B4EF959439346D64593F /* Pods-Contact Selector.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contact Selector.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Contact Selector/Pods-Contact Selector.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		948C32901E62A44E001F235D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				948C32A21E62B2D8001F235D /* libsqlite3.tbd in Frameworks */,
+				578EDD1139B8D87DEA011F52 /* libPods-Contact Selector Block.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F2F31F4D1E515E2C007405A7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				948C32A11E62B2CE001F235D /* libsqlite3.tbd in Frameworks */,
 				8A0D00461E5D467B002B0C67 /* Bolts.framework in Frameworks */,
 				8A0D004A1E5D467B002B0C67 /* FBSDKCoreKit.framework in Frameworks */,
 				8AF6AC3F1E5D8310004F84FA /* AccountKit.framework in Frameworks */,
 				8A0D00411E5D467B002B0C67 /* FBSDKLoginKit.framework in Frameworks */,
 				8A0D00431E5D467B002B0C67 /* FBSDKShareKit.framework in Frameworks */,
+				E90A5A55B46885D16176EBD4 /* libPods-Contact Selector.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -155,6 +221,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26DCB320193E9CEC657C1E1B /* libPods-Contact SelectorTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,22 +229,65 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0FABE4C9999D4A486DA942D5 /* libPods-Contact SelectorUITests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1AB87B5031B8FA8576AB196B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F851B4EF959439346D64593F /* Pods-Contact Selector.debug.xcconfig */,
+				E02D3DAEDC5DD250CD4B84AD /* Pods-Contact Selector.release.xcconfig */,
+				76EA5E48145619366A3202A2 /* Pods-Contact Selector Block.debug.xcconfig */,
+				A0C761B54E8ABA5DE1E4C01E /* Pods-Contact Selector Block.release.xcconfig */,
+				578CA5E5AC92B0DA3C70EB20 /* Pods-Contact SelectorTests.debug.xcconfig */,
+				729CE17A86E55A9D607A7D3C /* Pods-Contact SelectorTests.release.xcconfig */,
+				C41F8593C1D2E702072891AB /* Pods-Contact SelectorUITests.debug.xcconfig */,
+				1E00B9514368C1F1571C2AC5 /* Pods-Contact SelectorUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		8A0D004B1E5D467F002B0C67 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				948C32A01E62B2CE001F235D /* libsqlite3.tbd */,
 				8AF6AC3E1E5D8310004F84FA /* AccountKit.framework */,
 				8A0D00371E5D467B002B0C67 /* FBSDKLoginKit.framework */,
 				8A0D00391E5D467B002B0C67 /* FBSDKShareKit.framework */,
 				8A0D003C1E5D467B002B0C67 /* Bolts.framework */,
 				8A0D00401E5D467B002B0C67 /* FBSDKCoreKit.framework */,
+				942CF2838AAFD29F331FE0A4 /* libPods-Contact Selector.a */,
+				403BF93407882A1430452A16 /* libPods-Contact Selector Block.a */,
+				A7DDF31D6C8021AB98088802 /* libPods-Contact SelectorTests.a */,
+				27BCF9E1FC31AFA068BD64E3 /* libPods-Contact SelectorUITests.a */,
 			);
 			name = Frameworks;
+			path = "Contact Selector";
+			sourceTree = "<group>";
+		};
+		948C32941E62A44E001F235D /* Contact Selector Block */ = {
+			isa = PBXGroup;
+			children = (
+				948C32951E62A44E001F235D /* CallDirectoryHandler.h */,
+				948C32961E62A44E001F235D /* CallDirectoryHandler.m */,
+				948C32981E62A44E001F235D /* Info.plist */,
+			);
+			path = "Contact Selector Block";
+			sourceTree = "<group>";
+		};
+		948C32A31E62CB3B001F235D /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				948C32A41E62CB5E001F235D /* CSDatabaseManager.h */,
+				948C32A51E62CB5E001F235D /* CSDatabaseManager.m */,
+				948C32A81E62DC04001F235D /* CSBlockDatebaseManager.h */,
+				948C32A91E62DC04001F235D /* CSBlockDatebaseManager.m */,
+			);
+			name = Database;
 			path = "Contact Selector";
 			sourceTree = "<group>";
 		};
@@ -185,10 +295,13 @@
 			isa = PBXGroup;
 			children = (
 				8A0D004B1E5D467F002B0C67 /* Frameworks */,
+				948C32A31E62CB3B001F235D /* Database */,
+				948C32941E62A44E001F235D /* Contact Selector Block */,
 				F2F31F521E515E2C007405A7 /* Contact Selector */,
 				F2F31F6C1E515E2C007405A7 /* Contact SelectorTests */,
 				F2F31F771E515E2C007405A7 /* Contact SelectorUITests */,
 				F2F31F511E515E2C007405A7 /* Products */,
+				1AB87B5031B8FA8576AB196B /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -198,6 +311,7 @@
 				F2F31F501E515E2C007405A7 /* Contact Selector.app */,
 				F2F31F691E515E2C007405A7 /* Contact SelectorTests.xctest */,
 				F2F31F741E515E2C007405A7 /* Contact SelectorUITests.xctest */,
+				948C32931E62A44E001F235D /* Contact Selector Block.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -234,6 +348,7 @@
 			children = (
 				F2F31F6D1E515E2C007405A7 /* Contact_SelectorTests.m */,
 				F2F31F6F1E515E2C007405A7 /* Info.plist */,
+				948C32AB1E62F02F001F235D /* TestCSBlockDatabaseManager.m */,
 			);
 			path = "Contact SelectorTests";
 			sourceTree = "<group>";
@@ -408,17 +523,42 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		F2F31F4F1E515E2C007405A7 /* Contact Selector */ = {
+		948C32921E62A44E001F235D /* Contact Selector Block */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F2F31F7D1E515E2C007405A7 /* Build configuration list for PBXNativeTarget "Contact Selector" */;
+			buildConfigurationList = 948C329E1E62A44E001F235D /* Build configuration list for PBXNativeTarget "Contact Selector Block" */;
 			buildPhases = (
-				F2F31F4C1E515E2C007405A7 /* Sources */,
-				F2F31F4D1E515E2C007405A7 /* Frameworks */,
-				F2F31F4E1E515E2C007405A7 /* Resources */,
+				FA501E849E66C9AE328E04E8 /* [CP] Check Pods Manifest.lock */,
+				948C328F1E62A44E001F235D /* Sources */,
+				948C32901E62A44E001F235D /* Frameworks */,
+				948C32911E62A44E001F235D /* Resources */,
+				2A26418767079AE97D9DD0F8 /* [CP] Embed Pods Frameworks */,
+				6B8C0077F2D29FF5739E4E90 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+			);
+			name = "Contact Selector Block";
+			productName = "Contact Selector Block";
+			productReference = 948C32931E62A44E001F235D /* Contact Selector Block.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		F2F31F4F1E515E2C007405A7 /* Contact Selector */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F2F31F7D1E515E2C007405A7 /* Build configuration list for PBXNativeTarget "Contact Selector" */;
+			buildPhases = (
+				1735A31647D6E6BBC2CFB54B /* [CP] Check Pods Manifest.lock */,
+				F2F31F4C1E515E2C007405A7 /* Sources */,
+				F2F31F4D1E515E2C007405A7 /* Frameworks */,
+				F2F31F4E1E515E2C007405A7 /* Resources */,
+				948C329F1E62A44E001F235D /* Embed App Extensions */,
+				14473D50080B45EAFE20B966 /* [CP] Embed Pods Frameworks */,
+				0691D1E67526EC84C79DC131 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				948C329A1E62A44E001F235D /* PBXTargetDependency */,
 			);
 			name = "Contact Selector";
 			productName = "Contact Selector";
@@ -429,9 +569,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F2F31F801E515E2C007405A7 /* Build configuration list for PBXNativeTarget "Contact SelectorTests" */;
 			buildPhases = (
+				035B17D56EB951D5939CCED2 /* [CP] Check Pods Manifest.lock */,
 				F2F31F651E515E2C007405A7 /* Sources */,
 				F2F31F661E515E2C007405A7 /* Frameworks */,
 				F2F31F671E515E2C007405A7 /* Resources */,
+				B89B5F6A316363944F5116D8 /* [CP] Embed Pods Frameworks */,
+				B1863EE596330C36CD0F7EE8 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -447,9 +590,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F2F31F831E515E2C007405A7 /* Build configuration list for PBXNativeTarget "Contact SelectorUITests" */;
 			buildPhases = (
+				650045344CF84838DC3ECFAE /* [CP] Check Pods Manifest.lock */,
 				F2F31F701E515E2C007405A7 /* Sources */,
 				F2F31F711E515E2C007405A7 /* Frameworks */,
 				F2F31F721E515E2C007405A7 /* Resources */,
+				049A9A3779C9971F14A6E750 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -470,6 +615,11 @@
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = CPU11815;
 				TargetAttributes = {
+					948C32921E62A44E001F235D = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = M3984GFJZF;
+						ProvisioningStyle = Automatic;
+					};
 					F2F31F4F1E515E2C007405A7 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = M3984GFJZF;
@@ -501,6 +651,7 @@
 			projectRoot = "";
 			targets = (
 				F2F31F4F1E515E2C007405A7 /* Contact Selector */,
+				948C32921E62A44E001F235D /* Contact Selector Block */,
 				F2F31F681E515E2C007405A7 /* Contact SelectorTests */,
 				F2F31F731E515E2C007405A7 /* Contact SelectorUITests */,
 			);
@@ -508,6 +659,13 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		948C32911E62A44E001F235D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F2F31F4E1E515E2C007405A7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -537,7 +695,184 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		035B17D56EB951D5939CCED2 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		049A9A3779C9971F14A6E750 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Contact SelectorUITests/Pods-Contact SelectorUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		0691D1E67526EC84C79DC131 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Contact Selector/Pods-Contact Selector-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		14473D50080B45EAFE20B966 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Contact Selector/Pods-Contact Selector-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1735A31647D6E6BBC2CFB54B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		2A26418767079AE97D9DD0F8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Contact Selector Block/Pods-Contact Selector Block-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		650045344CF84838DC3ECFAE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		6B8C0077F2D29FF5739E4E90 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Contact Selector Block/Pods-Contact Selector Block-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B1863EE596330C36CD0F7EE8 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Contact SelectorTests/Pods-Contact SelectorTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B89B5F6A316363944F5116D8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Contact SelectorTests/Pods-Contact SelectorTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FA501E849E66C9AE328E04E8 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		948C328F1E62A44E001F235D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				948C32A71E62D02E001F235D /* CSDatabaseManager.m in Sources */,
+				948C32971E62A44E001F235D /* CallDirectoryHandler.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F2F31F4C1E515E2C007405A7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -546,6 +881,7 @@
 				F2F31FD71E5C2F51007405A7 /* LRUFileUtils.m in Sources */,
 				F2F31FD41E5BF59E007405A7 /* LRUCacheDisk.m in Sources */,
 				F2F31FA11E56E187007405A7 /* CSSearchNoResultTableViewCell.m in Sources */,
+				948C32A61E62CB5E001F235D /* CSDatabaseManager.m in Sources */,
 				F2F31F971E51B06B007405A7 /* CSContactTableViewCell.m in Sources */,
 				F2F31FFD1E6031D2007405A7 /* ContactViewController.m in Sources */,
 				F2F31FAE1E5ACAE0007405A7 /* CSDataBusiness.m in Sources */,
@@ -561,6 +897,7 @@
 				F2F31FE01E5FF54E007405A7 /* CSThumbnailCreater.m in Sources */,
 				F2F31F551E515E2C007405A7 /* main.m in Sources */,
 				F2F31FE31E5FF558007405A7 /* CSThumbnailEngine.m in Sources */,
+				948C32AA1E62DC04001F235D /* CSBlockDatebaseManager.m in Sources */,
 				F2F31FF01E602BCB007405A7 /* CallViewController.m in Sources */,
 				F2F31FCC1E5BF37E007405A7 /* LRUCache.m in Sources */,
 				F2F31FC11E5AF03D007405A7 /* MainViewController.m in Sources */,
@@ -575,6 +912,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				948C32AC1E62F02F001F235D /* TestCSBlockDatabaseManager.m in Sources */,
 				F2F31F6E1E515E2C007405A7 /* Contact_SelectorTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -590,6 +928,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		948C329A1E62A44E001F235D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 948C32921E62A44E001F235D /* Contact Selector Block */;
+			targetProxy = 948C32991E62A44E001F235D /* PBXContainerItemProxy */;
+		};
 		F2F31F6B1E515E2C007405A7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F2F31F4F1E515E2C007405A7 /* Contact Selector */;
@@ -622,6 +965,34 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		948C329C1E62A44E001F235D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 76EA5E48145619366A3202A2 /* Pods-Contact Selector Block.debug.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				DEVELOPMENT_TEAM = M3984GFJZF;
+				INFOPLIST_FILE = "Contact Selector Block/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.vng.duydv2.Contact-Selector.Contact-Selector-Block";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		948C329D1E62A44E001F235D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A0C761B54E8ABA5DE1E4C01E /* Pods-Contact Selector Block.release.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				DEVELOPMENT_TEAM = M3984GFJZF;
+				INFOPLIST_FILE = "Contact Selector Block/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.vng.duydv2.Contact-Selector.Contact-Selector-Block";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 		F2F31F7B1E515E2C007405A7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -714,6 +1085,7 @@
 		};
 		F2F31F7E1E515E2C007405A7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F851B4EF959439346D64593F /* Pods-Contact Selector.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = M3984GFJZF;
@@ -743,6 +1115,7 @@
 		};
 		F2F31F7F1E515E2C007405A7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E02D3DAEDC5DD250CD4B84AD /* Pods-Contact Selector.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = M3984GFJZF;
@@ -772,6 +1145,7 @@
 		};
 		F2F31F811E515E2C007405A7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 578CA5E5AC92B0DA3C70EB20 /* Pods-Contact SelectorTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = "Contact SelectorTests/Info.plist";
@@ -784,6 +1158,7 @@
 		};
 		F2F31F821E515E2C007405A7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 729CE17A86E55A9D607A7D3C /* Pods-Contact SelectorTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = "Contact SelectorTests/Info.plist";
@@ -796,6 +1171,7 @@
 		};
 		F2F31F841E515E2C007405A7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C41F8593C1D2E702072891AB /* Pods-Contact SelectorUITests.debug.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = "Contact SelectorUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -807,6 +1183,7 @@
 		};
 		F2F31F851E515E2C007405A7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1E00B9514368C1F1571C2AC5 /* Pods-Contact SelectorUITests.release.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = "Contact SelectorUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -819,6 +1196,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		948C329E1E62A44E001F235D /* Build configuration list for PBXNativeTarget "Contact Selector Block" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				948C329C1E62A44E001F235D /* Debug */,
+				948C329D1E62A44E001F235D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		F2F31F4B1E515E2B007405A7 /* Build configuration list for PBXProject "Contact Selector" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
