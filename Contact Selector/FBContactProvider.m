@@ -63,7 +63,7 @@
         return;
     }
     
-    [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me/taggable_friends?limit=500" parameters:nil]
+    [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me/taggable_friends?limit=25" parameters:nil]
      startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
          
          dispatch_async(self.serialQueue, ^{
@@ -86,9 +86,62 @@
                  [contacts addObject:contact];
              }
              
-             completion(contacts, nil);
+             if ([result[@"paging"][@"cursor"] containsValueForKey:@"after"]) {
+                 NSString *afterToken = [result[@"paging"][@"cursor"] objectForKey:@"after"];
+                 
+                 
+                 [self getNextContactPageWithAfterToken:afterToken andCompletionBlock:completion];
+             } else {
+             
+             
+             
+                 completion(contacts, nil);
+             }
          });
      }];
+}
+
+- (void) getNextContactPageWithAfterToken:(NSString *) afterToken andCompletionBlock:(void (^)(NSArray<CSModel* > *, NSError *))completion {
+    
+    NSDictionary *params = @{@"after" : afterToken,
+                             @"limit" : @"25"};
+    
+    FBSDKGraphRequest* request = [[FBSDKGraphRequest alloc] initWithGraphPath:@"me/taggable_friends" parameters:params];
+    [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error){
+        dispatch_async(self.serialQueue, ^{
+            if (error) {
+                completion(nil, error);
+                return;
+            }
+            
+            NSArray *friends = result[@"data"];
+            
+            NSMutableArray* contacts = [NSMutableArray new];
+            
+            for (id user in friends) {
+                FBContact *contact = [FBContact new];
+                
+                contact.fullName = user[@"name"];
+                
+                contact.avatarUrl = user[@"picture"][@"data"][@"url"];
+                
+                [contacts addObject:contact];
+            }
+            
+            NSString *afterToken = result[@"paging"][@"cursor"][@"after"];
+            
+            if (afterToken == nil) {
+                completion(contacts, nil);
+            } else {
+                [self getNextContactPageWithAfterToken:afterToken andCompletionBlock:completion];
+            }
+            
+            
+            
+            
+        });
+    }];
+    
 }
 
 @end
