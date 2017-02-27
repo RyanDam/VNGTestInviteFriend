@@ -16,13 +16,13 @@
 
 
 
-
 @property (weak, nonatomic) IBOutlet UIButton *addContactButton;
 @property (weak, nonatomic) IBOutlet UIButton *backspaceButton;
 @property (weak, nonatomic) IBOutlet UITextField *inputNumber;
 @property (weak, nonatomic) IBOutlet UIView *inputView;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *diallerConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *inputConstraint;
 
 @property (strong, nonatomic) NSArray *history;
 
@@ -57,35 +57,69 @@
 
 - (IBAction)numberClick:(id)sender {
     
-//    self.abc.constant = -300;
+    [self showInputView];
     
-//    [UIView animateWithDuration:0.7 delay:0.0 usingSpringWithDamping:0.8 initialSpringVelocity:0.9 options:UIViewAnimationOptionCurveEaseOut animations:^{
-//        [self.view layoutIfNeeded];
-//    } completion:^(BOOL finished) {
-//       //
-//    }];
-    
-//    [UIView animateWithDuration:1.0 animations:^{
-//        [self.view layoutIfNeeded];
-//    }];
-    
-    
-//    [UIView animateWithDuration:0.5 animations:^{
-//        CGRect rect = self.inputView.frame;
-//        self.inputView.frame = CGRectMake(rect.origin.x, rect.origin.y + rect.size.height, rect.size.width, rect.size.height);
-//    }];
+    UIButton *btn = (UIButton *)sender;
+    self.inputNumber.text = [self.inputNumber.text stringByAppendingString:btn.titleLabel.text];
 }
 
 - (IBAction)showDialler:(id)sender {
+    
+    [UIView animateWithDuration:0.1 animations:^{
+        self.keypadView.transform = CGAffineTransformMakeScale(0.1, 0.1);
+    }];
+    
     self.diallerConstraint.constant = 0;
+    [UIView animateWithDuration:0.5
+                          delay:0
+         usingSpringWithDamping:0.7
+          initialSpringVelocity:0.7
+                        options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         [self.view layoutIfNeeded];
+                     }
+                     completion:nil
+     ];
+}
+
+- (IBAction)hideDialler:(id)sender {
+    
+    self.diallerConstraint.constant = -340;
     [UIView animateWithDuration:0.5 animations:^{
+        [self.view layoutIfNeeded];
+    }];
+    
+    [UIView animateWithDuration:0.5 animations:^{
+        self.keypadView.transform = CGAffineTransformMakeScale(1, 1);
+    }];
+}
+
+- (IBAction)deleteNumber:(id)sender {
+    
+    NSString *textNumber = self.inputNumber.text;
+    if (textNumber.length > 0) {
+        self.inputNumber.text = [textNumber substringToIndex:[textNumber length] - 1];
+    }
+    
+    if (self.inputNumber.text.length < 1) {
+        [self hideInputView];
+    }
+}
+
+- (IBAction)addNewContact:(id)sender {
+    NSLog(@"Implement add a new contact");
+}
+
+- (void)showInputView {
+    self.inputConstraint.constant = 0;
+    [UIView animateWithDuration:0.2 animations:^{
         [self.view layoutIfNeeded];
     }];
 }
 
-- (IBAction)hideDialler:(id)sender {
-    self.diallerConstraint.constant = -400;
-    [UIView animateWithDuration:0.5 animations:^{
+- (void)hideInputView {
+    self.inputConstraint.constant = -40;
+    [UIView animateWithDuration:0.2 animations:^{
         [self.view layoutIfNeeded];
     }];
 }

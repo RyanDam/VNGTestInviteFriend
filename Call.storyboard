@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1217" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina4_0" orientation="portrait">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16A201w" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina3_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -19,18 +19,18 @@
                         <viewControllerLayoutGuide type="bottom" id="3kN-im-uQy"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="sEe-2G-ew0">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="VB4-PG-HkW">
-                                <rect key="frame" x="0.0" y="20" width="320" height="208"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="160"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="calledCell" id="Kob-O2-5Mm">
                                         <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Kob-O2-5Mm" id="Xye-ts-6b2">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="CDa-GB-bGq">
@@ -72,7 +72,7 @@
                                 </prototypes>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="39C-So-qSh">
-                                <rect key="frame" x="228" y="492" width="60" height="60"/>
+                                <rect key="frame" x="228" y="404" width="60" height="60"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BNO-UW-9mi">
                                         <rect key="frame" x="10" y="10" width="40" height="40"/>
@@ -100,7 +100,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uoO-jR-H2l">
-                                <rect key="frame" x="0.0" y="228" width="320" height="40"/>
+                                <rect key="frame" x="0.0" y="180" width="320" height="40"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NVf-KS-M4t">
                                         <rect key="frame" x="16" y="0.0" width="40" height="40"/>
@@ -109,6 +109,9 @@
                                             <constraint firstAttribute="width" constant="40" id="8uI-9P-gFZ"/>
                                         </constraints>
                                         <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="addNewContact:" destination="Mhv-iw-uxe" eventType="touchUpInside" id="IEj-iA-dRN"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="noO-Th-yfx">
                                         <rect key="frame" x="264" y="0.0" width="40" height="40"/>
@@ -118,6 +121,9 @@
                                         </constraints>
                                         <state key="normal" image="backspaceNormal"/>
                                         <state key="highlighted" image="backspaceHighlighted"/>
+                                        <connections>
+                                            <action selector="deleteNumber:" destination="Mhv-iw-uxe" eventType="touchUpInside" id="WOv-sZ-PjA"/>
+                                        </connections>
                                     </button>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="MEd-vm-jOe">
                                         <rect key="frame" x="72" y="2" width="176" height="36"/>
@@ -139,7 +145,7 @@
                                 </constraints>
                             </view>
                             <view tag="100" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yZo-T2-6MG">
-                                <rect key="frame" x="0.0" y="268" width="320" height="300"/>
+                                <rect key="frame" x="0.0" y="180" width="320" height="300"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WTF-m8-kIa">
                                         <rect key="frame" x="0.0" y="0.0" width="106.5" height="60"/>
@@ -170,6 +176,9 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="106.5" height="60"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                 <state key="normal" title="3"/>
+                                                <connections>
+                                                    <action selector="numberClick:" destination="Mhv-iw-uxe" eventType="touchUpInside" id="fMr-lX-JbY"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" red="0.28977225667561074" green="0.98980368589743595" blue="0.47788590072078341" alpha="0.0" colorSpace="calibratedRGB"/>
@@ -189,6 +198,9 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="107" height="60"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                 <state key="normal" title="2"/>
+                                                <connections>
+                                                    <action selector="numberClick:" destination="Mhv-iw-uxe" eventType="touchUpInside" id="gJW-v1-bNM"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" red="0.28977225667561074" green="0.98980368589743595" blue="0.47788590072078341" alpha="0.0" colorSpace="calibratedRGB"/>
@@ -208,6 +220,9 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="107" height="60"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                 <state key="normal" title="5"/>
+                                                <connections>
+                                                    <action selector="numberClick:" destination="Mhv-iw-uxe" eventType="touchUpInside" id="z3N-DQ-S49"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" red="0.28977225667561074" green="0.98980368589743595" blue="0.47788590072078341" alpha="0.0" colorSpace="calibratedRGB"/>
@@ -227,6 +242,9 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="106.5" height="60"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                 <state key="normal" title="4"/>
+                                                <connections>
+                                                    <action selector="numberClick:" destination="Mhv-iw-uxe" eventType="touchUpInside" id="Ijz-OX-ONJ"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" red="0.28977225667561074" green="0.98980368589743595" blue="0.47788590072078341" alpha="0.0" colorSpace="calibratedRGB"/>
@@ -246,6 +264,9 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="106.5" height="60"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                 <state key="normal" title="6"/>
+                                                <connections>
+                                                    <action selector="numberClick:" destination="Mhv-iw-uxe" eventType="touchUpInside" id="bYu-IZ-YOA"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" red="0.28977225667561074" green="0.98980368589743595" blue="0.47788590072078341" alpha="0.0" colorSpace="calibratedRGB"/>
@@ -265,6 +286,9 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="107" height="60"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                 <state key="normal" title="8"/>
+                                                <connections>
+                                                    <action selector="numberClick:" destination="Mhv-iw-uxe" eventType="touchUpInside" id="VuF-TB-2IQ"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" red="0.28977225667561074" green="0.98980368589743595" blue="0.47788590072078341" alpha="0.0" colorSpace="calibratedRGB"/>
@@ -284,6 +308,9 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="106.5" height="60"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                 <state key="normal" title="7"/>
+                                                <connections>
+                                                    <action selector="numberClick:" destination="Mhv-iw-uxe" eventType="touchUpInside" id="EHT-N4-2IO"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" red="0.28977225667561074" green="0.98980368589743595" blue="0.47788590072078341" alpha="0.0" colorSpace="calibratedRGB"/>
@@ -303,6 +330,9 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="106.5" height="60"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                 <state key="normal" title="9"/>
+                                                <connections>
+                                                    <action selector="numberClick:" destination="Mhv-iw-uxe" eventType="touchUpInside" id="EL2-U8-e3y"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" red="0.28977225667561074" green="0.98980368589743595" blue="0.47788590072078341" alpha="0.0" colorSpace="calibratedRGB"/>
@@ -322,6 +352,9 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="107" height="60"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                 <state key="normal" title="0"/>
+                                                <connections>
+                                                    <action selector="numberClick:" destination="Mhv-iw-uxe" eventType="touchUpInside" id="AHq-up-q32"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" red="0.28977225667561074" green="0.98980368589743595" blue="0.47788590072078341" alpha="0.0" colorSpace="calibratedRGB"/>
@@ -341,6 +374,9 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="106.5" height="60"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                 <state key="normal" title="✱"/>
+                                                <connections>
+                                                    <action selector="numberClick:" destination="Mhv-iw-uxe" eventType="touchUpInside" id="wt6-LL-Cjq"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" red="0.28977225667561074" green="0.98980368589743595" blue="0.47788590072078341" alpha="0.0" colorSpace="calibratedRGB"/>
@@ -360,6 +396,9 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="106.5" height="60"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                 <state key="normal" title="#"/>
+                                                <connections>
+                                                    <action selector="numberClick:" destination="Mhv-iw-uxe" eventType="touchUpInside" id="GpI-HL-BLV"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" red="0.28977225667561074" green="0.98980368589743595" blue="0.47788590072078341" alpha="0.0" colorSpace="calibratedRGB"/>
@@ -458,11 +497,11 @@
                             <constraint firstItem="uoO-jR-H2l" firstAttribute="leading" secondItem="sEe-2G-ew0" secondAttribute="leading" id="Cot-WY-Ntd"/>
                             <constraint firstAttribute="trailing" secondItem="yZo-T2-6MG" secondAttribute="trailing" id="Grp-Q1-RvU"/>
                             <constraint firstAttribute="trailing" secondItem="uoO-jR-H2l" secondAttribute="trailing" id="IKl-dk-FdC"/>
-                            <constraint firstItem="yZo-T2-6MG" firstAttribute="top" secondItem="uoO-jR-H2l" secondAttribute="bottom" id="NLu-j4-BoZ"/>
                             <constraint firstItem="3kN-im-uQy" firstAttribute="top" secondItem="39C-So-qSh" secondAttribute="bottom" constant="16" id="VaZ-RQ-N4f"/>
                             <constraint firstItem="3kN-im-uQy" firstAttribute="top" secondItem="yZo-T2-6MG" secondAttribute="bottom" id="Whg-6p-kEK" userLabel="diallerConstraint"/>
                             <constraint firstItem="VB4-PG-HkW" firstAttribute="leading" secondItem="sEe-2G-ew0" secondAttribute="leading" id="Yx1-aH-i7m"/>
                             <constraint firstAttribute="trailing" secondItem="39C-So-qSh" secondAttribute="trailing" constant="32" id="aCw-dG-LdA"/>
+                            <constraint firstItem="yZo-T2-6MG" firstAttribute="top" secondItem="uoO-jR-H2l" secondAttribute="bottom" constant="-40" id="e7S-E6-fAv"/>
                             <constraint firstAttribute="trailing" secondItem="VB4-PG-HkW" secondAttribute="trailing" id="p2j-xf-NkL"/>
                         </constraints>
                     </view>
@@ -471,9 +510,10 @@
                         <outlet property="backspaceButton" destination="noO-Th-yfx" id="XUt-7o-q8W"/>
                         <outlet property="diallerConstraint" destination="Whg-6p-kEK" id="m97-wo-brL"/>
                         <outlet property="diallerView" destination="yZo-T2-6MG" id="tJ4-H2-mbH"/>
+                        <outlet property="inputConstraint" destination="e7S-E6-fAv" id="jiA-Hy-tqm"/>
                         <outlet property="inputNumber" destination="MEd-vm-jOe" id="Rkh-yk-7bR"/>
                         <outlet property="inputView" destination="uoO-jR-H2l" id="baz-qg-CHd"/>
-                        <outlet property="keypadView" destination="39C-So-qSh" id="KLH-xT-gqZ"/>
+                        <outlet property="keypadView" destination="39C-So-qSh" id="lSD-l4-Ixt"/>
                         <outlet property="tableView" destination="VB4-PG-HkW" id="Eby-Bb-Xb4"/>
                     </connections>
                 </viewController>
