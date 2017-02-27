@@ -15,6 +15,8 @@
 
 @property (nonatomic) dispatch_queue_t serialQueue;
 
+@property (nonatomic) NSString *afterPage;
+
 @end
 
 @implementation FBContactProvider
@@ -22,6 +24,7 @@
 - (instancetype)init {
     if (self = [super init]) {
         self.serialQueue = dispatch_queue_create("com.vng.ContactSelector.FBContactProvider", DISPATCH_QUEUE_SERIAL);
+        self.afterPage = @"start";
     }
     return self;
 }
@@ -87,21 +90,17 @@
              }
              
              if ([result[@"paging"][@"cursor"] containsValueForKey:@"after"]) {
-                 NSString *afterToken = [result[@"paging"][@"cursor"] objectForKey:@"after"];
-                 
-                 
-                 [self getNextContactPageWithAfterToken:afterToken andCompletionBlock:completion];
+                 self.afterPage = [result[@"paging"][@"cursor"] objectForKey:@"after"];
              } else {
-             
-             
-             
-                 completion(contacts, nil);
+                 self.afterPage = @"end";
              }
+             
+             completion(contacts, nil);
          });
      }];
 }
 
-- (void) getNextContactPageWithAfterToken:(NSString *) afterToken andCompletionBlock:(void (^)(NSArray<CSModel* > *, NSError *))completion {
+- (void) getNextContactPageWithAfterToken:(NSString *)afterToken andCompletionBlock:(void (^)(NSArray<CSModel* > *, NSError *))completion {
     
     NSDictionary *params = @{@"after" : afterToken,
                              @"limit" : @"25"};
@@ -128,20 +127,29 @@
                 [contacts addObject:contact];
             }
             
-            NSString *afterToken = result[@"paging"][@"cursor"][@"after"];
-            
-            if (afterToken == nil) {
-                completion(contacts, nil);
+            if ([result[@"paging"][@"cursor"] containsValueForKey:@"after"]) {
+                self.afterPage = [result[@"paging"][@"cursor"] objectForKey:@"after"];
             } else {
-                [self getNextContactPageWithAfterToken:afterToken andCompletionBlock:completion];
+                self.afterPage = @"end";
             }
             
-            
-            
-            
+            completion(contacts, nil);
         });
     }];
+}
+
+- (void)getNextPageDataWithCompletion:(void (^)(NSArray<CSModel *> *, NSError *))completion {
     
+    if (!completion)
+        return;
+    
+    if ([self.afterPage isEqualToString:@"start"]) {
+        [self getDataArrayWithCompletion:completion];
+    } else if ([self.afterPage isEqualToString:@"end"]) {
+        completion([NSArray new], nil);
+    } else {
+        [self getNextContactPageWithAfterToken:self.afterPage andCompletionBlock:completion];
+    }
 }
 
 @end
