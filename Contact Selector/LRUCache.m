@@ -116,10 +116,12 @@
 
 - (void)objectForKey:(NSString *)key withCompletion:(LRUHandlerCompleteBlock)completion {
     
-    dispatch_sync(self.internalQueue, ^{
-        
+    dispatch_async(self.internalQueue, ^{
         if ([self.keySet containsObject:key]) {
-            [self.keySet moveObjectsAtIndexes:[NSIndexSet indexSetWithIndex:[self.keySet indexOfObject:key]] toIndex:0];
+            NSUInteger index = [self.keySet indexOfObject:key];
+            if (index < self.keySet.count) {
+                [self.keySet moveObjectsAtIndexes:[NSIndexSet indexSetWithIndex:[self.keySet indexOfObject:key]] toIndex:0];
+            }
             LRUCacheItem * item = [self.dictionary objectForKey:key];
             
             if (completion != nil) {
@@ -127,7 +129,6 @@
             }
         } else {
             [self tryGetObjectFromDiskWithKey:key withCompletion:^(LRUCacheItem *item) {
-                
                 if (item != nil) {
                     // move item from disk to ram cache
                     [self.diskCacher removeObjectForKey:key withCompletion:^(LRUCacheItem *item, NSString *path, NSError *error) {
@@ -173,6 +174,8 @@
         return;
     }
     
+    __weak typeof(self) softSelf = self;
+    
     NSString * mostRareKey = [self.keySet lastObject];
     if (mostRareKey != nil) {
         LRUCacheItem * item = [self.dictionary objectForKey:mostRareKey];
@@ -181,6 +184,7 @@
             if (error) {
                 // TODO print error
             } else {
+                softSelf.currentSize -= item.size;
                 completion(item);
             }
         }];

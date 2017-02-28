@@ -61,22 +61,19 @@
         return [phone1 compare:phone2];
     }];
     
-//    NSArray * immuatablePhoneArray = [allNumber copy];
-//
-    
-    for (NSString * phone in allNumber) {
-        CXCallDirectoryPhoneNumber phoneNumber = [phone longLongValue];
+    for (int i = 0; i < allNumber.count; i++) {
+        NSString * phone = allNumber[i];
+        
+        NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+        [f setNumberStyle:NSNumberFormatterDecimalStyle];
+        NSNumber * myNumber = [f numberFromString:phone];
+        
+        CXCallDirectoryPhoneNumber phoneNumber = (CXCallDirectoryPhoneNumber)[myNumber longLongValue];
+        
+        //        CXCallDirectoryPhoneNumber phoneNumber = 84969143732;
+        
         [context addBlockingEntryWithNextSequentialPhoneNumber:phoneNumber];
     }
-    
-//    CXCallDirectoryPhoneNumber phoneNumbers[] = { 14085555555, "18005555555" };
-//    NSUInteger count = allNumber.count;
-//
-//    for (NSUInteger index = 0; index < count; index += 1) {
-//        
-//        CXCallDirectoryPhoneNumber phoneNumber = phoneNumbers[index];
-//        [context addBlockingEntryWithNextSequentialPhoneNumber:phoneNumber];
-//    }
 
     return YES;
 }
@@ -86,15 +83,16 @@
     // consider only loading a subset of numbers at a given time and using autorelease pool(s) to release objects allocated during each batch of numbers which are loaded.
     //
     // Numbers must be provided in numerically ascending order.
-    CXCallDirectoryPhoneNumber phoneNumbers[] = { 18775555555, 18885555555 };
-    NSArray<NSString *> *labels = @[ @"Telemarketer", @"Local business" ];
-    NSUInteger count = (sizeof(phoneNumbers) / sizeof(CXCallDirectoryPhoneNumber));
-
-    for (NSUInteger i = 0; i < count; i += 1) {
-        CXCallDirectoryPhoneNumber phoneNumber = phoneNumbers[i];
-        NSString *label = labels[i];
-        [context addIdentificationEntryWithNextSequentialPhoneNumber:phoneNumber label:label];
-    }
+    
+//    CXCallDirectoryPhoneNumber phoneNumbers[] = {  };
+//    NSArray<NSString *> *labels = @[ ];
+//    NSUInteger count = (sizeof(phoneNumbers) / sizeof(CXCallDirectoryPhoneNumber));
+//
+//    for (NSUInteger i = 0; i < count; i += 1) {
+//        CXCallDirectoryPhoneNumber phoneNumber = phoneNumbers[i];
+//        NSString *label = labels[i];
+//        [context addIdentificationEntryWithNextSequentialPhoneNumber:phoneNumber label:label];
+//    }
 
     return YES;
 }

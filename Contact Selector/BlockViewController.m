@@ -62,6 +62,39 @@
     [super viewDidAppear:animated];
     
     [self needRefreshBlockPhoneExtention];
+    
+    
+    CSBlockDatebaseManager * manager = [CSBlockDatebaseManager manager];
+    NSArray * allContact = [manager getAllBlockContact];
+    NSMutableArray * allNumber = [NSMutableArray array];
+    
+    for (CSContact * contact in allContact) {
+        for (NSString * phone in contact.phoneNumbers) {
+            if ([phone characterAtIndex:0] == '+') {
+                [allNumber addObject:[phone substringFromIndex:1]];
+            } else {
+                [allNumber addObject:phone];
+            }
+        }
+    }
+    
+    [allNumber sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        NSString * phone1 = (NSString *) obj1;
+        NSString * phone2 = (NSString *) obj2;
+        return [phone1 compare:phone2];
+    }];
+    
+    for (NSString * phone in allNumber) {
+        
+        NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+        [f setNumberStyle:NSNumberFormatterDecimalStyle];
+        NSNumber * myNumber = [f numberFromString:phone];
+        
+        CXCallDirectoryPhoneNumber phoneNumber = [myNumber longLongValue];
+        
+        NSLog(@"%lld %d", phoneNumber, phoneNumber == 84969143732);
+    }
+    
 }
 
 - (void)setupNavigation {
