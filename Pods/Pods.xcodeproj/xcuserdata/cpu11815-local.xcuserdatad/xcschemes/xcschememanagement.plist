@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SchemeUserState</key>
+	<dict>
+		<key>FMDB-iOS10.2.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
+		<key>FMDB-iOS8.0.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
+		<key>Pods-Contact Selector Block.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>5</integer>
+		</dict>
+		<key>Pods-Contact Selector.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>4</integer>
+		</dict>
+		<key>Pods-Contact SelectorTests.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>6</integer>
+		</dict>
+		<key>Pods-Contact SelectorUITests.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>7</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>2F0578D8BF687FD73A39D315D4CB9EF8</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>4434A510347FADD5EE4699D73C7E540E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>6AD6756D278A552344BAC225CFABBD6C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>82D3C558A4E7080D87756EBE456E97EA</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A2315158ACDB0C763B5F003595FB01D6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D27223E035073C38D6CA10730AF9B164</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
+</dict>
+</plist>
