@@ -10,6 +10,8 @@
 #import "CSContact.h"
 #import "TopContactDetailCell.h"
 #import "CSBlockDatebaseManager.h"
+#import "CallManagement.h"
+#import <MessageUI/MessageUI.h>
 
 NSString * kTopDetailCellID = @"TopContactDetailCell";
 NSString * kCallContactCellID = @"CallContactID";
@@ -17,7 +19,7 @@ NSString * kMessageCellID = @"SendMessageID";
 NSString * kBlockCellID = @"BlockContactID";
 NSString * kUnBlockCellID = @"UnblockContactID";
 
-@interface ContactDetailViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface ContactDetailViewController () <UITableViewDelegate, UITableViewDataSource, MFMessageComposeViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
@@ -43,17 +45,39 @@ NSString * kUnBlockCellID = @"UnblockContactID";
 
 - (void)callContact {
     
+    if ([self isContactHavePhone]) {
+        [[CallManagement management] makePhoneCall:self.contact.phoneNumbers[0]];
+    } else {
+        [self showMessage:@"This contact does not have a phone number"];
+    }
 }
 
 - (void)messageContact {
     
+    if ([self isContactHavePhone]) {
+        MFMessageComposeViewController* composeVC = [[MFMessageComposeViewController alloc] init];
+        composeVC.messageComposeDelegate = self;
+        
+        // Configure the fields of the interface.
+        composeVC.recipients = @[self.contact.phoneNumbers[0]];
+        composeVC.body = @"";
+        
+        // Present the view controller modally.
+        [self presentViewController:composeVC animated:YES completion:nil];
+    } else {
+        [self showMessage:@"This contact does not have a phone number"];
+    }
 }
 
 - (void)blockContact {
     
-    CSBlockDatebaseManager * manager = [CSBlockDatebaseManager manager];
-    [manager blockContact:self.contact];
-    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+    if ([self isContactHavePhone]) {
+        CSBlockDatebaseManager * manager = [CSBlockDatebaseManager manager];
+        [manager blockContact:self.contact];
+        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+    } else {
+        [self showMessage:@"This contact does not have a phone number"];
+    }
 }
 
 - (void)unBlockContact {
@@ -61,6 +85,13 @@ NSString * kUnBlockCellID = @"UnblockContactID";
     CSBlockDatebaseManager * manager = [CSBlockDatebaseManager manager];
     [manager unblockContact:self.contact];
     [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+}
+
+#pragma mark - MFMessageComposeViewControllerDelegate
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result {
+    // nothing
+    [controller dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - UITableViewDelegate
@@ -164,6 +195,16 @@ NSString * kUnBlockCellID = @"UnblockContactID";
 - (BOOL)isContactHavePhone {
     
     return self.contact.phoneNumbers.count > 0;
+}
+
+- (void)showMessage:(NSString *)message {
+    
+    UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"Message"
+                                                                    message:message
+                                                             preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDestructive handler:nil];
+    [alert addAction:dismissAction];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 @end

@@ -35,6 +35,8 @@
 		F28604141E642331002B5709 /* ContactDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F28604131E642331002B5709 /* ContactDetailViewController.m */; };
 		F28604161E64233E002B5709 /* ContactDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F28604151E64233E002B5709 /* ContactDetail.storyboard */; };
 		F286041A1E642D81002B5709 /* TopContactDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F28604191E642D81002B5709 /* TopContactDetailCell.m */; };
+		F286041F1E655E16002B5709 /* CallObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = F286041E1E655E16002B5709 /* CallObserver.m */; };
+		F28604221E656026002B5709 /* CallManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = F28604211E656026002B5709 /* CallManagement.m */; };
 		F2F31F551E515E2C007405A7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F541E515E2C007405A7 /* main.m */; };
 		F2F31F581E515E2C007405A7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F571E515E2C007405A7 /* AppDelegate.m */; };
 		F2F31F5B1E515E2C007405A7 /* ContactSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F5A1E515E2C007405A7 /* ContactSelectorViewController.m */; };
@@ -149,6 +151,10 @@
 		F28604151E64233E002B5709 /* ContactDetail.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ContactDetail.storyboard; sourceTree = "<group>"; };
 		F28604181E642D81002B5709 /* TopContactDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopContactDetailCell.h; sourceTree = "<group>"; };
 		F28604191E642D81002B5709 /* TopContactDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopContactDetailCell.m; sourceTree = "<group>"; };
+		F286041D1E655E16002B5709 /* CallObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallObserver.h; sourceTree = "<group>"; };
+		F286041E1E655E16002B5709 /* CallObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CallObserver.m; sourceTree = "<group>"; };
+		F28604201E656026002B5709 /* CallManagement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallManagement.h; sourceTree = "<group>"; };
+		F28604211E656026002B5709 /* CallManagement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CallManagement.m; sourceTree = "<group>"; };
 		F2F31F501E515E2C007405A7 /* Contact Selector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Contact Selector.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2F31F541E515E2C007405A7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		F2F31F561E515E2C007405A7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -353,6 +359,26 @@
 			name = Cell;
 			sourceTree = "<group>";
 		};
+		F286041B1E65591F002B5709 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				F2F31F561E515E2C007405A7 /* AppDelegate.h */,
+				F2F31F571E515E2C007405A7 /* AppDelegate.m */,
+			);
+			name = App;
+			sourceTree = "<group>";
+		};
+		F286041C1E655CC8002B5709 /* CallManagement */ = {
+			isa = PBXGroup;
+			children = (
+				F286041D1E655E16002B5709 /* CallObserver.h */,
+				F286041E1E655E16002B5709 /* CallObserver.m */,
+				F28604201E656026002B5709 /* CallManagement.h */,
+				F28604211E656026002B5709 /* CallManagement.m */,
+			);
+			name = CallManagement;
+			sourceTree = "<group>";
+		};
 		F2F31F471E515E2B007405A7 = {
 			isa = PBXGroup;
 			children = (
@@ -381,13 +407,13 @@
 		F2F31F521E515E2C007405A7 /* Contact Selector */ = {
 			isa = PBXGroup;
 			children = (
+				F286041C1E655CC8002B5709 /* CallManagement */,
+				F286041B1E65591F002B5709 /* App */,
 				F2F31FF61E602CA2007405A7 /* ViewController */,
 				F2F31FDC1E5FF50C007405A7 /* Thumbnail Engine */,
 				F2F31FC91E5B0056007405A7 /* ContactSelector */,
 				F2F31FE71E602895007405A7 /* MainTabBarController.h */,
 				F2F31FE81E602895007405A7 /* MainTabBarController.m */,
-				F2F31F561E515E2C007405A7 /* AppDelegate.h */,
-				F2F31F571E515E2C007405A7 /* AppDelegate.m */,
 				F2F31F5C1E515E2C007405A7 /* Main.storyboard */,
 				F2F31F5F1E515E2C007405A7 /* Assets.xcassets */,
 				F2F31F611E515E2C007405A7 /* LaunchScreen.storyboard */,
@@ -537,10 +563,10 @@
 			isa = PBXGroup;
 			children = (
 				F28604111E642306002B5709 /* ContactDetailViewController */,
-				F2F31FFA1E602CDF007405A7 /* Temp */,
 				F2F31FF91E602CCD007405A7 /* ContactsViewController */,
 				F2F31FF81E602CB8007405A7 /* BlockViewController */,
 				F2F31FF71E602CAF007405A7 /* CallViewController */,
+				F2F31FFA1E602CDF007405A7 /* Temp */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -961,6 +987,7 @@
 				F2F31FBB1E5AEA88007405A7 /* CSContactBusiness.m in Sources */,
 				F2F31FEA1E602895007405A7 /* MainTabBarController.m in Sources */,
 				F2F31FD01E5BF3A1007405A7 /* LRUCacheItem.m in Sources */,
+				F286041F1E655E16002B5709 /* CallObserver.m in Sources */,
 				F2F31FC51E5AFA9D007405A7 /* CSPresenterViewController.m in Sources */,
 				F28604101E64120E002B5709 /* CSDatabaseManager.m in Sources */,
 				F2F31F581E515E2C007405A7 /* AppDelegate.m in Sources */,
@@ -971,6 +998,7 @@
 				F2F31F551E515E2C007405A7 /* main.m in Sources */,
 				F2F31FE31E5FF558007405A7 /* CSThumbnailEngine.m in Sources */,
 				F286040E1E640F7F002B5709 /* BlockNumberProvider.m in Sources */,
+				F28604221E656026002B5709 /* CallManagement.m in Sources */,
 				F28604141E642331002B5709 /* ContactDetailViewController.m in Sources */,
 				948C32AA1E62DC04001F235D /* CSBlockDatebaseManager.m in Sources */,
 				F2F31FF01E602BCB007405A7 /* CallViewController.m in Sources */,
