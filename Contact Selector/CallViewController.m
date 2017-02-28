@@ -11,20 +11,14 @@
 @interface CallViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UIView *diallerView;
 @property (weak, nonatomic) IBOutlet UIView *keypadView;
 
-
-
-@property (weak, nonatomic) IBOutlet UIButton *addContactButton;
-@property (weak, nonatomic) IBOutlet UIButton *backspaceButton;
 @property (weak, nonatomic) IBOutlet UITextField *inputNumber;
-@property (weak, nonatomic) IBOutlet UIView *inputView;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *diallerConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *inputConstraint;
 
-@property (strong, nonatomic) NSArray *history;
+@property (strong, nonatomic) NSArray *histories;
 
 @end
 
@@ -42,11 +36,8 @@
     [self.tableView setDataSource:self];
     [self.tableView setDelegate:self];
     
-    self.history = @[@1, @2, @3, @4, @5, @6];
+    self.histories = @[@1, @2, @3, @4, @5, @6];
     self.inputNumber.userInteractionEnabled = NO;
-    
-    //[self.diallerView setHidden:YES];
-    //[self.inputView setHidden:YES];
     
 }
 
@@ -132,7 +123,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.history count];
+    return [self.histories count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
