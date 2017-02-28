@@ -81,7 +81,7 @@
 
 - (IBAction)hideDialler:(id)sender {
     
-    self.diallerConstraint.constant = -350;
+    self.diallerConstraint.constant = -390;
     [UIView animateWithDuration:0.2 animations:^{
         [self.view layoutIfNeeded];
     }];
@@ -139,6 +139,9 @@
     
     [self.contactProvider getContactWithNumber:self.calls[indexPath.row].number withCompletion:^(CSModel *contact, NSError *err) {
         
+        if (contact == nil)
+            return;
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             cell.fullName.text = contact.fullName;
             [cell.thumnailView setData:contact];
@@ -155,7 +158,7 @@
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 50;
+    return 64;
 }
 
 /*
