@@ -117,9 +117,11 @@
 - (void)objectForKey:(NSString *)key withCompletion:(LRUHandlerCompleteBlock)completion {
     
     dispatch_async(self.internalQueue, ^{
-        
         if ([self.keySet containsObject:key]) {
-            [self.keySet moveObjectsAtIndexes:[NSIndexSet indexSetWithIndex:[self.keySet indexOfObject:key]] toIndex:0];
+            NSUInteger index = [self.keySet indexOfObject:key];
+            if (index < self.keySet.count) {
+                [self.keySet moveObjectsAtIndexes:[NSIndexSet indexSetWithIndex:[self.keySet indexOfObject:key]] toIndex:0];
+            }
             LRUCacheItem * item = [self.dictionary objectForKey:key];
             
             if (completion != nil) {
