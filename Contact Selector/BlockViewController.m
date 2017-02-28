@@ -120,7 +120,7 @@
 - (void)needRefreshBlockPhoneExtention {
     CXCallDirectoryManager * manager = [CXCallDirectoryManager sharedInstance];
     
-    [manager getEnabledStatusForExtensionWithIdentifier:@"com.vng.duydv2.Contact-Selector.Contact-Selector-Block" completionHandler:^(CXCallDirectoryEnabledStatus enabledStatus, NSError * _Nullable error) {
+    [manager getEnabledStatusForExtensionWithIdentifier:@"com.vng.ttphong.Contact-Selector.Contact-Selector-Block" completionHandler:^(CXCallDirectoryEnabledStatus enabledStatus, NSError * _Nullable error) {
         
         if (error) {
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -134,7 +134,7 @@
                 [self showMessage:@"Please enable to block contact in \nSettings > Phone > Call Blocking & Identification > enable Contact Selector"];
             });
         } else {
-            [manager reloadExtensionWithIdentifier:@"com.vng.duydv2.Contact-Selector.Contact-Selector-Block" completionHandler:^(NSError * _Nullable error) {
+            [manager reloadExtensionWithIdentifier:@"com.vng.ttphong.Contact-Selector.Contact-Selector-Block" completionHandler:^(NSError * _Nullable error) {
                 if (error) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self showMessage:error.localizedDescription];
