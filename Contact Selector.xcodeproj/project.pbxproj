@@ -14,6 +14,8 @@
 		8A0D00431E5D467B002B0C67 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A0D00391E5D467B002B0C67 /* FBSDKShareKit.framework */; };
 		8A0D00461E5D467B002B0C67 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A0D003C1E5D467B002B0C67 /* Bolts.framework */; };
 		8A0D004A1E5D467B002B0C67 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A0D00401E5D467B002B0C67 /* FBSDKCoreKit.framework */; };
+		8A6B9D351E652A4C002ACB87 /* CSCallHistoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A6B9D341E652A4C002ACB87 /* CSCallHistoryManager.m */; };
+		8A6B9D3E1E652C81002ACB87 /* CSCall.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A6B9D3D1E652C81002ACB87 /* CSCall.m */; };
 		8AF6AC3D1E5D8091004F84FA /* FBContactProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AF6AC3C1E5D8091004F84FA /* FBContactProvider.m */; };
 		8AF6AC3F1E5D8310004F84FA /* AccountKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AF6AC3E1E5D8310004F84FA /* AccountKit.framework */; };
 		948C32971E62A44E001F235D /* CallDirectoryHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 948C32961E62A44E001F235D /* CallDirectoryHandler.m */; };
@@ -119,6 +121,10 @@
 		8A0D00391E5D467B002B0C67 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		8A0D003C1E5D467B002B0C67 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		8A0D00401E5D467B002B0C67 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		8A6B9D331E652A4C002ACB87 /* CSCallHistoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSCallHistoryManager.h; sourceTree = "<group>"; };
+		8A6B9D341E652A4C002ACB87 /* CSCallHistoryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSCallHistoryManager.m; sourceTree = "<group>"; };
+		8A6B9D3C1E652C81002ACB87 /* CSCall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSCall.h; sourceTree = "<group>"; };
+		8A6B9D3D1E652C81002ACB87 /* CSCall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSCall.m; sourceTree = "<group>"; };
 		8AF6AC3B1E5D8091004F84FA /* FBContactProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBContactProvider.h; sourceTree = "<group>"; };
 		8AF6AC3C1E5D8091004F84FA /* FBContactProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBContactProvider.m; sourceTree = "<group>"; };
 		8AF6AC3E1E5D8310004F84FA /* AccountKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AccountKit.framework; path = ../AccountKit.framework; sourceTree = "<group>"; };
@@ -308,6 +314,10 @@
 				948C32A51E62CB5E001F235D /* CSDatabaseManager.m */,
 				948C32A81E62DC04001F235D /* CSBlockDatebaseManager.h */,
 				948C32A91E62DC04001F235D /* CSBlockDatebaseManager.m */,
+				8A6B9D331E652A4C002ACB87 /* CSCallHistoryManager.h */,
+				8A6B9D341E652A4C002ACB87 /* CSCallHistoryManager.m */,
+				8A6B9D3C1E652C81002ACB87 /* CSCall.h */,
+				8A6B9D3D1E652C81002ACB87 /* CSCall.m */,
 			);
 			name = Database;
 			path = "Contact Selector";
@@ -951,6 +961,7 @@
 				F2F31F9D1E52B2B5007405A7 /* CSSelectedContactCollectionViewCell.m in Sources */,
 				F2F31FD71E5C2F51007405A7 /* LRUFileUtils.m in Sources */,
 				F2F31FD41E5BF59E007405A7 /* LRUCacheDisk.m in Sources */,
+				8A6B9D3E1E652C81002ACB87 /* CSCall.m in Sources */,
 				F2F31FA11E56E187007405A7 /* CSSearchNoResultTableViewCell.m in Sources */,
 				F2F31F971E51B06B007405A7 /* CSContactTableViewCell.m in Sources */,
 				F2F31FFD1E6031D2007405A7 /* ContactViewController.m in Sources */,
@@ -974,6 +985,7 @@
 				F28604141E642331002B5709 /* ContactDetailViewController.m in Sources */,
 				948C32AA1E62DC04001F235D /* CSBlockDatebaseManager.m in Sources */,
 				F2F31FF01E602BCB007405A7 /* CallViewController.m in Sources */,
+				8A6B9D351E652A4C002ACB87 /* CSCallHistoryManager.m in Sources */,
 				F2F31FCC1E5BF37E007405A7 /* LRUCache.m in Sources */,
 				F2F31FC11E5AF03D007405A7 /* MainViewController.m in Sources */,
 				8AF6AC3D1E5D8091004F84FA /* FBContactProvider.m in Sources */,
