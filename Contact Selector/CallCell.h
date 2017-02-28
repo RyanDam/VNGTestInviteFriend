@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CSThumbnailView.h"
 
 @interface CallCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UIImageView *avatar;
+@property (weak, nonatomic) IBOutlet CSThumbnailView *thumnailView;
 @property (weak, nonatomic) IBOutlet UILabel *fullName;
 @property (weak, nonatomic) IBOutlet UILabel *subcription;
 

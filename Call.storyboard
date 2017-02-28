@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -33,19 +32,14 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="CDa-GB-bGq">
-                                                    <rect key="frame" x="16" y="1" width="42" height="42"/>
-                                                    <color key="backgroundColor" red="0.28121056122800386" green="0.97399839743589745" blue="0.131083790065259" alpha="1" colorSpace="calibratedRGB"/>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LYl-qf-AJ2" customClass="CSThumbnailView">
+                                                    <rect key="frame" x="8" y="1" width="42" height="42"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="42" id="Zmn-tR-rlf"/>
-                                                        <constraint firstAttribute="width" constant="42" id="x2E-GO-HAQ"/>
+                                                        <constraint firstAttribute="height" constant="42" id="Fte-7a-SIo"/>
+                                                        <constraint firstAttribute="width" constant="42" id="rUk-zb-8XR"/>
                                                     </constraints>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                            <integer key="value" value="21"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                    </userDefinedRuntimeAttributes>
-                                                </imageView>
+                                                </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N3A-vb-Mlv">
                                                     <rect key="frame" x="66" y="19" width="31" height="15"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -60,18 +54,18 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="CDa-GB-bGq" firstAttribute="leading" secondItem="Xye-ts-6b2" secondAttribute="leadingMargin" constant="8" id="1i2-fX-FKr"/>
-                                                <constraint firstItem="uRl-Ac-Pks" firstAttribute="leading" secondItem="CDa-GB-bGq" secondAttribute="trailing" constant="8" id="K6U-Ui-Hb8"/>
                                                 <constraint firstItem="N3A-vb-Mlv" firstAttribute="centerY" secondItem="Xye-ts-6b2" secondAttribute="centerY" constant="5" id="Zr9-ol-V01"/>
-                                                <constraint firstItem="CDa-GB-bGq" firstAttribute="centerY" secondItem="Xye-ts-6b2" secondAttribute="centerY" id="aVN-Jj-HRy"/>
-                                                <constraint firstItem="N3A-vb-Mlv" firstAttribute="leading" secondItem="CDa-GB-bGq" secondAttribute="trailing" constant="8" id="mEB-db-an9"/>
+                                                <constraint firstItem="LYl-qf-AJ2" firstAttribute="centerY" secondItem="Xye-ts-6b2" secondAttribute="centerY" id="exZ-7K-5Gb"/>
+                                                <constraint firstItem="LYl-qf-AJ2" firstAttribute="leading" secondItem="Xye-ts-6b2" secondAttribute="leading" constant="8" id="sPr-kj-cUM"/>
                                                 <constraint firstItem="N3A-vb-Mlv" firstAttribute="top" secondItem="uRl-Ac-Pks" secondAttribute="bottom" id="xE3-9N-vhB"/>
+                                                <constraint firstItem="uRl-Ac-Pks" firstAttribute="leading" secondItem="LYl-qf-AJ2" secondAttribute="trailing" constant="16" id="y1o-zP-09S"/>
+                                                <constraint firstItem="N3A-vb-Mlv" firstAttribute="leading" secondItem="LYl-qf-AJ2" secondAttribute="trailing" constant="16" id="yrO-Y8-TQL"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="avatar" destination="CDa-GB-bGq" id="P7d-ZQ-IVt"/>
                                             <outlet property="fullName" destination="uRl-Ac-Pks" id="y5N-oQ-bJp"/>
                                             <outlet property="subcription" destination="N3A-vb-Mlv" id="S2Q-8w-cgw"/>
+                                            <outlet property="thumnailView" destination="LYl-qf-AJ2" id="weE-ab-Ayh"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -520,7 +514,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kWA-1t-Xtt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1008.8" y="-37.331334332833585"/>
+            <point key="canvasLocation" x="-1010.144927536232" y="-37.5"/>
         </scene>
     </scenes>
     <resources>

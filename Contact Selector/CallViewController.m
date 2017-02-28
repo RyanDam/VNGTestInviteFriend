@@ -140,7 +140,8 @@
     [self.contactProvider getContactWithNumber:self.calls[indexPath.row].number withCompletion:^(CSModel *contact, NSError *err) {
         
         dispatch_async(dispatch_get_main_queue(), ^{
-                cell.fullName.text = contact.fullName;
+            cell.fullName.text = contact.fullName;
+            [cell.thumnailView setData:contact];
         });
     }];
     
