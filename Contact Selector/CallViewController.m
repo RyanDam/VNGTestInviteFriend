@@ -10,6 +10,7 @@
 #import "CSCallHistoryManager.h"
 #import "CallCell.h"
 #import "CSContactProvider.h"
+#import "CSContactBusiness.h"
 #import "CallManagement.h"
 #import "CallObserver.h"
 #import "CSContact.h"
@@ -17,6 +18,7 @@
 @interface CallViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (strong, nonatomic) CSContactProvider *contactProvider;
+@property (strong, nonatomic) CSContactBusiness *contactBusiness;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *keypadView;
@@ -28,6 +30,7 @@
 
 @property (strong, nonatomic) NSArray<CSCall *> *calls;
 @property (strong, nonatomic) NSMutableDictionary *cacheContact;
+@property (strong, nonatomic) NSArray *allContact;
 
 @end
 
@@ -48,11 +51,22 @@
     self.calls = [[CSCallHistoryManager manager] getAllCalls];
     self.inputNumber.userInteractionEnabled = NO;
     self.contactProvider = [CSContactProvider new];
+    self.contactBusiness = [CSContactBusiness new];
     self.cacheContact = [NSMutableDictionary new];
     
     [[CallObserver observer] setRefreshUI:^{
         self.calls = [[CSCallHistoryManager manager] getAllCalls];
         [self.tableView reloadData];
+    }];
+    
+    [self.contactProvider getDataArrayWithCompletion:^(NSArray<CSModel *> *data, NSError *err) {
+        
+        if (err) {
+            NSLog(@"%@", [err localizedDescription]);
+            return;
+        }
+        
+        self.allContact = data;
     }];
 }
 
@@ -153,26 +167,25 @@
     
     CSCall *call = self.calls[indexPath.row];
     
+    CSModel *contact;
+    
     if ([self.cacheContact objectForKey:call.number] == nil) {
-        [self.contactProvider getContactWithNumber:call.number withCompletion:^(CSModel *contact, NSError *err) {
-            
-            if (contact == nil) {
-                contact = [CSModel new];
-                contact.fullName = @"Anonymous";
-            }
-            
-            [self.cacheContact setValue:contact forKey:call.number];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                cell.fullName.text = contact.fullName;
-                [cell.thumnailView setData:contact];
-            });
-        }];
+        
+        contact = [_contactBusiness searchForContactFromDataArray:self.allContact withNumber:call.number];
+        
+        if (contact == nil) {
+            contact = [CSContact new];
+            contact.fullName = @"Anonymous";
+        }
+        
+        [self.cacheContact setValue:contact forKey:call.number];
+        
     } else {
-        CSModel *contact = [self.cacheContact objectForKey:call.number];
-        cell.fullName.text = contact.fullName;
-        [cell.thumnailView setData:contact];
+        contact = [self.cacheContact objectForKey:call.number];
     }
+    
+    cell.fullName.text = contact.fullName;
+    [cell.thumnailView setData:contact];
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     [dateFormatter setDateFormat:@"dd.MM.YYYY HH:mm:ss"];
