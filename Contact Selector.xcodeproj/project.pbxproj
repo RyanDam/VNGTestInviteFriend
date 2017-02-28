@@ -16,6 +16,7 @@
 		8A0D004A1E5D467B002B0C67 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A0D00401E5D467B002B0C67 /* FBSDKCoreKit.framework */; };
 		8A6B9D351E652A4C002ACB87 /* CSCallHistoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A6B9D341E652A4C002ACB87 /* CSCallHistoryManager.m */; };
 		8A6B9D3E1E652C81002ACB87 /* CSCall.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A6B9D3D1E652C81002ACB87 /* CSCall.m */; };
+		8A6B9D411E655067002ACB87 /* CallCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A6B9D401E655067002ACB87 /* CallCell.m */; };
 		8AF6AC3D1E5D8091004F84FA /* FBContactProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AF6AC3C1E5D8091004F84FA /* FBContactProvider.m */; };
 		8AF6AC3F1E5D8310004F84FA /* AccountKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AF6AC3E1E5D8310004F84FA /* AccountKit.framework */; };
 		948C32971E62A44E001F235D /* CallDirectoryHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 948C32961E62A44E001F235D /* CallDirectoryHandler.m */; };
@@ -125,6 +126,8 @@
 		8A6B9D341E652A4C002ACB87 /* CSCallHistoryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSCallHistoryManager.m; sourceTree = "<group>"; };
 		8A6B9D3C1E652C81002ACB87 /* CSCall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSCall.h; sourceTree = "<group>"; };
 		8A6B9D3D1E652C81002ACB87 /* CSCall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSCall.m; sourceTree = "<group>"; };
+		8A6B9D3F1E655067002ACB87 /* CallCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallCell.h; sourceTree = "<group>"; };
+		8A6B9D401E655067002ACB87 /* CallCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CallCell.m; sourceTree = "<group>"; };
 		8AF6AC3B1E5D8091004F84FA /* FBContactProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBContactProvider.h; sourceTree = "<group>"; };
 		8AF6AC3C1E5D8091004F84FA /* FBContactProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBContactProvider.m; sourceTree = "<group>"; };
 		8AF6AC3E1E5D8310004F84FA /* AccountKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AccountKit.framework; path = ../AccountKit.framework; sourceTree = "<group>"; };
@@ -295,6 +298,15 @@
 			);
 			name = Frameworks;
 			path = "Contact Selector";
+			sourceTree = "<group>";
+		};
+		8A6B9D421E655ECF002ACB87 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				8A6B9D3F1E655067002ACB87 /* CallCell.h */,
+				8A6B9D401E655067002ACB87 /* CallCell.m */,
+			);
+			name = Cell;
 			sourceTree = "<group>";
 		};
 		948C32941E62A44E001F235D /* Contact Selector Block */ = {
@@ -561,6 +573,7 @@
 				F2F31FEE1E602BCB007405A7 /* CallViewController.h */,
 				F2F31FEF1E602BCB007405A7 /* CallViewController.m */,
 				F2F31FEC1E602A6D007405A7 /* Call.storyboard */,
+				8A6B9D421E655ECF002ACB87 /* Cell */,
 			);
 			name = CallViewController;
 			sourceTree = "<group>";
@@ -967,6 +980,7 @@
 				F2F31FFD1E6031D2007405A7 /* ContactViewController.m in Sources */,
 				F2F31FAE1E5ACAE0007405A7 /* CSDataBusiness.m in Sources */,
 				F2F31F901E516221007405A7 /* CSContact.m in Sources */,
+				8A6B9D411E655067002ACB87 /* CallCell.m in Sources */,
 				F2F31F5B1E515E2C007405A7 /* ContactSelectorViewController.m in Sources */,
 				F2F31FB81E5AE943007405A7 /* CSContactProvider.m in Sources */,
 				F2F31FBB1E5AEA88007405A7 /* CSContactBusiness.m in Sources */,

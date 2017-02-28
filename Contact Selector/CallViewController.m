@@ -7,8 +7,13 @@
 //
 
 #import "CallViewController.h"
+#import "CSCallHistoryManager.h"
+#import "CallCell.h"
+#import "CSContactProvider.h"
 
 @interface CallViewController () <UITableViewDataSource, UITableViewDelegate>
+
+@property (strong, nonatomic) CSContactProvider *contactProvider;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *keypadView;
@@ -18,7 +23,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *diallerConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *inputConstraint;
 
-@property (strong, nonatomic) NSArray *histories;
+@property (strong, nonatomic) NSArray<CSCall *> *calls;
 
 @end
 
@@ -36,8 +41,9 @@
     [self.tableView setDataSource:self];
     [self.tableView setDelegate:self];
     
-    self.histories = @[@1, @2, @3, @4, @5, @6];
+    self.calls = [[CSCallHistoryManager manager] getAllCalls];
     self.inputNumber.userInteractionEnabled = NO;
+    self.contactProvider = [CSContactProvider new];
     
 }
 
@@ -123,16 +129,29 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.histories count];
+    return [self.calls count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *indentifier = @"calledCell";
     
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:indentifier];
+    CallCell *cell = [self.tableView dequeueReusableCellWithIdentifier:indentifier];
+    
+    [self.contactProvider getContactWithNumber:self.calls[indexPath.row].number withCompletion:^(CSModel *contact, NSError *err) {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+                cell.fullName.text = contact.fullName;
+        });
+    }];
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    [dateFormatter setDateFormat:@"dd.MM.YYYY HH:mm:ss"];
+    
+    cell.subcription.text = [NSString stringWithFormat:@"↗ %@", [dateFormatter stringFromDate:_calls[indexPath.row].start]];
     
     return cell;
 }
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 50;

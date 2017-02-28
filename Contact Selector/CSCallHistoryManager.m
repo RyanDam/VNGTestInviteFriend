@@ -74,7 +74,7 @@ typedef NS_ENUM(NSInteger, CSCallCollum) {
 
     BOOL ret = YES;
     
-    ret = ret && [self.database executeUpdate:@"INSERT INTO CSCallTable (number, startDate, endDate) VALUES (?, ?, ?);", CSCallTable, call.number, call.start, call.end];
+    ret = ret && [self.database executeUpdate:@"INSERT INTO CSCallTable (number, startDate, endDate) VALUES (?, ?, ?);", call.number, call.start, call.end];
     
     return ret;
 }
