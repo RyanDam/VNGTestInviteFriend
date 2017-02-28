@@ -10,6 +10,7 @@
 #import "LRUCache.h"
 #import "LRUCacheDisk.h"
 #import "LRUCacheItem.h"
+#import "CSCallHistoryManager.h"
 
 @interface LRUCache(test)
 
@@ -266,5 +267,32 @@
 //    
 //    XCTAssertEqualObjects(@",haha,hohi,:ho:hahahi", ret);
 //}
+
+- (void)testAddCall {
+    CSCallHistoryManager *manager = [CSCallHistoryManager manager];
+    
+    CSCall *call = [CSCall new];
+    call.number = @"0969143732";
+    call.start = [NSDate date];
+    call.end = [NSDate date];
+    
+    XCTAssertTrue([manager addCall:call]);
+}
+
+- (void)testShowAllContacts {
+    CSCallHistoryManager *manager = [CSCallHistoryManager manager];
+    
+    NSArray *calls = manager.getAllCalls;
+    
+    for (CSCall *call in calls) {
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+        [dateFormatter setDateFormat:@"dd.MM.YY HH:mm:ss"];
+        
+        NSLog(@"%@ \n%@ \n%@", call.number, [dateFormatter stringFromDate:call.start], [dateFormatter stringFromDate:call.end]);
+    }
+
+    XCTAssertTrue([[manager getAllCalls] count] > 0);
+}
+
 
 @end

@@ -278,4 +278,22 @@
     return contactResult;
 }
 
+- (void)getContactWithNumber:(NSString *)number withCompletion:(void (^)(CSModel *, NSError *))completion {
+
+    [self getDataArrayWithCompletion:^(NSArray<CSModel *> * data, NSError * err) {
+        
+        for (CSContact *contact in data) {
+            for (NSString* phoneNumber in contact.phoneNumbers) {
+                
+                if ([phoneNumber isEqualToString:number]) {
+                    completion(contact, nil);
+                    return;
+                }
+            }
+        }
+        
+        completion(nil, nil);
+    }];
+}
+
 @end
