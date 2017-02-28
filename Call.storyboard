@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16A201w" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1217" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina3_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -30,7 +30,7 @@
                                         <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Kob-O2-5Mm" id="Xye-ts-6b2">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="CDa-GB-bGq">
@@ -506,13 +506,9 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="addContactButton" destination="NVf-KS-M4t" id="ydz-X0-wbN"/>
-                        <outlet property="backspaceButton" destination="noO-Th-yfx" id="XUt-7o-q8W"/>
                         <outlet property="diallerConstraint" destination="Whg-6p-kEK" id="m97-wo-brL"/>
-                        <outlet property="diallerView" destination="yZo-T2-6MG" id="tJ4-H2-mbH"/>
                         <outlet property="inputConstraint" destination="e7S-E6-fAv" id="jiA-Hy-tqm"/>
                         <outlet property="inputNumber" destination="MEd-vm-jOe" id="Rkh-yk-7bR"/>
-                        <outlet property="inputView" destination="uoO-jR-H2l" id="baz-qg-CHd"/>
                         <outlet property="keypadView" destination="39C-So-qSh" id="lSD-l4-Ixt"/>
                         <outlet property="tableView" destination="VB4-PG-HkW" id="Eby-Bb-Xb4"/>
                     </connections>

@@ -11,15 +11,9 @@
 @interface CallViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UIView *diallerView;
 @property (weak, nonatomic) IBOutlet UIView *keypadView;
 
-
-
-@property (weak, nonatomic) IBOutlet UIButton *addContactButton;
-@property (weak, nonatomic) IBOutlet UIButton *backspaceButton;
 @property (weak, nonatomic) IBOutlet UITextField *inputNumber;
-@property (weak, nonatomic) IBOutlet UIView *inputView;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *diallerConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *inputConstraint;
@@ -44,9 +38,6 @@
     
     self.history = @[@1, @2, @3, @4, @5, @6];
     self.inputNumber.userInteractionEnabled = NO;
-    
-    //[self.diallerView setHidden:YES];
-    //[self.inputView setHidden:YES];
     
 }
 
