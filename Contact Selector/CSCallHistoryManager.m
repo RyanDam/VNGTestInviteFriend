@@ -67,7 +67,7 @@ typedef NS_ENUM(NSInteger, CSCallCollum) {
         [calls addObject:call];
     }
     
-    return calls;
+    return [[calls reverseObjectEnumerator] allObjects];;
 }
 
 - (BOOL)addCall:(CSCall *)call {

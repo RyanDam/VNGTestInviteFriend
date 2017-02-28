@@ -7,6 +7,7 @@
 //
 
 #import "CallManagement.h"
+#import "CSCallHistoryManager.h"
 
 @implementation CallManagement
 
@@ -23,6 +24,13 @@
 }
 
 - (void)makePhoneCall:(NSString *)phone {
+    
+    CSCall *call = [CSCall new];
+    call.number = phone;
+    call.start = [NSDate date];
+    call.end = [NSDate date];
+    
+    [[CSCallHistoryManager manager] addCall:call];
     
     NSString * cal = [NSString stringWithFormat:@"tel:%@", phone];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:cal]];

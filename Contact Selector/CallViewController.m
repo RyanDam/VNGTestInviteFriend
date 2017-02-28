@@ -10,6 +10,8 @@
 #import "CSCallHistoryManager.h"
 #import "CallCell.h"
 #import "CSContactProvider.h"
+#import "CallManagement.h"
+#import "CallObserver.h"
 
 @interface CallViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -45,6 +47,12 @@
     self.inputNumber.userInteractionEnabled = NO;
     self.contactProvider = [CSContactProvider new];
     
+    [[CallObserver observer] setRefreshUI:^{
+        
+        self.calls = [[CSCallHistoryManager manager] getAllCalls];
+        [self.tableView reloadData];
+        NSLog(@"reload");
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -107,6 +115,11 @@
     NSLog(@"Implement add a new contact");
 }
 
+- (IBAction)makePhoneCall:(id)sender {
+    if (self.inputNumber.text.length > 0)
+        [[CallManagement management] makePhoneCall:self.inputNumber.text];
+}
+
 - (void)showInputView {
     self.inputConstraint.constant = 0;
     [UIView animateWithDuration:0.2 animations:^{
@@ -136,8 +149,9 @@
     static NSString *indentifier = @"calledCell";
     
     CallCell *cell = [self.tableView dequeueReusableCellWithIdentifier:indentifier];
+    CSCall *call = self.calls[indexPath.row];
     
-    [self.contactProvider getContactWithNumber:self.calls[indexPath.row].number withCompletion:^(CSModel *contact, NSError *err) {
+    [self.contactProvider getContactWithNumber:call.number withCompletion:^(CSModel *contact, NSError *err) {
         
         if (contact == nil)
             return;
@@ -151,14 +165,24 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     [dateFormatter setDateFormat:@"dd.MM.YYYY HH:mm:ss"];
     
-    cell.subcription.text = [NSString stringWithFormat:@"↗ %@", [dateFormatter stringFromDate:_calls[indexPath.row].start]];
+    cell.subcription.text = [NSString stringWithFormat:@"↗ %@", [dateFormatter stringFromDate:call.start]];
     
     return cell;
 }
 
 
+#pragma mark - Table View Delegate
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 64;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *phoneNumber = self.calls[indexPath.row].number;
+    
+    [[CallManagement management] makePhoneCall:phoneNumber];
+    
+    NSLog(@"select");
 }
 
 /*

@@ -12,4 +12,6 @@
 
 + (instancetype)observer;
 
+@property (nonatomic, copy) void (^refreshUI)(void);
+
 @end
