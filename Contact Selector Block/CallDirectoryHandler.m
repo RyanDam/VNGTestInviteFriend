@@ -7,6 +7,8 @@
 //
 
 #import "CallDirectoryHandler.h"
+#import "CSBlockDatebaseManager.h"
+#import "CSContact.h"
 
 @interface CallDirectoryHandler () <CXCallDirectoryExtensionContextDelegate>
 @end
@@ -38,13 +40,43 @@
     // consider only loading a subset of numbers at a given time and using autorelease pool(s) to release objects allocated during each batch of numbers which are loaded.
     //
     // Numbers must be provided in numerically ascending order.
-    CXCallDirectoryPhoneNumber phoneNumbers[] = { 14085555555, 18005555555 };
-    NSUInteger count = (sizeof(phoneNumbers) / sizeof(CXCallDirectoryPhoneNumber));
-
-    for (NSUInteger index = 0; index < count; index += 1) {
-        CXCallDirectoryPhoneNumber phoneNumber = phoneNumbers[index];
+    
+    CSBlockDatebaseManager * manager = [CSBlockDatebaseManager manager];
+    NSArray * allContact = [manager getAllBlockContact];
+    NSMutableArray * allNumber = [NSMutableArray array];
+    
+    for (CSContact * contact in allContact) {
+        for (NSString * phone in contact.phoneNumbers) {
+            if ([phone characterAtIndex:0] == '+') {
+                [allNumber addObject:[phone substringFromIndex:1]];
+            } else {
+                [allNumber addObject:phone];
+            }
+        }
+    }
+    
+    [allNumber sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        NSString * phone1 = (NSString *) obj1;
+        NSString * phone2 = (NSString *) obj2;
+        return [phone1 compare:phone2];
+    }];
+    
+//    NSArray * immuatablePhoneArray = [allNumber copy];
+//
+    
+    for (NSString * phone in allNumber) {
+        CXCallDirectoryPhoneNumber phoneNumber = [phone longLongValue];
         [context addBlockingEntryWithNextSequentialPhoneNumber:phoneNumber];
     }
+    
+//    CXCallDirectoryPhoneNumber phoneNumbers[] = { 14085555555, "18005555555" };
+//    NSUInteger count = allNumber.count;
+//
+//    for (NSUInteger index = 0; index < count; index += 1) {
+//        
+//        CXCallDirectoryPhoneNumber phoneNumber = phoneNumbers[index];
+//        [context addBlockingEntryWithNextSequentialPhoneNumber:phoneNumber];
+//    }
 
     return YES;
 }

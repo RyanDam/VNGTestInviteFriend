@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Contact Selector Block.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 		<key>Contact Selector.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -12,6 +17,11 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>948C32921E62A44E001F235D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>F2F31F4F1E515E2C007405A7</key>
 		<dict>
 			<key>primary</key>

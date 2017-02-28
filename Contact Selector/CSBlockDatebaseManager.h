@@ -20,4 +20,6 @@
 
 - (BOOL)unblockContact:(CSContact *)contact;
 
+- (BOOL)checkIfPhoneBlocked:(NSString *)phone;
+
 @end

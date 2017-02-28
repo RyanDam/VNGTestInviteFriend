@@ -8,7 +8,7 @@
 
 #import "CSPresenterViewController.h"
 
-@interface ContactViewController : CSPresenterViewController
+@interface ContactViewController : UIViewController
 
 + (instancetype)viewController;
 

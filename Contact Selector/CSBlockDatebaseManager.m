@@ -73,7 +73,7 @@ typedef NS_ENUM(NSInteger, CSBlockCollum) {
     
     BOOL ret = YES;
     for (NSString * phone in contact.phoneNumbers) {
-        NSString * query = [NSString stringWithFormat:@"INSERT INTO %@ (name, phoneNumber) VALUES ('%@','%@');", CSBlockTable, contact.fullName, phone];
+        NSString * query = [NSString stringWithFormat:@"INSERT INTO %@ (name, phoneNumber) VALUES ('%@','%@');", CSBlockTable, contact.fullName, [self getRightPhoneFormat:phone]];
         ret = ret && [self.database executeUpdate:query];
     }
     return ret;
@@ -83,10 +83,30 @@ typedef NS_ENUM(NSInteger, CSBlockCollum) {
     
     BOOL ret = YES;
     for (NSString * phone in contact.phoneNumbers) {
-        NSString * query = [NSString stringWithFormat:@"DELETE FROM %@ WHERE phoneNumber='%@';", CSBlockTable, phone];
+        NSString * query = [NSString stringWithFormat:@"DELETE FROM %@ WHERE phoneNumber='%@';", CSBlockTable, [self getRightPhoneFormat:phone]];
         ret = ret && [self.database executeUpdate:query];
     }
     return ret;
+}
+
+- (BOOL)checkIfPhoneBlocked:(NSString *)phone {
+    
+    NSString * query = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE phoneNumber='%@';", CSBlockTable, [self getRightPhoneFormat:phone]];
+    FMResultSet * ret = [self.database executeQuery:query];
+    while ([ret next]) {
+        return YES;
+    }
+    return NO;
+}
+
+- (NSString *)getRightPhoneFormat:(NSString *)phone {
+    
+    NSString * replacedPlus = [phone stringByReplacingOccurrencesOfString:@"+" withString:@""];
+    NSString * firstNumber = [replacedPlus substringWithRange:NSMakeRange(0, 1)];
+    if ([firstNumber compare:@"0"] == NSOrderedSame) {
+        replacedPlus = [NSString stringWithFormat:@"84%@", [replacedPlus substringFromIndex:1]];
+    }
+    return replacedPlus;
 }
 
 @end

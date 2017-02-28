@@ -7,13 +7,25 @@
 //
 
 #import "ContactViewController.h"
+#import "ContactDetailViewController.h"
 #import "CSContactProvider.h"
 #import "CSContactBusiness.h"
 #import "CSDataProvider.h"
 #import "CSDataBusiness.h"
+#import "CSContact.h"
 
-@interface ContactViewController () <CSViewControllerDelegate, CSViewControllerDataSource>
+#import <AddressBook/AddressBook.h>
+#import <AddressBookUI/AddressBookUI.h>
 
+@import Contacts;
+@import ContactsUI;
+
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+
+@interface ContactViewController () <CSViewControllerDelegate, CSViewControllerDataSource, CNContactViewControllerDelegate, ABNewPersonViewControllerDelegate>
+
+@property (weak, nonatomic) IBOutlet UIView *containerView;
+@property (nonatomic) ContactSelectorViewController * contactSlecterVC;
 @property (nonatomic) id<CSDataBusiness> contactBusiness;
 @property (nonatomic) id<CSDataProvider> contactProvider;
 
@@ -22,8 +34,8 @@
 @implementation ContactViewController
 
 + (instancetype)viewController {
-    UIStoryboard * storyboard = [UIStoryboard storyboardWithName:@"ContactSelector" bundle:nil];
-    ContactViewController * vc = [storyboard instantiateViewControllerWithIdentifier:@"ContactSelectorViewControllerNVC"];
+    UIStoryboard * storyboard = [UIStoryboard storyboardWithName:@"Contact" bundle:nil];
+    ContactViewController * vc = [storyboard instantiateViewControllerWithIdentifier:@"ContactViewController"];
     return vc;
 }
 
@@ -31,19 +43,23 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [self setupTitleView];
+    [self setupNavigation];
     
     self.contactBusiness = [[CSContactBusiness alloc] init];
     self.contactProvider = [[CSContactProvider alloc] init];
     
-    self.delegateCS = self;
-    self.dataSourceCS = self;
+    self.contactSlecterVC = [ContactSelectorViewController viewController];
+    self.contactSlecterVC.delegate = self;
+    self.contactSlecterVC.dataSource = self;
+    [self.contactSlecterVC setAllowMutilSelection:NO];
+    [self.containerView addSubview:self.contactSlecterVC.view];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self notifyDatasetChanged];
+//    [self.contactSlecterVC notifyDatasetChanged];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -51,13 +67,50 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)setupTitleView {
-    UILabel * label = [[UILabel alloc] init];
-    [label setText:@"Contacts"];
-    self.navigationItem.titleView = label;
+- (void)setupNavigation {
+    self.navigationItem.title = @"Contact";
     
-    self.navigationItem.leftBarButtonItem = nil;
-    self.navigationItem.rightBarButtonItem = nil;
+    UIBarButtonItem * plusButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewContact)];
+    self.navigationItem.rightBarButtonItem = plusButton;
+}
+
+- (void)addNewContact {
+    
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9.0")) {
+        CNContactStore *store = [[CNContactStore alloc] init];
+        CNContactViewController *controller = [CNContactViewController viewControllerForNewContact:nil];
+        controller.contactStore = store;
+        controller.delegate = self;
+        
+        UINavigationController * wrapper = [[UINavigationController alloc] initWithRootViewController:controller];
+        [self presentViewController:wrapper animated:YES completion:nil];
+    } else {
+        ABNewPersonViewController * controller = [[ABNewPersonViewController alloc] init];
+        controller.newPersonViewDelegate = self;
+        
+        UINavigationController * wrapper = [[UINavigationController alloc] initWithRootViewController:controller];
+        [self presentViewController:wrapper animated:YES completion:nil];
+    }
+}
+
+#pragma mark - ABNewPersonViewControllerDelegate
+
+- (void)newPersonViewController:(ABNewPersonViewController *)newPersonView didCompleteWithNewPerson:(nullable ABRecordRef)person; {
+    
+    [newPersonView.navigationController dismissViewControllerAnimated:YES completion:nil];
+    if (person) {
+        [self.contactSlecterVC notifyDatasetChanged];
+    }
+}
+
+#pragma mark - CNContactViewControllerDelegate
+
+- (void)contactViewController:(CNContactViewController *)viewController didCompleteWithContact:(nullable CNContact *)contact {
+    
+    [viewController.navigationController dismissViewControllerAnimated:YES completion:nil];
+    if (contact) {
+        [self.contactSlecterVC notifyDatasetChanged];
+    }
 }
 
 #pragma mark - CSViewControllerDataSource
@@ -71,5 +124,24 @@
     
     return self.contactBusiness;
 }
+
+#pragma mark - CSViewControllerDelegate
+
+- (CSModel *)csViewController:(ContactSelectorViewController *)csViewController willSelectData:(CSModel *)data {
+    
+    return data;
+}
+
+- (void)csViewController:(ContactSelectorViewController *)csViewController didSelectData:(CSModel *)data {
+    
+    CSContact * contact = (CSContact *) data;
+    
+    ContactDetailViewController * vc = [ContactDetailViewController viewController];
+    vc.contact = contact;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+#pragma mark - Utils
+
 
 @end

@@ -11,19 +11,12 @@
 #import "CallViewController.h"
 #import "BlockViewController.h"
 #import "CSPresenterViewController.h"
+#import "ContactSelectorViewController.h"
 
-#import "CSContactProvider.h"
-#import "CSContactBusiness.h"
-#import "CSDataProvider.h"
-#import "CSDataBusiness.h"
-
-@interface MainTabBarController () <UITabBarControllerDelegate, CSViewControllerDelegate, CSViewControllerDataSource>
-
-@property (nonatomic) id<CSDataBusiness> contactBusiness;
-@property (nonatomic) id<CSDataProvider> contactProvider;
+@interface MainTabBarController () <UITabBarControllerDelegate>
 
 @property (nonatomic) CallViewController * callVC;
-@property (nonatomic) CSPresenterViewController * contactsVC;
+@property (nonatomic) ContactViewController * contactsVC;
 @property (nonatomic) BlockViewController * blockVC;
 
 @end
@@ -40,9 +33,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.contactBusiness = [[CSContactBusiness alloc] init];
-    self.contactProvider = [[CSContactProvider alloc] init];
-    
     [self initViewControllers];
 }
 
@@ -57,41 +47,19 @@
     self.callVC.tabBarItem.title = @"Call";
     self.callVC.tabBarItem.image = [UIImage imageNamed:@"callIconNormal"];
     
-    self.contactsVC = [CSPresenterViewController presenter];
+    self.contactsVC = [ContactViewController viewController];
+    UINavigationController * contactWrapper = [[UINavigationController alloc] initWithRootViewController:self.contactsVC];
     self.contactsVC.tabBarItem.title = @"Contacts";
     self.contactsVC.tabBarItem.image = [UIImage imageNamed:@"contactIconNormal"];
-    self.contactsVC.delegateCS = self;
-    self.contactsVC.dataSourceCS = self;
-    [self.contactsVC allowMutilSelection:NO];
     
     self.blockVC = [BlockViewController viewController];
+    UINavigationController * blockWrapper = [[UINavigationController alloc] initWithRootViewController:self.blockVC];
     self.blockVC.tabBarItem.title = @"Block";
     self.blockVC.tabBarItem.image = [UIImage imageNamed:@"blockIconNormal"];
     
-    self.viewControllers = @[self.callVC, self.contactsVC, self.blockVC];
+    self.viewControllers = @[self.callVC, contactWrapper, blockWrapper];
     
     self.delegate = self;
-}
-
-#pragma mark - CSViewControllerDataSource
-
-- (id<CSDataProvider>)dataProviderForContactSelector:(ContactSelectorViewController *)csViewController {
-    
-    return self.contactProvider;
-}
-
-- (id<CSDataBusiness>)dataBusinessForContactSelector:(ContactSelectorViewController *)csViewController {
-    
-    return self.contactBusiness;
-}
-
-#pragma mark - CSViewControllerDelegate
-
-- (CSModel *)csViewController:(ContactSelectorViewController *)csViewController willSelectData:(CSModel *)data {
-    
-    NSLog(@"Choose %@", data.fullName);
-    
-    return data;
 }
 
 #pragma mark - UITabBarControllerDelegate
