@@ -60,7 +60,7 @@
         self.keypadView.transform = CGAffineTransformMakeScale(0.1, 0.1);
     }];
     
-    self.diallerConstraint.constant = 0;
+    self.diallerConstraint.constant = -34;
     [UIView animateWithDuration:0.5
                           delay:0
          usingSpringWithDamping:0.7
@@ -75,8 +75,8 @@
 
 - (IBAction)hideDialler:(id)sender {
     
-    self.diallerConstraint.constant = -340;
-    [UIView animateWithDuration:0.5 animations:^{
+    self.diallerConstraint.constant = -350;
+    [UIView animateWithDuration:0.2 animations:^{
         [self.view layoutIfNeeded];
     }];
     
