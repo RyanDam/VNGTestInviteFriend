@@ -309,6 +309,15 @@
 			name = Cell;
 			sourceTree = "<group>";
 		};
+		8A6B9D431E656F9A002ACB87 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8A6B9D3C1E652C81002ACB87 /* CSCall.h */,
+				8A6B9D3D1E652C81002ACB87 /* CSCall.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		948C32941E62A44E001F235D /* Contact Selector Block */ = {
 			isa = PBXGroup;
 			children = (
@@ -328,8 +337,7 @@
 				948C32A91E62DC04001F235D /* CSBlockDatebaseManager.m */,
 				8A6B9D331E652A4C002ACB87 /* CSCallHistoryManager.h */,
 				8A6B9D341E652A4C002ACB87 /* CSCallHistoryManager.m */,
-				8A6B9D3C1E652C81002ACB87 /* CSCall.h */,
-				8A6B9D3D1E652C81002ACB87 /* CSCall.m */,
+				8A6B9D431E656F9A002ACB87 /* Model */,
 			);
 			name = Database;
 			path = "Contact Selector";
