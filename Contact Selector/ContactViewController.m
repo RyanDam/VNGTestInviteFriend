@@ -54,6 +54,7 @@
     [self.contactSlecterVC setAllowMutilSelection:NO];
     [self.containerView addSubview:self.contactSlecterVC.view];
     
+    [self.contactSlecterVC notifyDatasetChanged];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
