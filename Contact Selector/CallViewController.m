@@ -32,6 +32,8 @@
 @property (strong, nonatomic) NSMutableDictionary *cacheContact;
 @property (strong, nonatomic) NSArray *allContact;
 
+@property BOOL isLoading;
+
 @end
 
 @implementation CallViewController
@@ -59,6 +61,7 @@
         [self.tableView reloadData];
     }];
     
+    self.isLoading = YES;
     [self.contactProvider getDataArrayWithCompletion:^(NSArray<CSModel *> *data, NSError *err) {
         
         if (err) {
@@ -67,6 +70,11 @@
         }
         
         self.allContact = data;
+        self.isLoading = NO;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+        });
+//        NSLog(@"%lu", [data count]);
     }];
 }
 
@@ -157,13 +165,22 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (self.isLoading) {
+        return 1;
+    }
     return [self.calls count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *indentifier = @"calledCell";
-    
+    static NSString *indentifier2 = @"loadingCell";
+
     CallCell *cell = [self.tableView dequeueReusableCellWithIdentifier:indentifier];
+    
+    if (self.isLoading) {
+        CallCell *cell = [self.tableView dequeueReusableCellWithIdentifier:indentifier2];
+        return cell;
+    }
     
     CSCall *call = self.calls[indexPath.row];
     
@@ -199,6 +216,8 @@
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.isLoading)
+        return 300;
     return 64;
 }
 

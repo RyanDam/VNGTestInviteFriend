@@ -70,6 +70,23 @@
                                             <outlet property="thumnailView" destination="LYl-qf-AJ2" id="weE-ab-Ayh"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="loadingCell" id="EOL-1L-WYq" userLabel="loadingCell" customClass="CallCell">
+                                        <rect key="frame" x="0.0" y="72" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EOL-1L-WYq" id="PTc-fk-9hw">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="DSq-po-WEi">
+                                                    <rect key="frame" x="197" y="12" width="20" height="20"/>
+                                                </activityIndicatorView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="DSq-po-WEi" firstAttribute="centerY" secondItem="PTc-fk-9hw" secondAttribute="centerY" id="6Lt-cb-Dhk"/>
+                                                <constraint firstItem="DSq-po-WEi" firstAttribute="centerX" secondItem="PTc-fk-9hw" secondAttribute="centerX" id="OIY-Ut-Xsa"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </prototypes>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="39C-So-qSh">

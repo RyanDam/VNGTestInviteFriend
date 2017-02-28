@@ -121,9 +121,9 @@
 - (CSModel *)searchForContactFromDataArray:(CSDataArray *)dataArray withNumber:(NSString *)phoneNumber {
 
     for (CSContact *contact in dataArray) {
-        for (NSString* phoneNumber in contact.phoneNumbers) {
+        for (NSString* number in contact.phoneNumbers) {
             
-            if ([phoneNumber isEqualToString:phoneNumber]) {
+            if ([number isEqualToString:phoneNumber]) {
                 return contact;
             }
         }
