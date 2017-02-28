@@ -12,6 +12,7 @@
 #import "CSContactProvider.h"
 #import "CallManagement.h"
 #import "CallObserver.h"
+#import "CSContact.h"
 
 @interface CallViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -26,6 +27,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *inputConstraint;
 
 @property (strong, nonatomic) NSArray<CSCall *> *calls;
+@property (strong, nonatomic) NSMutableDictionary *cacheContact;
 
 @end
 
@@ -46,12 +48,11 @@
     self.calls = [[CSCallHistoryManager manager] getAllCalls];
     self.inputNumber.userInteractionEnabled = NO;
     self.contactProvider = [CSContactProvider new];
+    self.cacheContact = [NSMutableDictionary new];
     
     [[CallObserver observer] setRefreshUI:^{
-        
         self.calls = [[CSCallHistoryManager manager] getAllCalls];
         [self.tableView reloadData];
-        NSLog(@"reload");
     }];
 }
 
@@ -149,18 +150,29 @@
     static NSString *indentifier = @"calledCell";
     
     CallCell *cell = [self.tableView dequeueReusableCellWithIdentifier:indentifier];
+    
     CSCall *call = self.calls[indexPath.row];
     
-    [self.contactProvider getContactWithNumber:call.number withCompletion:^(CSModel *contact, NSError *err) {
-        
-        if (contact == nil)
-            return;
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            cell.fullName.text = contact.fullName;
-            [cell.thumnailView setData:contact];
-        });
-    }];
+    if ([self.cacheContact objectForKey:call.number] == nil) {
+        [self.contactProvider getContactWithNumber:call.number withCompletion:^(CSModel *contact, NSError *err) {
+            
+            if (contact == nil) {
+                contact = [CSModel new];
+                contact.fullName = @"Anonymous";
+            }
+            
+            [self.cacheContact setValue:contact forKey:call.number];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                cell.fullName.text = contact.fullName;
+                [cell.thumnailView setData:contact];
+            });
+        }];
+    } else {
+        CSModel *contact = [self.cacheContact objectForKey:call.number];
+        cell.fullName.text = contact.fullName;
+        [cell.thumnailView setData:contact];
+    }
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     [dateFormatter setDateFormat:@"dd.MM.YYYY HH:mm:ss"];
@@ -171,7 +183,7 @@
 }
 
 
-#pragma mark - Table View Delegate
+#pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 64;
@@ -184,6 +196,11 @@
     
     NSLog(@"select");
 }
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    [self hideDialler:nil];
+}
+
 
 /*
 #pragma mark - Navigation

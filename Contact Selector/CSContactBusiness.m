@@ -118,4 +118,17 @@
     }
 }
 
+- (CSModel *)searchForContactFromDataArray:(CSDataArray *)dataArray withNumber:(NSString *)phoneNumber {
+
+    for (CSContact *contact in dataArray) {
+        for (NSString* phoneNumber in contact.phoneNumbers) {
+            
+            if ([phoneNumber isEqualToString:phoneNumber]) {
+                return contact;
+            }
+        }
+    }
+    return nil;
+}
+
 @end
