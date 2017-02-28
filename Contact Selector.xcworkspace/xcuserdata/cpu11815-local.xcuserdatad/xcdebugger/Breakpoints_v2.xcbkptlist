@@ -2,4 +2,54 @@
 <Bucket
    type = "0"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Contact Selector/LRUCache.m"
+            timestampString = "509948471.971097"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "131"
+            endingLineNumber = "131"
+            landmarkName = "-objectForKey:withCompletion:"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__40-[LRUCache objectForKey:withCompletion:]_block_invoke_2"
+                  moduleName = "Contact Selector"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/cpu11815-local/Documents/Testing/Contact%20Selector/Contact%20Selector/LRUCache.m"
+                  timestampString = "509948920.525803"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "132"
+                  endingLineNumber = "132"
+                  offsetFromSymbolStart = "68">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__40-[LRUCache objectForKey:withCompletion:]_block_invoke_3"
+                  moduleName = "Contact Selector"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/cpu11815-local/Documents/Testing/Contact%20Selector/Contact%20Selector/LRUCache.m"
+                  timestampString = "509948920.528059"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "134"
+                  endingLineNumber = "134"
+                  offsetFromSymbolStart = "112">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>
