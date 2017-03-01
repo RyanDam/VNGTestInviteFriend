@@ -15,34 +15,32 @@
 
 @interface ContactSelectorViewController () <UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, UISearchBarDelegate>
 
-@property (weak, nonatomic) IBOutlet UITableView *friendTableView;
-@property (weak, nonatomic) IBOutlet UICollectionView *friendChoosedCollectionView;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBarView;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *friendChoosedcollectionHeightConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *collectionHeightConstraint;
 
-@property (nonatomic) NSUInteger defaultFriendChoosedCollectionHeight;
+@property (nonatomic) NSUInteger defaultCollectionHeight;
 
-// Navigation title view
+// Current state of view controller
+@property (nonatomic) CSSearchResult userSearchResult;
+
+// Navigation view
+@property (nonatomic) UIView * loadingView;
 @property (nonatomic) UIView * headerTitleView;
 @property (nonatomic) UILabel * headerTitleLabel;
 @property (nonatomic) UILabel * headerCountingLabel;
 
 // Data select properties
-@property (nonatomic, weak) id<CSDataBusiness> dataBusiness;
-@property (nonatomic, weak) id<CSDataProvider> dataProvider;
-@property (nonatomic) NSUInteger maxSelectedData;
-@property (nonatomic) NSMutableArray<CSModel *> * selectedDatas;
-@property (nonatomic, copy) NSArray<CSModel *> * dataArray;
-
 @property (nonatomic, copy) NSArray<NSString *> * originalDataIndex;
 @property (nonatomic, copy) NSDictionary<NSString *, NSArray<CSModel *> *> * originalDataDictionary;
-
 @property (nonatomic, copy) NSArray<NSString *> * dataIndex;
 @property (nonatomic, copy) NSDictionary<NSString *, NSArray<CSModel *> *> * dataDictionary;
-
-// Current state of view controller
-@property (nonatomic) CSSearchResult userSearchResult;
-@property (nonatomic) CSContactListState currentContactListState;
+@property (nonatomic, weak) id<CSDataBusiness> dataBusiness;
+@property (nonatomic, weak) id<CSDataProvider> dataProvider;
+@property (nonatomic, copy) NSArray<CSModel *> * dataArray;
+@property (nonatomic) NSUInteger maxSelectedData;
+@property (nonatomic) NSMutableArray<CSModel *> * selectedDatas;
 
 @end
 
@@ -54,7 +52,6 @@
     
     UIStoryboard * storyboard = [UIStoryboard storyboardWithName:@"ContactSelector" bundle:nil];
     ContactSelectorViewController * vc = [storyboard instantiateViewControllerWithIdentifier:@"ContactSelectorViewController"];
-    
     return vc;
 }
 
@@ -64,14 +61,9 @@
     self.maxSelectedData = 10;
     self.selectedDatas = [NSMutableArray array];
     
-    [self initFriendTableView];
-    [self initFriendCollectionView];
-    [self initHeaderTitleView];
-    [self initSearchBar];
-    [self initDataProvider];
+    [self initView];
     
-    [self setHeaderTitle:@"Choose Friend"];
-    [self setCoutingValue:0 animate:NO];
+    [self initDataProvider];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -88,7 +80,7 @@
     [super viewWillLayoutSubviews];
     
     // Without this, the collection view will crash when show then hide itself with message: attribute for indexPath not exist
-    [self.friendChoosedCollectionView.collectionViewLayout invalidateLayout];
+    [self.collectionView.collectionViewLayout invalidateLayout];
 }
 
 #pragma mark - Init
@@ -99,64 +91,52 @@
     self.dataDictionary = [NSDictionary dictionary];
 }
 
-- (void)initHeaderTitleView {
+- (void)initView {
     
-    if (self.allowMutilSelection) {
-        [self setupNavigationForMutilChoiceMode];
-    } else {
-        [self setupNavigationForSingleChoiseMode];
-    }
-}
-
-- (void)initSearchBar {
+    self.loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    self.loadingView.center = self.view.center;
+    
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    self.tableView.separatorColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.05];
+    self.tableView.sectionIndexBackgroundColor = [UIColor clearColor];
+    
+    self.collectionView.dataSource = self;
+    self.collectionView.delegate = self;
+    self.collectionView.showsHorizontalScrollIndicator = NO;
+    self.collectionView.bounces = YES;
+    self.defaultCollectionHeight = 58;
+    self.collectionHeightConstraint.constant = 0;
     
     self.searchBarView.backgroundImage = [[UIImage alloc] init];
     self.searchBarView.delegate = self;
-}
-
-- (void)initFriendCollectionView {
     
-    self.friendChoosedCollectionView.dataSource = self;
-    self.friendChoosedCollectionView.delegate = self;
-    self.defaultFriendChoosedCollectionHeight = 58;
-    self.friendChoosedcollectionHeightConstraint.constant = 0;
-    self.friendChoosedCollectionView.showsHorizontalScrollIndicator = NO;
-    self.friendChoosedCollectionView.bounces = YES;
-}
-
-- (void)initFriendTableView {
+    if (self.allowMutilSelection) {
+        self.headerTitleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, self.navigationController.navigationBar.frame.size.height)];
+        self.headerTitleView.backgroundColor = [UIColor clearColor];
+        
+        self.headerTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.headerTitleView.frame.size.width, 0.4*self.headerTitleView.frame.size.height)];
+        self.headerTitleLabel.textColor = [UIColor blackColor];
+        self.headerTitleLabel.font = [UIFont systemFontOfSize:16];
+        self.headerTitleLabel.textAlignment = NSTextAlignmentCenter;
+        [self.headerTitleView addSubview:self.headerTitleLabel];
+        
+        self.headerCountingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0.4*self.headerTitleView.frame.size.height, self.headerTitleView.frame.size.width, 18.0)];
+        self.headerCountingLabel.textColor = [UIColor blackColor];
+        self.headerCountingLabel.font = [UIFont systemFontOfSize:12];
+        self.headerCountingLabel.textAlignment = NSTextAlignmentCenter;
+        [self.headerTitleView addSubview:self.headerCountingLabel];
+        
+        self.navigationItem.titleView = self.headerTitleView;
+        
+        [self setCoutingValue:0 animate:NO];
+    } else {
+        self.navigationItem.titleView = nil;
+        self.navigationItem.leftBarButtonItem = nil;
+        self.navigationItem.rightBarButtonItem = nil;
+    }
     
-    self.friendTableView.dataSource = self;
-    self.friendTableView.delegate = self;
-    self.friendTableView.separatorColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.05];
-    self.friendTableView.sectionIndexBackgroundColor = [UIColor clearColor];
-}
-
-- (void)setupNavigationForMutilChoiceMode {
-    
-    self.headerTitleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, self.navigationController.navigationBar.frame.size.height)];
-    self.headerTitleView.backgroundColor = [UIColor clearColor];
-    
-    self.headerTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.headerTitleView.frame.size.width, 0.4*self.headerTitleView.frame.size.height)];
-    self.headerTitleLabel.textColor = [UIColor blackColor];
-    self.headerTitleLabel.font = [UIFont systemFontOfSize:16];
-    self.headerTitleLabel.textAlignment = NSTextAlignmentCenter;
-    [self.headerTitleView addSubview:self.headerTitleLabel];
-    
-    self.headerCountingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0.4*self.headerTitleView.frame.size.height, self.headerTitleView.frame.size.width, 18.0)];
-    self.headerCountingLabel.textColor = [UIColor blackColor];
-    self.headerCountingLabel.font = [UIFont systemFontOfSize:12];
-    self.headerCountingLabel.textAlignment = NSTextAlignmentCenter;
-    [self.headerTitleView addSubview:self.headerCountingLabel];
-    
-    self.navigationItem.titleView = self.headerTitleView;
-}
-
-- (void)setupNavigationForSingleChoiseMode {
-    
-    self.navigationItem.titleView = nil;
-    self.navigationItem.leftBarButtonItem = nil;
-    self.navigationItem.rightBarButtonItem = nil;
+    [self setHeaderTitle:@"Choose Friend"];
 }
 
 - (void)setHeaderTitle:(NSString *)title {
@@ -178,7 +158,6 @@
     self.dataProvider = [self.dataSource dataProviderForContactSelector:self];
     
     [self showLoadingState];
-    
     if (self.dataBusiness && self.dataProvider) {
         [self.dataProvider getDataArrayWithCompletion:^(NSArray<CSModel *> *data, NSError *err) {
             
@@ -193,23 +172,14 @@
                 
                 self.originalDataIndex = [self.dataIndex copy];
                 self.originalDataDictionary = [self.dataDictionary copy];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self hideLoadingState];
+                    [self.tableView reloadData];
+                });
             }
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self hideLoadingState];
-                [self.friendTableView reloadData];
-            });
         }];
     }
-}
-
-- (void)showLoadingState {
-    self.currentContactListState = CSContactListStateLoading;
-    [self.friendTableView reloadData];
-}
-
-- (void)hideLoadingState {
-    self.currentContactListState = CSContactListStateNormal;
 }
 
 /**
@@ -238,9 +208,21 @@
 }
 
 - (void)setAllowMutilSelection:(BOOL)newAllowMutilSelection {
-    
     _allowMutilSelection = newAllowMutilSelection;
-    [self.friendTableView reloadData];
+    // re-init view for selection state
+    [self initView];
+    [self.tableView reloadData];
+}
+
+#pragma mark - UI State
+
+- (void)showLoadingState {
+    [self.view addSubview:self.loadingView];
+    [self.view bringSubviewToFront:self.loadingView];
+}
+
+- (void)hideLoadingState {
+    [self.loadingView removeFromSuperview];
 }
 
 #pragma mark - Navigation bar button event handler
@@ -278,19 +260,22 @@
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     
     if (self.dataBusiness && [self.dataBusiness respondsToSelector:@selector(performSearch:onDataArray:withCompletion:)]) {
-        [self.dataBusiness performSearch:searchText onDataArray:self.dataArray withCompletion:^(CSSearchResult searchResult, NSArray<NSString *> *index, NSDictionary<NSString *,NSArray<CSModel *> *> *dictionary) {
-            
-            self.userSearchResult = searchResult;
-            self.dataIndex = index;
-            self.dataDictionary = dictionary;
-            
-            if ([self isUserSearchNoResult]) {
-                self.friendTableView.allowsSelection = NO;
-            } else {
-                self.friendTableView.allowsSelection = YES;
+        [self.dataBusiness performSearch:searchText
+                             onDataArray:self.dataArray
+        withCompletion:^(CSSearchResult searchResult, NSArray<NSString *> *index, NSDictionary<NSString *,NSArray<CSModel *> *> *dictionary) {
+            if (index && dictionary) {
+                self.userSearchResult = searchResult;
+                self.dataIndex = index;
+                self.dataDictionary = dictionary;
+                
+                if ([self isUserSearchNoResult]) {
+                    self.tableView.allowsSelection = NO;
+                } else {
+                    self.tableView.allowsSelection = YES;
+                }
+                
+                [self.tableView reloadData];
             }
-            
-            [self.friendTableView reloadData];
         }];
     }
 }
@@ -302,14 +287,11 @@
     
     self.dataIndex = [self.originalDataIndex copy];
     self.dataDictionary = [self.originalDataDictionary copy];
-    
+    [self.searchBarView setText:@""];
+    [self.tableView reloadData];
     if (self.dataBusiness && [self.dataBusiness respondsToSelector:@selector(completeSearch)]) {
         [self.dataBusiness completeSearch];
     }
-    
-    [self.searchBarView setText:@""];
-    
-    [self.friendTableView reloadData];
 }
 
 #pragma mark - Select contact logic
@@ -326,52 +308,46 @@
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(csViewController:willSelectData:)]) {
         finalData = [self.delegate csViewController:self willSelectData:data];
-        if (finalData == nil) {
-            return;
-        }
+        
     }
     
-    if (self.allowMutilSelection == NO) {
-        if (self.delegate && [self.delegate respondsToSelector:@selector(csViewController:didSelectData:)]) {
-            [self.delegate csViewController:self didSelectData:finalData];
-        }
-        return;
-    }
-    
-    // Show selected contact collection view
-    if (self.selectedDatas.count == 0) {
-        self.friendChoosedcollectionHeightConstraint.constant = self.defaultFriendChoosedCollectionHeight;
-        [UIView animateWithDuration:0.13 animations:^{
-            
-            [self.view layoutIfNeeded];
-        } completion:nil];
-    }
-    
-    // start add selected contact to collection view
-    [self.friendChoosedCollectionView performBatchUpdates:^{
-        
-        [self.selectedDatas addObject:finalData];
-        NSUInteger index = [self.selectedDatas indexOfObject:finalData];
-        NSIndexPath * indexPath = [NSIndexPath indexPathForRow:index inSection:0];
-        
-        [self.friendChoosedCollectionView insertItemsAtIndexPaths:@[indexPath]];
-        
-    } completion:^(BOOL finished) {
-        if (finished) {
-            
-            [self.friendChoosedCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.selectedDatas.count - 1 inSection:0]
-                                                     atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
-            [self setCoutingValue:self.selectedDatas.count animate:YES];
-            
+    if (finalData != nil) {
+        if (self.allowMutilSelection == NO) {
             if (self.delegate && [self.delegate respondsToSelector:@selector(csViewController:didSelectData:)]) {
                 [self.delegate csViewController:self didSelectData:finalData];
             }
-            
+            return;
         }
-    }];
-    
-    // turn off search when done adding contact
-    [self forceEndSearch];
+        
+        // Show selected contact collection view
+        if (self.selectedDatas.count == 0) {
+            self.collectionHeightConstraint.constant = self.defaultCollectionHeight;
+            [UIView animateWithDuration:0.13 animations:^{
+                [self.view layoutIfNeeded];
+            } completion:nil];
+        }
+        
+        // start add selected contact to collection view
+        [self.collectionView performBatchUpdates:^{
+            [self.selectedDatas addObject:finalData];
+            NSUInteger index = [self.selectedDatas indexOfObject:finalData];
+            NSIndexPath * indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+            [self.collectionView insertItemsAtIndexPaths:@[indexPath]];
+        } completion:^(BOOL finished) {
+            if (finished) {
+                
+                [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.selectedDatas.count - 1 inSection:0]
+                                            atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
+                [self setCoutingValue:self.selectedDatas.count animate:YES];
+                
+                if (self.delegate && [self.delegate respondsToSelector:@selector(csViewController:didSelectData:)]) {
+                    [self.delegate csViewController:self didSelectData:finalData];
+                }
+            }
+        }];
+        // turn off search when done adding contact
+        [self forceEndSearch];
+    }
 }
 
 /**
@@ -386,46 +362,43 @@
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(csViewController:willDeselectData:)]) {
         finalData = [self.delegate csViewController:self willDeselectData:data];
-        if (finalData == nil) {
-            return;
-        }
     }
     
-    if (self.allowMutilSelection == NO) {
-        if (self.delegate && [self.delegate respondsToSelector:@selector(csViewController:didDeselectData:)]) {
-            [self.delegate csViewController:self didDeselectData:finalData];
-        }
-        return;
-    }
-    
-    // Hide selected contact collection view
-    if (self.selectedDatas.count == 1) {
-        self.friendChoosedcollectionHeightConstraint.constant = 0;
-        [UIView animateWithDuration:0.13 animations:^{
-            [self.view layoutIfNeeded];
-        } completion:nil];
-    }
-    
-    // start remove selected contact from collection view
-    [self.friendChoosedCollectionView performBatchUpdates:^{
-        
-        NSUInteger index = [self.selectedDatas indexOfObject:finalData];
-        [self.selectedDatas removeObject:finalData];
-        NSIndexPath * indexPath = [NSIndexPath indexPathForRow:index inSection:0];
-        [self.friendChoosedCollectionView deleteItemsAtIndexPaths:@[indexPath]];
-        
-    } completion:^(BOOL finished) {
-        if (finished) {
-            [self setCoutingValue:self.selectedDatas.count animate:YES];
-            
+    if (finalData != nil) {
+        // If tableview not in mutil select mode, no need to make collectionview handle
+        if (self.allowMutilSelection == NO) {
             if (self.delegate && [self.delegate respondsToSelector:@selector(csViewController:didDeselectData:)]) {
                 [self.delegate csViewController:self didDeselectData:finalData];
             }
+        } else {
+            // Hide selected contact collection view
+            if (self.selectedDatas.count == 1) {
+                self.collectionHeightConstraint.constant = 0;
+                [UIView animateWithDuration:0.13 animations:^{
+                    [self.view layoutIfNeeded];
+                } completion:nil];
+            }
+            
+            // start remove selected contact from collection view
+            [self.collectionView performBatchUpdates:^{
+                
+                NSUInteger index = [self.selectedDatas indexOfObject:finalData];
+                [self.selectedDatas removeObject:finalData];
+                NSIndexPath * indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+                [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
+                
+            } completion:^(BOOL finished) {
+                if (finished) {
+                    [self setCoutingValue:self.selectedDatas.count animate:YES];
+                    if (self.delegate && [self.delegate respondsToSelector:@selector(csViewController:didDeselectData:)]) {
+                        [self.delegate csViewController:self didDeselectData:finalData];
+                    }
+                }
+            }];
+            // turn off search when done adding contact
+            [self forceEndSearch];
         }
-    }];
-    
-    // turn off search when done adding contact
-    [self forceEndSearch];
+    }
 }
 
 #pragma mark - UICollectionViewDelegate
@@ -447,7 +420,7 @@
     CSModel * data = self.selectedDatas[indexPath.row];
     NSIndexPath * tableIndexPath = [self getIndexPathOfFriendTableForData:data];
     
-    [self.friendTableView selectRowAtIndexPath:tableIndexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
+    [self.tableView selectRowAtIndexPath:tableIndexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -475,11 +448,8 @@
     
     if ([self isUserSearchNoResult]) {
         return [CSSearchNoResultTableViewCell getCellHeight];
-    } else if (self.currentContactListState == CSContactListStateLoading) {
-        return [CSSearchNoResultTableViewCell getCellHeight];
-    } else {
-        return [CSContactTableViewCell getCellHeight];
     }
+    return [CSContactTableViewCell getCellHeight];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -487,11 +457,6 @@
     if ([self isUserSearching]) {
         return 0;
     }
-    
-    if (self.currentContactListState == CSContactListStateLoading) {
-        return 0;
-    }
-    
     return 24;
 }
 
@@ -500,115 +465,92 @@
     if ([self isUserSearching]) {
         return 0;
     }
-    
-    if (self.currentContactListState == CSContactListStateLoading) {
-        return 0;
-    }
-    
     return 1;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if ([self isUserSearchNoResult]) {
-        return;
+    // Searching have result or normal state
+    if (![self isUserSearchNoResult]) {
+        CSContactTableViewCell * contactCell = (CSContactTableViewCell *) cell;
+        CSModel * data = [self getDataAtIndexPath:indexPath];
+        contactCell.data = data;
+        
+        // Override this view for customize selection highligh color for cell
+        UIView *myBackView = [[UIView alloc] initWithFrame:cell.frame];
+        myBackView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.05];
+        cell.selectedBackgroundView = myBackView;
+        
+        if ([self.selectedDatas containsObject:data]) {
+            [contactCell setSelect:YES];
+        } else {
+            [contactCell setSelect:NO];
+        }
+        
+        // hide seperator when this cell is the last cell in section
+        if (indexPath.row == [self tableView:tableView numberOfRowsInSection:indexPath.section] - 1) {
+            [contactCell hideSeperator];
+        } else {
+            [contactCell showSeperator];
+        }
+        
+        [contactCell allowCheckbox:self.allowMutilSelection];
     }
-    
-    if (self.currentContactListState == CSContactListStateLoading) {
-        return;
-    }
-    
-    CSContactTableViewCell * contactCell = (CSContactTableViewCell *) cell;
-    CSModel * data = [self getDataAtIndexPath:indexPath];
-    contactCell.data = data;
-    
-    // Override this view for customize selection highligh color for cell
-    UIView *myBackView = [[UIView alloc] initWithFrame:cell.frame];
-    myBackView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.05];
-    cell.selectedBackgroundView = myBackView;
-    
-    if ([self.selectedDatas containsObject:data]) {
-        [contactCell setSelect:YES];
-    } else {
-        [contactCell setSelect:NO];
-    }
-    
-    // hide seperator when this cell is the last cell in section
-    if (indexPath.row == [self tableView:tableView numberOfRowsInSection:indexPath.section] - 1) {
-        [contactCell hideSeperator];
-    } else {
-        [contactCell showSeperator];
-    }
-    
-    [contactCell allowCheckbox:self.allowMutilSelection];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     
-    // No need section view when user is searching
-    if ([self isUserSearching]) {
+    if (![self isUserSearching]) {
+        NSString * sectionKey = self.dataIndex[section];
+        UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(16, 0, tableView.frame.size.width, 24)];
+        headerView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.9];
+        
+        UILabel * headerKeyLabel = [[UILabel alloc] initWithFrame:headerView.frame];
+        UIFont * headerFont = [UIFont boldSystemFontOfSize:12];
+        headerKeyLabel.font = headerFont;
+        headerKeyLabel.text = sectionKey;
+        headerKeyLabel.textColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+        [headerView addSubview:headerKeyLabel];
+        
+        return headerView;
+    } else {
+        // No need section view when user is searching
         return nil;
     }
-    
-    if (self.currentContactListState == CSContactListStateLoading) {
-        return nil;
-    }
-    
-    NSString * sectionKey = self.dataIndex[section];
-    UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(16, 0, tableView.frame.size.width, 24)];
-    headerView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.9];
-    
-    UILabel * headerKeyLabel = [[UILabel alloc] initWithFrame:headerView.frame];
-    UIFont * headerFont = [UIFont boldSystemFontOfSize:12];
-    headerKeyLabel.font = headerFont;
-    headerKeyLabel.text = sectionKey;
-    headerKeyLabel.textColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
-    [headerView addSubview:headerKeyLabel];
-    
-    return headerView;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     
     // No need footer view when user is searching
-    if ([self isUserSearching]) {
+    if (![self isUserSearching]) {
+        UIView * dividerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 1)];
+        dividerView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.05];
+        return dividerView;
+    } else {
         return nil;
     }
-    
-    if (self.currentContactListState == CSContactListStateLoading) {
-        return nil;
-    }
-    
-    UIView * dividerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 1)];
-    dividerView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.05];
-    return dividerView;
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if ([self isUserSearchNoResult]) {
-        return nil;
-    }
+    NSIndexPath * result;
+    CSModel * selectedData = [self getDataAtIndexPath:indexPath];
     
-    if (self.currentContactListState == CSContactListStateLoading) {
-        return nil;
-    }
-    
-    if (self.selectedDatas.count < self.maxSelectedData) {
-        return indexPath;
+    if (![self isUserSearchNoResult]) {
+        if (self.selectedDatas.count < self.maxSelectedData || [self.selectedDatas containsObject:selectedData]) {
+            result = indexPath;
+        } else {
+            [self showMessage:[NSString stringWithFormat:@"You may select %ld friends at maximum", self.maxSelectedData]];
+            
+            if (self.delegate && [self.delegate respondsToSelector:@selector(csViewController:reachedMaxSelectedDatas:)]) {
+                [self.delegate csViewController:self reachedMaxSelectedDatas:self.dataArray];
+            }
+            result = nil;
+        }
     } else {
-        CSModel * selectedData = [self getDataAtIndexPath:indexPath];
-        if ([self.selectedDatas containsObject:selectedData]) {
-            return indexPath; // case: deselect cell when maximum selected contact reached
-        }
-        [self showMessage:[NSString stringWithFormat:@"You may select %ld friends at maximum", self.maxSelectedData]];
-        
-        if (self.delegate && [self.delegate respondsToSelector:@selector(csViewController:reachedMaxSelectedDatas:)]) {
-            [self.delegate csViewController:self reachedMaxSelectedDatas:self.dataArray];
-        }
-        
-        return nil;
+        result = nil;
     }
+    return result;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -638,10 +580,6 @@
         return 1;
     }
     
-    if (self.currentContactListState == CSContactListStateLoading) {
-        return 1;
-    }
-    
     return [self.dataIndex count];
 }
 
@@ -650,11 +588,6 @@
     if ([self isUserSearchNoResult]) {
         return 1;
     }
-    
-    if (self.currentContactListState == CSContactListStateLoading) {
-        return 1;
-    }
-    
     NSString * sectionKey = self.dataIndex[section];
     return [[self.dataDictionary objectForKey:sectionKey] count];
 }
@@ -663,8 +596,6 @@
     
     if ([self isUserSearchNoResult]) {
         return [tableView dequeueReusableCellWithIdentifier:kCSSearchNoResultTableViewCellID];
-    } else if (self.currentContactListState == CSContactListStateLoading) {
-        return [tableView dequeueReusableCellWithIdentifier:@"CSContactLoadingCell"];
     } else {
         return [tableView dequeueReusableCellWithIdentifier:kCSContactTableViewCellID];
     }
@@ -673,23 +604,14 @@
 - (NSArray<NSString *> *)sectionIndexTitlesForTableView:(UITableView *)tableView {
     
     // data not init yet
-    if (self.dataIndex.count == 0) {
+    if (self.dataIndex.count > 0 && [self isUserSearching] == NO) {
+        NSString * searchIcon = UITableViewIndexSearch;
+        NSString * hastagIcon = @"#";
+        NSArray * indexWithIcon = [[@[searchIcon] arrayByAddingObjectsFromArray:self.dataIndex] arrayByAddingObject:hastagIcon];
+        return indexWithIcon;
+    } else {
         return nil;
     }
-    
-    if ([self isUserSearching]) {
-        return nil;
-    }
-    
-    if (self.currentContactListState == CSContactListStateLoading) {
-        return nil;
-    }
-    
-    NSString * searchIcon = UITableViewIndexSearch;
-    NSString * hastagIcon = @"#";
-    NSArray * indexWithIcon = [[@[searchIcon] arrayByAddingObjectsFromArray:self.dataIndex] arrayByAddingObject:hastagIcon];
-    
-    return indexWithIcon;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
@@ -713,19 +635,16 @@
     if ([self isUserSearching]) {
         return self.userSearchResult == CSSearchResultNoResult;
     }
-    
     return NO;
 }
 
 - (BOOL)isUserSearching {
     
-    if (self.dataIndex.count == 0) {
-        return NO;
-    }
-    
-    NSString * firstSectionKey = self.dataIndex[0];
-    if ([firstSectionKey compare:kCSProviderSearchKey] == NSOrderedSame) {
-        return YES;
+    if (self.dataIndex.count > 0) {
+        NSString * firstSectionKey = self.dataIndex[0];
+        if ([firstSectionKey compare:kCSProviderSearchKey] == NSOrderedSame) {
+            return YES;
+        }
     }
     return NO;
 }

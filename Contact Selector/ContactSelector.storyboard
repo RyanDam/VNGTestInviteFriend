@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1217" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -200,10 +200,10 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="friendChoosedCollectionView" destination="YnG-K0-t9L" id="tK9-ZA-m2x"/>
-                        <outlet property="friendChoosedcollectionHeightConstraint" destination="Uxy-3u-ePc" id="UOe-4y-Axv"/>
-                        <outlet property="friendTableView" destination="McI-d7-NcD" id="tG4-Re-5JP"/>
+                        <outlet property="collectionHeightConstraint" destination="Uxy-3u-ePc" id="wht-SY-ckk"/>
+                        <outlet property="collectionView" destination="YnG-K0-t9L" id="q0O-nn-9GX"/>
                         <outlet property="searchBarView" destination="1u7-99-BcQ" id="PA2-JN-MGH"/>
+                        <outlet property="tableView" destination="McI-d7-NcD" id="2eE-YX-bZp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tia-cx-32s" sceneMemberID="firstResponder"/>
