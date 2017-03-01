@@ -38,6 +38,8 @@
     
     NSLog(@"Call income %@", call.UUID.UUIDString);
     
+    
+    
     if (call.hasEnded) {
         NSLog(@"Ended");
     }
@@ -54,6 +56,9 @@
         NSLog(@"Onhold");
     }
 
+    if (_refreshUI != nil) {
+        _refreshUI();
+    }
 }
 
 @end

@@ -45,4 +45,6 @@ typedef NSArray<CSModel *> CSDataArray;
 
 - (void)completeSearch;
 
+- (CSModel *)searchForContactFromDataArray:(CSDataArray *)dataArray withNumber:(NSString *)phoneNumber;
+
 @end

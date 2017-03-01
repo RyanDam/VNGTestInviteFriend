@@ -21,6 +21,8 @@
 
 @property (nonatomic) dispatch_queue_t serialQueue;
 
+@property (strong, nonatomic) NSArray *cacheContact;
+
 @end
 
 @implementation CSContactProvider
@@ -106,6 +108,8 @@
                 [contactNumbersArray addObject:contactResult];
             }
             
+            self.cacheContact = contactNumbersArray;
+            
             completion(contactNumbersArray ,nil);
         });
     }];
@@ -163,6 +167,8 @@
                     
                     [contactNumbersArray addObject:contact];
                 }
+                
+                self.cacheContact = contactNumbersArray;
                 
                 completion(contactNumbersArray, (__bridge NSError *)(error));
             } else {
@@ -280,9 +286,23 @@
 
 - (void)getContactWithNumber:(NSString *)number withCompletion:(void (^)(CSModel *, NSError *))completion {
 
-    [self getDataArrayWithCompletion:^(NSArray<CSModel *> * data, NSError * err) {
-        
-        for (CSContact *contact in data) {
+    if (self.cacheContact == nil) {
+        [self getDataArrayWithCompletion:^(NSArray<CSModel *> * data, NSError * err) {
+            
+            for (CSContact *contact in data) {
+                for (NSString* phoneNumber in contact.phoneNumbers) {
+                    
+                    if ([phoneNumber isEqualToString:number]) {
+                        completion(contact, nil);
+                        return;
+                    }
+                }
+            }
+            
+            completion(nil, nil);
+        }];
+    } else {
+        for (CSContact *contact in self.cacheContact) {
             for (NSString* phoneNumber in contact.phoneNumbers) {
                 
                 if ([phoneNumber isEqualToString:number]) {
@@ -291,9 +311,7 @@
                 }
             }
         }
-        
-        completion(nil, nil);
-    }];
+    }
 }
 
 @end
