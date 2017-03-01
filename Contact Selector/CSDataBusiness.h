@@ -8,36 +8,30 @@
 
 #import <UIKit/UIKit.h>
 #import "CSModel.h"
+#import "CSDataProvider.h"
 
 extern NSString * kCSProviderSearchKey;
 
-typedef NS_ENUM(NSInteger, CSContactListState) {
-    CSContactListStateLoading,
-    CSContactListStateNormal
-};
-
+typedef NSArray<NSString *> CSDataIndex;
+typedef NSArray<CSModel *> CSDataArray;
+typedef NSDictionary<NSString *, NSArray<CSModel *> *> CSDataDictionary;
 typedef NS_ENUM(NSInteger, CSSearchResult) {
     CSSearchResultComplete,
     CSSearchResultNoResult
 };
-
-typedef void (^SearchCompleteBlock)(CSSearchResult searchResult, NSArray<NSString *> * index, NSDictionary<NSString *, NSArray<CSModel *> *> * dictionary) ;
-
-typedef NSArray<NSString *> CSDataIndex;
-
-typedef NSDictionary<NSString *, NSArray<CSModel *> *> CSDataDictionary;
-
-typedef NSArray<CSModel *> CSDataArray;
+typedef void (^SearchCompleteBlock)(CSSearchResult searchResult, NSArray<NSString *> * index, NSDictionary<NSString *, NSArray<CSModel *> *> * dictionary);
 
 @protocol CSDataBusiness <NSObject>
 
 @required
 
-- (CSDataIndex *)getDataIndexFromDataArray:(CSDataArray *) dataArray;
+- (id<CSDataProvider>)getDataProvider;
 
-- (CSDataDictionary *)getDataDictionaryFromDataArray:(CSDataArray *) dataArray;
+- (void)getDataIndexFromDataArray:(CSDataArray *) dataArray dispatchQueue:(dispatch_queue_t)queue withCompletion:(void (^)(CSDataIndex * index))completion;
 
-- (void)performSearch:(NSString *)text onDataArray:(CSDataArray *)dataArray withCompletion:(SearchCompleteBlock)completion;
+- (void)getDataDictionaryFromDataArray:(CSDataArray *) dataArray dispatchQueue:(dispatch_queue_t)queue withCompletion:(void (^)(CSDataDictionary * dictionary))completion;
+
+- (void)performSearch:(NSString *)text onDataArray:(CSDataArray *)dataArray dispatchQueue:(dispatch_queue_t)queue withCompletion:(SearchCompleteBlock)completion;
 
 @optional
 

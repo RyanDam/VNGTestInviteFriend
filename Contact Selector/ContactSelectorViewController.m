@@ -37,7 +37,6 @@
 @property (nonatomic, copy) NSArray<NSString *> * dataIndex;
 @property (nonatomic, copy) NSDictionary<NSString *, NSArray<CSModel *> *> * dataDictionary;
 @property (nonatomic, weak) id<CSDataBusiness> dataBusiness;
-@property (nonatomic, weak) id<CSDataProvider> dataProvider;
 @property (nonatomic, copy) NSArray<CSModel *> * dataArray;
 @property (nonatomic) NSUInteger maxSelectedData;
 @property (nonatomic) NSMutableArray<CSModel *> * selectedDatas;
@@ -155,30 +154,30 @@
     }
     
     self.dataBusiness = [self.dataSource dataBusinessForContactSelector:self];
-    self.dataProvider = [self.dataSource dataProviderForContactSelector:self];
     
     [self showLoadingState];
-    if (self.dataBusiness && self.dataProvider) {
-        [self.dataProvider getDataArrayWithCompletion:^(NSArray<CSModel *> *data, NSError *err) {
-            
+    if (self.dataBusiness) {
+        [[[self dataBusiness] getDataProvider] getDataArrayWithCompletion:^(NSArray<CSModel *> * data, NSError * err) {
             if (err) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self showMessage:[err localizedDescription]];
-                });
+                [self showMessage:[err localizedDescription]];
             } else {
                 self.dataArray = data;
-                self.dataIndex = [self.dataBusiness getDataIndexFromDataArray:data];
-                self.dataDictionary = [self.dataBusiness getDataDictionaryFromDataArray:data];
-                
-                self.originalDataIndex = [self.dataIndex copy];
-                self.originalDataDictionary = [self.dataDictionary copy];
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self hideLoadingState];
-                    [self.tableView reloadData];
-                });
+                [self.dataBusiness getDataIndexFromDataArray:data
+                                               dispatchQueue:dispatch_get_main_queue()
+                                              withCompletion:^(CSDataIndex *index) {
+                    [self.dataBusiness getDataDictionaryFromDataArray:data
+                                                        dispatchQueue:dispatch_get_main_queue()
+                                                       withCompletion:^(CSDataDictionary *dictionary) {
+                                                           self.dataIndex = index;
+                                                           self.dataDictionary = dictionary;
+                                                           self.originalDataIndex = [self.dataIndex copy];
+                                                           self.originalDataDictionary = [self.dataDictionary copy];
+                                                           [self hideLoadingState];
+                                                           [self.tableView reloadData];
+                    }];
+                }];
             }
-        }];
+        } andCustomQueue:dispatch_get_main_queue()];
     }
 }
 
@@ -259,10 +258,8 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     
-    if (self.dataBusiness && [self.dataBusiness respondsToSelector:@selector(performSearch:onDataArray:withCompletion:)]) {
-        [self.dataBusiness performSearch:searchText
-                             onDataArray:self.dataArray
-        withCompletion:^(CSSearchResult searchResult, NSArray<NSString *> *index, NSDictionary<NSString *,NSArray<CSModel *> *> *dictionary) {
+    if (self.dataBusiness && [self.dataBusiness respondsToSelector:@selector(performSearch:onDataArray:dispatchQueue:withCompletion:)]) {
+        [self.dataBusiness performSearch:searchText onDataArray:self.dataArray dispatchQueue:dispatch_get_main_queue() withCompletion:^(CSSearchResult searchResult, NSArray<NSString *> *index, NSDictionary<NSString *,NSArray<CSModel *> *> *dictionary) {
             if (index && dictionary) {
                 self.userSearchResult = searchResult;
                 self.dataIndex = index;

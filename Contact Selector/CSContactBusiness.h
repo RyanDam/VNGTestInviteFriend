@@ -11,10 +11,16 @@
 
 @interface CSContactBusiness : NSObject <CSDataBusiness>
 
-- (CSDataIndex *)getDataIndexFromDataArray:(CSDataArray *) dataArray;
+@property (nonatomic) id<CSDataProvider> dataProvider;
 
-- (CSDataDictionary *)getDataDictionaryFromDataArray:(CSDataArray *) dataArray;
+- (instancetype)initWithProvider:(id<CSDataProvider>)provider;
 
-- (void)performSearch:(NSString *)text onDataArray:(CSDataArray *)dataArray withCompletion:(SearchCompleteBlock)completion;
+- (id<CSDataProvider>)getDataProvider;
+
+- (void)getDataIndexFromDataArray:(CSDataArray *) dataArray dispatchQueue:(dispatch_queue_t)queue withCompletion:(void (^)(CSDataIndex * index))completion;
+
+- (void)getDataDictionaryFromDataArray:(CSDataArray *) dataArray dispatchQueue:(dispatch_queue_t)queue withCompletion:(void (^)(CSDataDictionary * dictionary))completion;
+
+- (void)performSearch:(NSString *)text onDataArray:(CSDataArray *)dataArray dispatchQueue:(dispatch_queue_t)queue withCompletion:(SearchCompleteBlock)completion;
 
 @end

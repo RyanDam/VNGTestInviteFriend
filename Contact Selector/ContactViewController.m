@@ -27,7 +27,6 @@
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (nonatomic) ContactSelectorViewController * contactSlecterVC;
 @property (nonatomic) id<CSDataBusiness> contactBusiness;
-@property (nonatomic) id<CSDataProvider> contactProvider;
 
 @end
 
@@ -45,8 +44,7 @@
     
     [self setupNavigation];
     
-    self.contactBusiness = [[CSContactBusiness alloc] init];
-    self.contactProvider = [[CSContactProvider alloc] init];
+    self.contactBusiness = [[CSContactBusiness alloc] initWithProvider:[[CSContactProvider alloc] init]];
     
     self.contactSlecterVC = [ContactSelectorViewController viewController];
     self.contactSlecterVC.delegate = self;
@@ -115,11 +113,6 @@
 }
 
 #pragma mark - CSViewControllerDataSource
-
-- (id<CSDataProvider>)dataProviderForContactSelector:(ContactSelectorViewController *)csViewController {
-    
-    return self.contactProvider;
-}
 
 - (id<CSDataBusiness>)dataBusinessForContactSelector:(ContactSelectorViewController *)csViewController {
     

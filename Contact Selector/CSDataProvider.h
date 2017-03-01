@@ -13,11 +13,9 @@
 
 @required
 
-- (void)getDataArrayWithCompletion:(void (^)(NSArray<CSModel *> * data, NSError * err))completion;
+- (void)getDataArrayWithCompletion:(void (^)(NSArray<CSModel *> *, NSError *))completion andCustomQueue:(dispatch_queue_t)queue;
 
 @optional
-
-- (void)getDataArrayWithCompletion:(void (^)(NSArray<CSModel *> *, NSError *))completion andCustomQueue:(dispatch_queue_t)queue;
 
 - (void)getContactWithNumber:(NSString *)number withCompletion:(void (^)(CSModel *contact, NSError * err))completion;
 

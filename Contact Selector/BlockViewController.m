@@ -24,7 +24,6 @@
 
 @property (nonatomic) ContactSelectorViewController * contactSlecterVC;
 @property (nonatomic) id<CSDataBusiness> contactBusiness;
-@property (nonatomic) id<CSDataProvider> blockNumberProvider;
 
 @end
 
@@ -41,8 +40,7 @@
     
     [self setupNavigation];
     
-    self.contactBusiness = [[CSContactBusiness alloc] init];
-    self.blockNumberProvider = [[BlockNumberProvider alloc] init];
+    self.contactBusiness = [[CSContactBusiness alloc] initWithProvider:[[BlockNumberProvider alloc] init]];
     
     self.contactSlecterVC = [ContactSelectorViewController viewController];
     self.contactSlecterVC.delegate = self;
@@ -62,39 +60,6 @@
     [super viewDidAppear:animated];
     
     [self needRefreshBlockPhoneExtention];
-    
-    
-    CSBlockDatebaseManager * manager = [CSBlockDatebaseManager manager];
-    NSArray * allContact = [manager getAllBlockContact];
-    NSMutableArray * allNumber = [NSMutableArray array];
-    
-    for (CSContact * contact in allContact) {
-        for (NSString * phone in contact.phoneNumbers) {
-            if ([phone characterAtIndex:0] == '+') {
-                [allNumber addObject:[phone substringFromIndex:1]];
-            } else {
-                [allNumber addObject:phone];
-            }
-        }
-    }
-    
-    [allNumber sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-        NSString * phone1 = (NSString *) obj1;
-        NSString * phone2 = (NSString *) obj2;
-        return [phone1 compare:phone2];
-    }];
-    
-    for (NSString * phone in allNumber) {
-        
-        NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
-        [f setNumberStyle:NSNumberFormatterDecimalStyle];
-        NSNumber * myNumber = [f numberFromString:phone];
-        
-        CXCallDirectoryPhoneNumber phoneNumber = [myNumber longLongValue];
-        
-        NSLog(@"%lld %d", phoneNumber, phoneNumber == 84969143732);
-    }
-    
 }
 
 - (void)setupNavigation {
@@ -150,6 +115,7 @@
 - (void)addBlockPhoneViewController:(BlockPhoneViewController *)vc didAddModel:(CSContact *)model {
     
     [self dismissViewControllerAnimated:vc.navigationController completion:nil];
+    
     if (model) {
         CSBlockDatebaseManager * manager = [CSBlockDatebaseManager manager];
         [manager blockContact:model];
@@ -159,11 +125,6 @@
 }
 
 #pragma mark - CSViewControllerDataSource
-
-- (id<CSDataProvider>)dataProviderForContactSelector:(ContactSelectorViewController *)csViewController {
-    
-    return self.blockNumberProvider;
-}
 
 - (id<CSDataBusiness>)dataBusinessForContactSelector:(ContactSelectorViewController *)csViewController {
     

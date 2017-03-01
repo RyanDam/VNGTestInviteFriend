@@ -91,14 +91,6 @@
 @required
 
 /**
- Return data provider
-
- @param csViewController view controller need data provider
- @return data provider
- */
-- (id<CSDataProvider>)dataProviderForContactSelector:(ContactSelectorViewController *)csViewController;
-
-/**
  Return data business
  
  @param csViewController view controller need data business
