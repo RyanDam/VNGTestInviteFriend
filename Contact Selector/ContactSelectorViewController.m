@@ -177,7 +177,7 @@
                     }];
                 }];
             }
-        } andCustomQueue:dispatch_get_main_queue()];
+        } andQueue:dispatch_get_main_queue()];
     }
 }
 
