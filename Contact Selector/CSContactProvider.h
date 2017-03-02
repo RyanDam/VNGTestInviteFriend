@@ -12,7 +12,4 @@
 @interface CSContactProvider : NSObject <CSDataProvider>
 
 
-
-
-
 @end

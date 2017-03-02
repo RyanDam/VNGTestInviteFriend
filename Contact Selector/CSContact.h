@@ -8,10 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "CSModel.h"
+@import Contacts;
+@import AddressBook;
 
 @interface CSContact : CSModel
 
 @property (nonatomic) NSArray<NSString *> * phoneNumbers;
 @property (nonatomic) NSArray<NSString *> * emails;
+
+- (id)initWithCNContact:(CNContact *)contact;
+- (id)initWithABRecord:(ABRecordRef)record;
 
 @end

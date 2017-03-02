@@ -46,59 +46,57 @@
             if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9.0")) {
                 
                 CNContactStore * store = [[CNContactStore alloc] init];
-                [store requestAccessForEntityType:CNEntityTypeContacts
-                                completionHandler:^(BOOL granted, NSError * _Nullable err) {
+                [store requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable err) {
                                     
-                                    if (!granted) {
-                                        NSLog(@"User not granted permission");
-                                        completion(nil, err);
-                                        return;
-                                    }
-                                    
-                                    NSArray *keys = @[CNContactFamilyNameKey, CNContactGivenNameKey, CNContactImageDataKey, CNContactPhoneNumbersKey, CNContactEmailAddressesKey];
-                                    
-                                    // get all contact group info
-                                    NSError * error;
-                                    NSArray * allContainer = [store containersMatchingPredicate:nil error:&error];
-                                    
-                                    NSArray *allContacts = [NSArray array];
-                                    if (error) {
-                                        completion(nil, error);
-                                    } else {
-                                        for (CNContainer * container in allContainer) {
-                                            NSPredicate *predicate = [CNContact predicateForContactsInContainerWithIdentifier:container.identifier];
-                                            NSError *error;
-                                            NSArray *cnContacts = [store unifiedContactsMatchingPredicate:predicate keysToFetch:keys error:&error];
-                                            
-                                            if (error) {
-                                                completion(nil, error);
-                                            } else {
-                                                allContacts = [allContacts arrayByAddingObjectsFromArray:cnContacts];
-                                            }
-                                        }
-                                    }
-                                    
-                                    NSMutableArray *contactNumbersArray = [NSMutableArray array];
-                                    
-                                    // convert CNContact to CSContact
-                                    for (CNContact *contact in allContacts) {
-                                        CSContact * contactResult = [self getInfoFromCNContact:contact];
-                                        if (contactResult.fullName.length == 0) {
-                                            continue;
-                                        }
-                                        [contactNumbersArray addObject:contactResult];
-                                    }
-                                    
-                                    if (queue == NULL) {
-                                        dispatch_async(dispatch_get_main_queue(), ^{
-                                            completion(contactNumbersArray, nil);
-                                        });
-                                    } else {
-                                        dispatch_async(queue, ^{
-                                            completion(contactNumbersArray, nil);
-                                        });
-                                    }
-                                }];
+                    if (!granted) {
+                        NSLog(@"User not granted permission");
+                        completion(nil, err);
+                    } else {
+                        
+                        NSArray *keys = @[CNContactFamilyNameKey, CNContactGivenNameKey, CNContactImageDataKey, CNContactPhoneNumbersKey, CNContactEmailAddressesKey];
+                        
+                        // get all contact group info
+                        NSError * error;
+                        NSArray * allContainer = [store containersMatchingPredicate:nil error:&error];
+                        
+                        NSArray *allContacts = [NSArray array];
+                        if (error) {
+                            completion(nil, error);
+                        } else {
+                            for (CNContainer * container in allContainer) {
+                                NSPredicate *predicate = [CNContact predicateForContactsInContainerWithIdentifier:container.identifier];
+                                NSError *error;
+                                NSArray *cnContacts = [store unifiedContactsMatchingPredicate:predicate keysToFetch:keys error:&error];
+                                
+                                if (error) {
+                                    completion(nil, error);
+                                } else {
+                                    allContacts = [allContacts arrayByAddingObjectsFromArray:cnContacts];
+                                }
+                            }
+                        }
+                        
+                        NSMutableArray *contactNumbersArray = [NSMutableArray array];
+                        
+                        // convert CNContact to CSContact
+                        for (CNContact *contact in allContacts) {
+                            CSContact * contactResult = [self getInfoFromCNContact:contact];
+                            if (contactResult.fullName.length > 0) {
+                                [contactNumbersArray addObject:contactResult];
+                            }
+                        }
+                        
+                        if (queue == NULL) {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                completion(contactNumbersArray, nil);
+                            });
+                        } else {
+                            dispatch_async(queue, ^{
+                                completion(contactNumbersArray, nil);
+                            });
+                        }
+                    }
+                }];
             } else {
                 
                 ABAuthorizationStatus status = ABAddressBookGetAuthorizationStatus();
@@ -114,61 +112,55 @@
                     NSError *err = [NSError errorWithDomain:@"com.vng.ContactSelector.CSContactProvider" code:1000 userInfo:details];
                     
                     completion(nil, err);
-                    return;
-                }
-                
-                CFErrorRef error = NULL;
-                ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error);
-                
-                if (!addressBook) {
-                    NSLog(@"ABAddressBookCreateWithOptions error: %@", CFBridgingRelease(error));
-                    completion(nil, (__bridge NSError *)(error));
-                    return;
-                }
-                
-                ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error) {
+                } else {
                     
-                        if (error) {
-                            NSLog(@"ABAddressBookRequestAccessWithCompletion error: %@", CFBridgingRelease(error));
-                            completion(nil, (__bridge NSError *)(error));
-                        }
+                    CFErrorRef error = NULL;
+                    ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error);
+                    
+                    if (!addressBook) {
+                        NSLog(@"ABAddressBookCreateWithOptions error: %@", CFBridgingRelease(error));
+                        completion(nil, (__bridge NSError *)(error));
+                    } else {
                         
-                        if (granted) {
-                            // if they gave you permission, then just carry on
-                            NSArray *allPeople = CFBridgingRelease(ABAddressBookCopyArrayOfAllPeople(addressBook));
-                            NSInteger numberOfPeople = [allPeople count];
+                        ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error) {
                             
-                            NSMutableArray *contactNumbersArray = [NSMutableArray array];
-                            
-                            for (NSInteger i = 0; i < numberOfPeople; i++) {
-                                ABRecordRef person = (__bridge ABRecordRef)allPeople[i];
+                            if (error) {
+                                NSLog(@"ABAddressBookRequestAccessWithCompletion error: %@", CFBridgingRelease(error));
+                                completion(nil, (__bridge NSError *)(error));
+                            } else if (granted) {
+                                // if they gave you permission, then just carry on
+                                NSArray *allPeople = CFBridgingRelease(ABAddressBookCopyArrayOfAllPeople(addressBook));
+                                NSInteger numberOfPeople = [allPeople count];
                                 
-                                CSContact *contact = [self getInfoFromABRecord:person];
-                                if (contact.fullName.length == 0) {
-                                    continue;
+                                NSMutableArray *contactNumbersArray = [NSMutableArray array];
+                                
+                                for (NSInteger i = 0; i < numberOfPeople; i++) {
+                                    ABRecordRef person = (__bridge ABRecordRef)allPeople[i];
+                                    
+                                    CSContact *contact = [[CSContact alloc] initWithABRecord:person];
+                                    if (contact.fullName.length > 0) {
+                                        [contactNumbersArray addObject:contact];
+                                    }
                                 }
                                 
-                                
-                                [contactNumbersArray addObject:contact];
+                                if (queue != NULL) {
+                                    dispatch_async(queue, ^{
+                                        completion(contactNumbersArray, (__bridge NSError *)(error));
+                                    });
+                                } else {
+                                    dispatch_async(dispatch_get_main_queue(), ^{
+                                        completion(contactNumbersArray, (__bridge NSError *)(error));
+                                    });
+                                }
+                            } else {
+                                // however, if they didn't give you permission, handle it gracefully, for example...
+                                completion(nil, (__bridge NSError *)(error));
                             }
                             
-                            if (queue != NULL) {
-                                dispatch_async(queue, ^{
-                                    completion(contactNumbersArray, (__bridge NSError *)(error));
-                                });
-                            } else {
-                                dispatch_async(dispatch_get_main_queue(), ^{
-                                    completion(contactNumbersArray, (__bridge NSError *)(error));
-                                });
-                            }
-
-                        } else {
-                            // however, if they didn't give you permission, handle it gracefully, for example...
-                            completion(nil, (__bridge NSError *)(error));
-                        }
-                        
-                        CFRelease(addressBook);
-                });
+                            CFRelease(addressBook);
+                        });
+                    }
+                }
             }
         });
     }
@@ -212,63 +204,6 @@
     }
     
     CSContact * contactResult = [[CSContact alloc] init];
-    contactResult.fullName = [fullName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    contactResult.avatar = profileImage;
-    contactResult.emails = emails;
-    contactResult.phoneNumbers = phoneNumbers;
-    
-    return contactResult;
-}
-
-- (CSContact *)getInfoFromABRecord: (ABRecordRef)person {
-    
-    NSString * fullName;
-    NSString * firstName;
-    NSString * lastName;
-    NSMutableArray<NSString *> * phoneNumbers = [NSMutableArray array];
-    NSMutableArray<NSString *> * emails = [NSMutableArray array];
-    UIImage * profileImage;
-    
-    firstName = CFBridgingRelease(ABRecordCopyValue(person, kABPersonFirstNameProperty));
-    lastName  = CFBridgingRelease(ABRecordCopyValue(person, kABPersonLastNameProperty));
-    if (lastName == nil) {
-        fullName=[NSString stringWithFormat:@"%@",firstName];
-    } else if (firstName == nil) {
-        fullName=[NSString stringWithFormat:@"%@",lastName];
-    } else {
-        fullName=[NSString stringWithFormat:@"%@ %@",firstName,lastName];
-    }
-
-    // get phone numbers
-    ABMultiValueRef abPhoneNumbers = ABRecordCopyValue(person, kABPersonPhoneProperty);
-    CFIndex numberOfPhoneNumbers = ABMultiValueGetCount(abPhoneNumbers);
-    
-    for (CFIndex i = 0; i < numberOfPhoneNumbers; i++) {
-        NSString *phoneNumber = CFBridgingRelease(ABMultiValueCopyValueAtIndex(abPhoneNumbers, i));
-        [phoneNumbers addObject:phoneNumber];
-    }
-    
-    CFRelease(abPhoneNumbers);
-    
-    // get emails
-    ABMultiValueRef abEmails = ABRecordCopyValue(person, kABPersonEmailProperty);
-    CFIndex numberOfEmails = ABMultiValueGetCount(abEmails);
-    
-    for (CFIndex i = 0; i < numberOfEmails; i++) {
-        NSString *email = CFBridgingRelease(ABMultiValueCopyValueAtIndex(abEmails, i));
-        [emails addObject:email];
-    }
-    
-    CFRelease(abEmails);
-    
-    // get image
-    NSData  *imgData = (__bridge NSData *)ABPersonCopyImageData(person);
-    if (imgData != nil)
-        profileImage = [UIImage imageWithData:imgData];
-    else
-        profileImage = [UIImage imageNamed:@"person-icon.png"];
-
-    CSContact *contactResult = [CSContact new];
     contactResult.fullName = [fullName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     contactResult.avatar = profileImage;
     contactResult.emails = emails;
