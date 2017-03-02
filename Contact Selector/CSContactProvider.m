@@ -21,8 +21,6 @@
 
 @property (nonatomic) dispatch_queue_t serialQueue;
 
-@property (strong, nonatomic) NSArray *cacheContact;
-
 @end
 
 @implementation CSContactProvider
@@ -46,7 +44,7 @@
     }
 }
 
-- (void)getDataArrayWithCompletion:(void (^)(NSArray<CSModel *> *, NSError *))completion andCustomQueue:(dispatch_queue_t)queue {
+- (void)getDataArrayWithCompletion:(void (^)(NSArray<CSModel *> *, NSError *))completion andQueue:(dispatch_queue_t)queue {
     
     if (completion == nil)
         return;
@@ -108,8 +106,6 @@
                 [contactNumbersArray addObject:contactResult];
             }
             
-            self.cacheContact = contactNumbersArray;
-            
             completion(contactNumbersArray ,nil);
         });
     }];
@@ -167,8 +163,6 @@
                     
                     [contactNumbersArray addObject:contact];
                 }
-                
-                self.cacheContact = contactNumbersArray;
                 
                 completion(contactNumbersArray, (__bridge NSError *)(error));
             } else {
@@ -282,36 +276,6 @@
     contactResult.phoneNumbers = phoneNumbers;
     
     return contactResult;
-}
-
-- (void)getContactWithNumber:(NSString *)number withCompletion:(void (^)(CSModel *, NSError *))completion {
-
-    if (self.cacheContact == nil) {
-        [self getDataArrayWithCompletion:^(NSArray<CSModel *> * data, NSError * err) {
-            
-            for (CSContact *contact in data) {
-                for (NSString* phoneNumber in contact.phoneNumbers) {
-                    
-                    if ([phoneNumber isEqualToString:number]) {
-                        completion(contact, nil);
-                        return;
-                    }
-                }
-            }
-            
-            completion(nil, nil);
-        }];
-    } else {
-        for (CSContact *contact in self.cacheContact) {
-            for (NSString* phoneNumber in contact.phoneNumbers) {
-                
-                if ([phoneNumber isEqualToString:number]) {
-                    completion(contact, nil);
-                    return;
-                }
-            }
-        }
-    }
 }
 
 @end
