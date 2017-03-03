@@ -95,6 +95,8 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - UIButtonDelegate
+
 - (IBAction)numberClick:(id)sender {
     
     [self showInputView];
@@ -122,9 +124,6 @@
      ];
 }
 
-- (BOOL)isInputViewShowing {
-    return self.inputConstraint.constant >= 0;
-}
 
 - (IBAction)hideDialler:(id)sender {
     
@@ -161,6 +160,12 @@
 - (IBAction)makePhoneCall:(id)sender {
     if (self.inputNumber.text.length > 0)
         [[CallManagement management] makePhoneCall:self.inputNumber.text];
+}
+
+#pragma mark - InternalMethod
+
+- (BOOL)isInputViewShowing {
+    return self.inputConstraint.constant >= 0;
 }
 
 - (void)showInputView {
