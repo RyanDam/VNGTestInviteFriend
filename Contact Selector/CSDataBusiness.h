@@ -25,9 +25,9 @@ typedef void (^SearchCompleteBlock)(CSSearchResult searchResult, NSArray<NSStrin
 
 @required
 
-+ (id)instance;
+- (id)init;
 
-+ (id)instanceWithProvider:(id<CSDataProvider>)provider;
+- (id)initWithProvider:(id<CSDataProvider>)provider;
 
 - (void)getDataIndexWithQueue:(dispatch_queue_t)queue withCompletion:(void (^)(CSDataIndex * index))completion;
 

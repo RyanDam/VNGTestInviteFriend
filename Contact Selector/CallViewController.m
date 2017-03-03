@@ -57,7 +57,7 @@
     [self.tableView setDataSource:self];
     [self.tableView setDelegate:self];
 
-    self.contactBusiness = [CSContactBusiness instance];
+    self.contactBusiness = [[CSContactBusiness alloc] init];
     self.cacheContact = [NSMutableDictionary new];
     
     self.inputNumber.userInteractionEnabled = NO;

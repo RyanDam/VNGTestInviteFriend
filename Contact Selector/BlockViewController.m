@@ -40,7 +40,7 @@
     
     [self setupNavigation];
     
-    self.contactBusiness = [CSContactBusiness instanceWithProvider:[BlockNumberProvider instance]];
+    self.contactBusiness = [[CSContactBusiness alloc] initWithProvider:[BlockNumberProvider instance]];
     
     self.contactSlecterVC = [ContactSelectorViewController viewController];
     self.contactSlecterVC.delegate = self;

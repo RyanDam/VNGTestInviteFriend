@@ -12,37 +12,37 @@
 
 @interface CSContactBusiness ()
 
-@property (nonatomic) dispatch_queue_t internalQueue;
-
+@property (strong, nonatomic) dispatch_queue_t internalQueue;
+@property (strong, nonatomic) id<CSDataProvider> currentProvider;
 
 @end
 
 @implementation CSContactBusiness
 
-static dispatch_queue_t internalQueue;
-static id<CSDataProvider> currentProvider;
-
-+ (id)instance {
-    static CSContactBusiness *currentInstance;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        currentInstance = [CSContactBusiness new];
-        internalQueue = dispatch_queue_create("com.vng.ContactSelector.CSContactBusiness", DISPATCH_QUEUE_CONCURRENT);
-        currentProvider = [CSContactProvider instance];
-    });
-    return currentInstance;
+- (id)init {
+    if (self = [super init]) {
+        self.internalQueue = dispatch_queue_create("com.vng.ContactSelector.CSContactBusiness", DISPATCH_QUEUE_CONCURRENT);
+        self.currentProvider = [CSContactProvider instance];
+    }
+    return self;
 }
 
-+ (id)instanceWithProvider:(id<CSDataProvider>)provider {
-    if (provider != nil) {
-        currentProvider = provider;
+- (id)initWithProvider:(id<CSDataProvider>)provider {
+    if (self = [super init]) {
+        self.internalQueue = dispatch_queue_create("com.vng.ContactSelector.CSContactBusiness", DISPATCH_QUEUE_CONCURRENT);
+        
+        if (provider == nil) {
+            self.currentProvider = [CSContactProvider instance];
+        } else {
+            self.currentProvider = provider;
+        }
     }
-    return [CSContactBusiness instance];
+    return self;
 }
 
 - (void)getDataIndexFromDataArray:(CSDataArray *) dataArray dispatchQueue:(dispatch_queue_t)queue withCompletion:(void (^)(CSDataIndex * index))completion {
     if (completion && dataArray) {
-        dispatch_async(internalQueue, ^{
+        dispatch_async(self.internalQueue, ^{
             // sort all contact
             NSArray * sortedContact = [dataArray sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
                 CSContact * currentContact = (CSContact *) obj1;
@@ -79,7 +79,7 @@ static id<CSDataProvider> currentProvider;
 
 - (void)getDataDictionaryFromDataArray:(CSDataArray *) dataArray dispatchQueue:(dispatch_queue_t)queue withCompletion:(void (^)(CSDataDictionary * dictionary))completion {
     if (completion && dataArray) {
-        dispatch_async(internalQueue, ^{
+        dispatch_async(self.internalQueue, ^{
             // sort all contact
             NSArray * sortedContact = [dataArray sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
                 CSContact * currentContact = (CSContact *) obj1;
@@ -126,7 +126,7 @@ static id<CSDataProvider> currentProvider;
 - (void)performSearch:(NSString *)text onDataArray:(CSDataArray *)dataArray dispatchQueue:(dispatch_queue_t)queue withCompletion:(SearchCompleteBlock)completion {
     
     if (text && dataArray && completion) {
-        dispatch_async(internalQueue, ^{
+        dispatch_async(self.internalQueue, ^{
             if (text.length > 0) {
                 NSMutableArray * searchedArray = [NSMutableArray array];
                 NSArray * arrayToSearch = dataArray;
@@ -177,32 +177,32 @@ static id<CSDataProvider> currentProvider;
 
 - (void)getDataIndexWithQueue:(dispatch_queue_t)queue withCompletion:(void (^)(CSDataIndex *))completion {
     
-    [currentProvider getDataArrayWithCompletion:^(NSArray<CSModel *> *data, NSError *err) {
+    [self.currentProvider getDataArrayWithCompletion:^(NSArray<CSModel *> *data, NSError *err) {
         [self getDataIndexFromDataArray:data dispatchQueue:queue withCompletion:completion];
     }];
 }
 
 - (void)getDataArrayWithCompletion:(void (^)(NSArray<CSModel *> *, NSError *))completion {
-    [currentProvider getDataArrayWithCompletion:^(NSArray<CSModel *> *data, NSError *err) {
+    [self.currentProvider getDataArrayWithCompletion:^(NSArray<CSModel *> *data, NSError *err) {
         completion(data, nil);
     }];
 }
 
 - (void)getDataDictionaryWithQueue:(dispatch_queue_t)queue withCompletion:(void (^)(CSDataDictionary *))completion {
-    [currentProvider getDataArrayWithCompletion:^(NSArray<CSModel *> *data, NSError *err) {
+    [self.currentProvider getDataArrayWithCompletion:^(NSArray<CSModel *> *data, NSError *err) {
         [self getDataDictionaryFromDataArray:data dispatchQueue:dispatch_get_main_queue() withCompletion:completion];
     }];
 }
 
 - (void)performSearch:(NSString *)text dispatchQueue:(dispatch_queue_t)queue withCompletion:(SearchCompleteBlock)completion {
-    [currentProvider getDataArrayWithCompletion:^(NSArray<CSModel *> *data, NSError *err) {
+    [self.currentProvider getDataArrayWithCompletion:^(NSArray<CSModel *> *data, NSError *err) {
         [self performSearch:text onDataArray:data dispatchQueue:dispatch_get_main_queue() withCompletion:completion];
     }];
 }
 
 - (void)searchForContactWithNumber:(NSString *)phoneNumber withCompletion:(void(^)(CSContact *))completion {
     if (completion) {
-        [currentProvider getDataArrayWithCompletion:^(NSArray<CSModel *> *data, NSError *err) {
+        [self.currentProvider getDataArrayWithCompletion:^(NSArray<CSModel *> *data, NSError *err) {
             CSContact *contact = [self searchForContactFromDataArray:data withNumber:phoneNumber];
             completion(contact);
         }];
