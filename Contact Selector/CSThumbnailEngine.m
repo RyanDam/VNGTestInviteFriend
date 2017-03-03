@@ -9,33 +9,40 @@
 #import "CSThumbnailEngine.h"
 #import "LRUCache.h"
 #import "CSThumbnailCreater.h"
-#import "LRUCacheItem.h"
 
 @implementation UIImageView (CSThumbnailEngine)
 
 - (void)setThumbnailText:(NSString *)text withCompletion:(void (^)(UIImage * image))completion {
     
-    LRUCache * cacher = [LRUCache getInstanceWithName:@"CSThumbnailEngineCache" hopeSize:50];
+    LRUCache * cacher = [LRUCache getInstanceWithName:@"CSThumbnailEngineCache" hopeSize:1024*1024]; // 10MB;
     
     [self setImage:nil];
     
-    [cacher objectForKey:text withCompletion:^(LRUCacheItem *item) {
-        UIImage * image = (UIImage *)item.value;
+    [cacher objectForKey:text withCompletion:^(UIImage *item) {
         
-        if (image == nil) {
-            image = [[CSThumbnailCreater getInstance] getThumbnailImageWithText:text withSize:self.frame.size];
-            [cacher addObject:image forKey:text withCompletion:^(LRUCacheItem *item) {
-               // do nothing
-            }];
-            NSLog(@"Create %@", text);
+        if (item == nil) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                UIImage * image = [[CSThumbnailCreater getInstance] getThumbnailImageWithText:text withSize:self.frame.size];
+                [cacher addObject:image forKey:text withCompletion:^(UIImage *item) {
+                    // do nothing
+                }];
+                NSLog(@"Create %@", text);
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self setImage:image];
+                    if (completion != nil) {
+                        completion(image);
+                    }
+                });
+            });
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self setImage:item];
+                if (completion != nil) {
+                    completion(item);
+                }
+            });
         }
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self setImage:image];
-            if (completion != nil) {
-                completion(image);
-            }
-        });
     }];
 }
 

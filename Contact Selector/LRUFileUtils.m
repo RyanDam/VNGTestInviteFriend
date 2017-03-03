@@ -30,28 +30,18 @@
         // WARNING ERROR
         [manager createDirectoryAtPath:grandCachePath withIntermediateDirectories:YES attributes:nil error:nil];
     }
-    
     NSString * result = [grandCachePath stringByAppendingPathComponent:cacheName];
     if ([manager fileExistsAtPath:result] == NO) {
         // WARNING ERROR
         [manager createDirectoryAtPath:result withIntermediateDirectories:YES attributes:nil error:nil];
     }
-    
     return result;
 }
 
 + (NSString *)getCacheInfoFilePathWithCacheName:(NSString *)cacheName {
     
-//    NSFileManager * manager = [NSFileManager defaultManager];
-    
     NSString * cachePath = [self getCachePathWithCacheName:cacheName];
     NSString * result = [cachePath stringByAppendingPathComponent:CACHE_INFO_FILE];
-    
-//    if ([manager fileExistsAtPath:result] == NO) {
-//        // WARNING ERROR
-//        [manager createFileAtPath:result contents:nil attributes:nil];
-//    }
-    
     return result;
 }
 
@@ -66,7 +56,6 @@
         // WARNING ERROR
         [manager createDirectoryAtPath:result withIntermediateDirectories:YES attributes:nil error:nil];
     }
-    
     return result;
 }
 

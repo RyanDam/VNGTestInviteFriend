@@ -6,29 +6,49 @@
 //  Copyright © 2017 CPU11815. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "UIKit/UIKit.h"
 
 @class LRUCacheItem;
 
-typedef void (^ReadWriteCacheItemCompletion)(LRUCacheItem * item, NSString * path, NSError * error);
+typedef void (^ReadWriteCacheItemCompletion)(UIImage * item, NSString * path, NSError * error);
 
 @interface LRUCacheDisk : NSObject
 
 @property (nonatomic, readonly) NSUInteger maxSize;
 @property (nonatomic, readonly) NSString * cacheName;
 
-+ (void)getInstanceWithName:(NSString *)cacheName hopeMaxSize:(NSUInteger)maxSize withCompletion:(void(^)(LRUCacheDisk * diskCacher))completion;
++ (void)getInstanceWithName:(NSString *)cacheName withCompletion:(void(^)(LRUCacheDisk * diskCacher))completion;
 
-- (instancetype)initCacheDiskName:(NSString *)cacheName withMaxSize:(NSUInteger)maxSize;
+/**
+ Add image to cachedisk
 
-- (void)addItem:(LRUCacheItem *)item forKey:(NSString *)key withCompletion:(ReadWriteCacheItemCompletion)completion;
+ @param item image to cache
+ @param key key for retrive
+ @param completion completion
+ */
+- (void)addItem:(UIImage *)item forKey:(NSString *)key withCompletion:(ReadWriteCacheItemCompletion)completion;
 
+/**
+ Read image from cache disk
+
+ @param key key to retrive
+ @param completion completion
+ */
 - (void)objectForKey:(NSString *)key withCompletion:(ReadWriteCacheItemCompletion)completion;
 
+/**
+ Remove cache image with key
+
+ @param key key to remove
+ @param completion completion
+ */
 - (void)removeObjectForKey:(NSString *)key withCompletion:(ReadWriteCacheItemCompletion)completion;
 
-- (void)removeAllObjectWithCompletion:(ReadWriteCacheItemCompletion)completion;
+/**
+ Remove all cachedisk
 
-- (NSString *)printAll;
+ @param completion completion
+ */
+- (void)removeAllObjectWithCompletion:(ReadWriteCacheItemCompletion)completion;
 
 @end
