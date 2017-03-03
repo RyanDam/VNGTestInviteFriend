@@ -11,6 +11,15 @@
 
 @implementation BlockNumberProvider
 
++ (id)instance {
+    static BlockNumberProvider *currentInstance;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        currentInstance = [BlockNumberProvider new];
+    });
+    return currentInstance;
+}
+
 - (void)getDataArrayWithCompletion:(void (^)(NSArray<CSModel *> * data, NSError * err))completion {
     
     CSBlockDatebaseManager * manager = [CSBlockDatebaseManager manager];
