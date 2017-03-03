@@ -15,8 +15,6 @@
 
 + (id)instance;
 
-
-
 - (void)getDataArrayWithCompletion:(void (^)(NSArray<CSModel *> * data, NSError * err))completion andQueue:(dispatch_queue_t)queue;
 
 @optional

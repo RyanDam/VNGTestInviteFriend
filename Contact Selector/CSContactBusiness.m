@@ -8,6 +8,7 @@
 
 #import "CSContactBusiness.h"
 #import "CSContact.h"
+#import "CSContactProvider.h"
 
 @interface CSContactBusiness ()
 
@@ -17,24 +18,21 @@
 
 @implementation CSContactBusiness
 
-- (instancetype)initWithProvider:(id<CSDataProvider>)provider {
-    static int queueCount = 0;
-    self = [super init];
-    if (self) {
-        self.dataProvider = provider;
-        NSString * queueLabel = [NSString stringWithFormat:@"businessQueue#%d", queueCount++];
-        self.internalQueue = dispatch_queue_create([queueLabel UTF8String], DISPATCH_QUEUE_CONCURRENT);
-    }
-    return self;
-}
+static dispatch_queue_t internalQueue;
 
-- (id<CSDataProvider>)getDataProvider {
-    return _dataProvider;
++ (id)instance {
+    static CSContactBusiness *currentInstance;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        currentInstance = [CSContactBusiness new];
+        internalQueue = dispatch_queue_create("com.vng.ContactSelector.CSContactBusiness", DISPATCH_QUEUE_CONCURRENT);
+    });
+    return currentInstance;
 }
 
 - (void)getDataIndexFromDataArray:(CSDataArray *) dataArray dispatchQueue:(dispatch_queue_t)queue withCompletion:(void (^)(CSDataIndex * index))completion {
     if (completion && dataArray) {
-        dispatch_async(self.internalQueue, ^{
+        dispatch_async(internalQueue, ^{
             // sort all contact
             NSArray * sortedContact = [dataArray sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
                 CSContact * currentContact = (CSContact *) obj1;
@@ -71,7 +69,7 @@
 
 - (void)getDataDictionaryFromDataArray:(CSDataArray *) dataArray dispatchQueue:(dispatch_queue_t)queue withCompletion:(void (^)(CSDataDictionary * dictionary))completion {
     if (completion && dataArray) {
-        dispatch_async(self.internalQueue, ^{
+        dispatch_async(internalQueue, ^{
             // sort all contact
             NSArray * sortedContact = [dataArray sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
                 CSContact * currentContact = (CSContact *) obj1;
@@ -118,7 +116,7 @@
 - (void)performSearch:(NSString *)text onDataArray:(CSDataArray *)dataArray dispatchQueue:(dispatch_queue_t)queue withCompletion:(SearchCompleteBlock)completion {
     
     if (text && dataArray && completion) {
-        dispatch_async(self.internalQueue, ^{
+        dispatch_async(internalQueue, ^{
             if (text.length > 0) {
                 NSMutableArray * searchedArray = [NSMutableArray array];
                 NSArray * arrayToSearch = dataArray;
@@ -167,7 +165,41 @@
     }
 }
 
-- (CSModel *)searchForContactFromDataArray:(CSDataArray *)dataArray withNumber:(NSString *)phoneNumber {
+- (void)getDataIndexWithQueue:(dispatch_queue_t)queue withCompletion:(void (^)(CSDataIndex *))completion {
+    
+    [[CSContactProvider instance] getDataArrayWithCompletion:^(NSArray<CSModel *> *data, NSError *err) {
+        [self getDataIndexFromDataArray:data dispatchQueue:queue withCompletion:completion];
+    }];
+}
+
+- (void)getDataArrayWithCompletion:(void (^)(NSArray<CSModel *> *, NSError *))completion {
+    [[CSContactProvider instance] getDataArrayWithCompletion:^(NSArray<CSModel *> *data, NSError *err) {
+        completion(data, nil);
+    }];
+}
+
+- (void)getDataDictionaryWithQueue:(dispatch_queue_t)queue withCompletion:(void (^)(CSDataDictionary *))completion {
+    [[CSContactProvider instance] getDataArrayWithCompletion:^(NSArray<CSModel *> *data, NSError *err) {
+        [self getDataDictionaryFromDataArray:data dispatchQueue:dispatch_get_main_queue() withCompletion:completion];
+    }];
+}
+
+- (void)performSearch:(NSString *)text dispatchQueue:(dispatch_queue_t)queue withCompletion:(SearchCompleteBlock)completion {
+    [[CSContactProvider instance] getDataArrayWithCompletion:^(NSArray<CSModel *> *data, NSError *err) {
+        [self performSearch:text onDataArray:data dispatchQueue:dispatch_get_main_queue() withCompletion:completion];
+    }];
+}
+
+- (void)searchForContactWithNumber:(NSString *)phoneNumber withCompletion:(void(^)(CSContact *))completion {
+    if (completion) {
+        [[CSContactProvider instance] getDataArrayWithCompletion:^(NSArray<CSModel *> *data, NSError *err) {
+            CSContact *contact = [self searchForContactFromDataArray:data withNumber:phoneNumber];
+            completion(contact);
+        }];
+    }
+}
+
+- (CSContact *)searchForContactFromDataArray:(CSDataArray *)dataArray withNumber:(NSString *)phoneNumber {
 
     for (CSContact *contact in dataArray) {
         for (NSString* number in contact.phoneNumbers) {

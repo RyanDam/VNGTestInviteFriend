@@ -25,13 +25,15 @@ typedef void (^SearchCompleteBlock)(CSSearchResult searchResult, NSArray<NSStrin
 
 @required
 
-- (id<CSDataProvider>)getDataProvider;
++ (id)instance;
 
-- (void)getDataIndexFromDataArray:(CSDataArray *) dataArray dispatchQueue:(dispatch_queue_t)queue withCompletion:(void (^)(CSDataIndex * index))completion;
+- (void)getDataIndexWithQueue:(dispatch_queue_t)queue withCompletion:(void (^)(CSDataIndex * index))completion;
 
-- (void)getDataDictionaryFromDataArray:(CSDataArray *) dataArray dispatchQueue:(dispatch_queue_t)queue withCompletion:(void (^)(CSDataDictionary * dictionary))completion;
+- (void)getDataDictionaryWithQueue:(dispatch_queue_t)queue withCompletion:(void (^)(CSDataDictionary * dictionary))completion;
 
-- (void)performSearch:(NSString *)text onDataArray:(CSDataArray *)dataArray dispatchQueue:(dispatch_queue_t)queue withCompletion:(SearchCompleteBlock)completion;
+- (void)performSearch:(NSString *)text dispatchQueue:(dispatch_queue_t)queue withCompletion:(SearchCompleteBlock)completion;
+
+- (void)getDataArrayWithCompletion:(void (^)(NSArray<CSModel *> * data, NSError * err))completion;
 
 @optional
 
@@ -39,6 +41,5 @@ typedef void (^SearchCompleteBlock)(CSSearchResult searchResult, NSArray<NSStrin
 
 - (void)completeSearch;
 
-- (CSModel *)searchForContactFromDataArray:(CSDataArray *)dataArray withNumber:(NSString *)phoneNumber;
 
 @end

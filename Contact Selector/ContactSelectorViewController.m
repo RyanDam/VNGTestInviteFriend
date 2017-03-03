@@ -157,27 +157,20 @@
     
     [self showLoadingState];
     if (self.dataBusiness) {
-        [[[self dataBusiness] getDataProvider] getDataArrayWithCompletion:^(NSArray<CSModel *> * data, NSError * err) {
-            if (err) {
-                [self showMessage:[err localizedDescription]];
-            } else {
-                self.dataArray = data;
-                [self.dataBusiness getDataIndexFromDataArray:data
-                                               dispatchQueue:dispatch_get_main_queue()
-                                              withCompletion:^(CSDataIndex *index) {
-                    [self.dataBusiness getDataDictionaryFromDataArray:data
-                                                        dispatchQueue:dispatch_get_main_queue()
-                                                       withCompletion:^(CSDataDictionary *dictionary) {
-                                                           self.dataIndex = index;
-                                                           self.dataDictionary = dictionary;
-                                                           self.originalDataIndex = [self.dataIndex copy];
-                                                           self.originalDataDictionary = [self.dataDictionary copy];
-                                                           [self hideLoadingState];
-                                                           [self.tableView reloadData];
-                    }];
-                }];
-            }
-        } andQueue:dispatch_get_main_queue()];
+        [self.dataBusiness getDataIndexWithQueue:dispatch_get_main_queue()
+                                  withCompletion:^(CSDataIndex *index) {
+                                      self.dataIndex = index;
+                                      self.originalDataIndex = [self.dataIndex copy];
+                                      [self.dataBusiness getDataDictionaryWithQueue:dispatch_get_main_queue()
+                                                                     withCompletion:^(CSDataDictionary *dictionary) {
+                                                                         
+                                                                         self.dataDictionary = dictionary;
+                                                                         
+                                                                         self.originalDataDictionary = [self.dataDictionary copy];
+                                                                         [self hideLoadingState];
+                                                                         [self.tableView reloadData];
+                                                                     }];
+                                  }];
     }
 }
 
@@ -258,8 +251,8 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     
-    if (self.dataBusiness && [self.dataBusiness respondsToSelector:@selector(performSearch:onDataArray:dispatchQueue:withCompletion:)]) {
-        [self.dataBusiness performSearch:searchText onDataArray:self.dataArray dispatchQueue:dispatch_get_main_queue() withCompletion:^(CSSearchResult searchResult, NSArray<NSString *> *index, NSDictionary<NSString *,NSArray<CSModel *> *> *dictionary) {
+    if (self.dataBusiness && [self.dataBusiness respondsToSelector:@selector(performSearch:dispatchQueue:withCompletion:)]) {
+        [self.dataBusiness performSearch:searchText dispatchQueue:dispatch_get_main_queue() withCompletion:^(CSSearchResult searchResult, NSArray<NSString *> *index, NSDictionary<NSString *,NSArray<CSModel *> *> *dictionary) {
             if (index && dictionary) {
                 self.userSearchResult = searchResult;
                 self.dataIndex = index;

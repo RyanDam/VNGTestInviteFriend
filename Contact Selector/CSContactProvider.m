@@ -41,9 +41,7 @@ static NSArray *cacheContacts;
 
 - (void)getDataArrayWithCompletion:(void (^)(NSArray<CSModel *> *, NSError *))completion{
     if (cacheContacts) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            completion(cacheContacts, nil);
-        });
+        completion(cacheContacts, nil);
     }
     else {
         [self getDataArrayWithCompletion:completion andQueue:NULL];
