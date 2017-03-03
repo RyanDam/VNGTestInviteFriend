@@ -117,7 +117,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uoO-jR-H2l">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uoO-jR-H2l" userLabel="Input View">
                                 <rect key="frame" x="0.0" y="736" width="414" height="40"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NVf-KS-M4t">
@@ -162,7 +162,7 @@
                                     <constraint firstAttribute="height" constant="40" id="qDo-UH-IqP"/>
                                 </constraints>
                             </view>
-                            <view tag="100" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yZo-T2-6MG">
+                            <view tag="100" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yZo-T2-6MG" userLabel="Dialer View">
                                 <rect key="frame" x="0.0" y="736" width="414" height="350"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WTF-m8-kIa">

@@ -15,6 +15,14 @@
 #import "CallObserver.h"
 #import "CSContact.h"
 
+#define DIALER_VIEW_SHOW_CONSTANT -34
+#define DIALER_VIEW_HIDE_CONSTANT -350
+#define INPUT_VIEW_SHOW_CONSTANT 0
+#define INPUT_VIEW_HIDE_CONSTANT -40
+
+#define LOADING_CELL_HEIGHT 300
+#define CALL_CELL_HEIGHT 64
+
 @interface CallViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (strong, nonatomic) CSContactProvider *contactProvider;
@@ -32,7 +40,7 @@
 @property (strong, nonatomic) NSMutableDictionary *cacheContact;
 @property (strong, nonatomic) NSArray *allContact;
 
-@property BOOL isLoading;
+@property int waitForLoading;
 
 @end
 
@@ -50,31 +58,35 @@
     [self.tableView setDataSource:self];
     [self.tableView setDelegate:self];
     
-    self.calls = [[CSCallHistoryManager manager] getAllCalls];
-    self.inputNumber.userInteractionEnabled = NO;
     self.contactProvider = [CSContactProvider new];
     self.contactBusiness = [CSContactBusiness new];
     self.cacheContact = [NSMutableDictionary new];
     
+    self.inputNumber.userInteractionEnabled = NO;
+    
+    self.waitForLoading = 2;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        self.calls = [[CSCallHistoryManager manager] getAllCalls];
+        self.waitForLoading--;
+    });
+    
+    [self.contactProvider getDataArrayWithCompletion:^(NSArray<CSModel *> *data, NSError *err) {
+        self.waitForLoading--;
+        if (!err) {
+            self.allContact = data;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableView reloadData];
+            });
+        } else {
+            NSLog(@"%@", [err localizedDescription]);
+        }
+    }];
+
     [[CallObserver observer] setRefreshUI:^{
         self.calls = [[CSCallHistoryManager manager] getAllCalls];
-        [self.tableView reloadData];
-    }];
-    
-    self.isLoading = YES;
-    [self.contactProvider getDataArrayWithCompletion:^(NSArray<CSModel *> *data, NSError *err) {
-        
-        if (err) {
-            NSLog(@"%@", [err localizedDescription]);
-            return;
-        }
-        
-        self.allContact = data;
-        self.isLoading = NO;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
         });
-//        NSLog(@"%lu", [data count]);
     }];
 }
 
@@ -97,7 +109,7 @@
         self.keypadView.transform = CGAffineTransformMakeScale(0.1, 0.1);
     }];
     
-    self.diallerConstraint.constant = -34;
+    self.diallerConstraint.constant = DIALER_VIEW_SHOW_CONSTANT;
     [UIView animateWithDuration:0.5
                           delay:0
          usingSpringWithDamping:0.7
@@ -110,9 +122,17 @@
      ];
 }
 
+- (BOOL)isInputViewShowing {
+    return self.inputConstraint.constant >= 0;
+}
+
 - (IBAction)hideDialler:(id)sender {
     
-    self.diallerConstraint.constant = -390;
+    if ([self isInputViewShowing])
+        self.diallerConstraint.constant = DIALER_VIEW_HIDE_CONSTANT + INPUT_VIEW_HIDE_CONSTANT;
+    else
+        self.diallerConstraint.constant = DIALER_VIEW_HIDE_CONSTANT;
+    
     [UIView animateWithDuration:0.2 animations:^{
         [self.view layoutIfNeeded];
     }];
@@ -144,71 +164,72 @@
 }
 
 - (void)showInputView {
-    self.inputConstraint.constant = 0;
+    self.inputConstraint.constant = INPUT_VIEW_SHOW_CONSTANT;
     [UIView animateWithDuration:0.2 animations:^{
         [self.view layoutIfNeeded];
     }];
 }
 
 - (void)hideInputView {
-    self.inputConstraint.constant = -40;
+    self.inputConstraint.constant = INPUT_VIEW_HIDE_CONSTANT;
     [UIView animateWithDuration:0.2 animations:^{
         [self.view layoutIfNeeded];
     }];
 }
 
 
-#pragma mark - Table View Datasource
+#pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (self.isLoading) {
+    if (self.waitForLoading > 0) {
         return 1;
     }
     return [self.calls count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *indentifier = @"calledCell";
-    static NSString *indentifier2 = @"loadingCell";
+    
+    static NSString *calledCellID = @"calledCell";
+    static NSString *loadingCellID = @"loadingCell";
 
-    CallCell *cell = [self.tableView dequeueReusableCellWithIdentifier:indentifier];
+    CallCell *cell;
     
-    if (self.isLoading) {
-        CallCell *cell = [self.tableView dequeueReusableCellWithIdentifier:indentifier2];
-        return cell;
-    }
-    
-    CSCall *call = self.calls[indexPath.row];
-    
-    CSModel *contact;
-    
-    if ([self.cacheContact objectForKey:call.number] == nil) {
+    if (self.waitForLoading > 0) {
+        cell = [self.tableView dequeueReusableCellWithIdentifier:loadingCellID];
+    } else {
+        cell = [self.tableView dequeueReusableCellWithIdentifier:calledCellID];
         
-        contact = [_contactBusiness searchForContactFromDataArray:self.allContact withNumber:call.number];
+        CSCall *call = self.calls[indexPath.row];
         
-        if (contact == nil) {
-            contact = [CSContact new];
-            contact.fullName = @"Anonymous";
+        CSModel *contact;
+        
+        if ([self.cacheContact objectForKey:call.number] == nil) {
+            
+            contact = [self.contactBusiness searchForContactFromDataArray:self.allContact withNumber:call.number];
+            
+            if (contact == nil) {
+                contact = [CSContact new];
+                contact.fullName = call.number;
+            }
+            
+            [self.cacheContact setValue:contact forKey:call.number];
+            
+        } else {
+            contact = [self.cacheContact objectForKey:call.number];
         }
         
-        [self.cacheContact setValue:contact forKey:call.number];
+        cell.fullName.text = contact.fullName;
+        [cell.thumnailView setData:contact];
         
-    } else {
-        contact = [self.cacheContact objectForKey:call.number];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+        [dateFormatter setDateFormat:@"dd.MM.YYYY HH:mm:ss"];
+        
+        cell.subcription.text = [NSString stringWithFormat:@"↗ %@", [dateFormatter stringFromDate:call.start]];
     }
-    
-    cell.fullName.text = contact.fullName;
-    [cell.thumnailView setData:contact];
-    
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
-    [dateFormatter setDateFormat:@"dd.MM.YYYY HH:mm:ss"];
-    
-    cell.subcription.text = [NSString stringWithFormat:@"↗ %@", [dateFormatter stringFromDate:call.start]];
-    
     return cell;
 }
 
@@ -216,9 +237,9 @@
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (self.isLoading)
-        return 300;
-    return 64;
+    if (self.waitForLoading > 0)
+        return LOADING_CELL_HEIGHT;
+    return CALL_CELL_HEIGHT;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
