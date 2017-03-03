@@ -19,29 +19,42 @@
 
 @interface CSContactProvider()
 
-@property (nonatomic) dispatch_queue_t serialQueue;
+
 
 @end
 
 @implementation CSContactProvider
 
-- (instancetype)init {
-    if (self = [super init]) {
-        self.serialQueue = dispatch_queue_create("com.vng.ContactSelector.CSContactProvider", DISPATCH_QUEUE_SERIAL);
-    }
-    return self;
+static dispatch_queue_t serialQueue;
+static NSArray *cacheContacts;
+
++ (id)instance {
+    static CSContactProvider *currentInstance;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        currentInstance = [CSContactProvider new];
+        serialQueue = dispatch_queue_create("com.vng.ContactSelector.CSContactProvider", DISPATCH_QUEUE_SERIAL);
+    });
+    return currentInstance;
 }
 
+
 - (void)getDataArrayWithCompletion:(void (^)(NSArray<CSModel *> *, NSError *))completion{
-    
-    [self getDataArrayWithCompletion:completion andQueue:NULL];
+    if (cacheContacts) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completion(cacheContacts, nil);
+        });
+    }
+    else {
+        [self getDataArrayWithCompletion:completion andQueue:NULL];
+    }
 }
 
 - (void)getDataArrayWithCompletion:(void (^)(NSArray<CSModel *> *, NSError *))completion andQueue:(dispatch_queue_t)queue {
     
     if (completion) {
         
-        dispatch_async(self.serialQueue, ^{
+        dispatch_async(serialQueue, ^{
             
             if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9.0")) {
                 
@@ -95,6 +108,8 @@
                                 completion(contactNumbersArray, nil);
                             });
                         }
+                        
+                        cacheContacts = contactNumbersArray;
                     }
                 }];
             } else {
@@ -152,6 +167,8 @@
                                         completion(contactNumbersArray, (__bridge NSError *)(error));
                                     });
                                 }
+                                
+                                cacheContacts = contactNumbersArray;
                             } else {
                                 // however, if they didn't give you permission, handle it gracefully, for example...
                                 completion(nil, (__bridge NSError *)(error));
