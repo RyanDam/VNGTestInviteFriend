@@ -80,7 +80,7 @@
                         
                         // convert CNContact to CSContact
                         for (CNContact *contact in allContacts) {
-                            CSContact * contactResult = [self getInfoFromCNContact:contact];
+                            CSContact * contactResult = [[CSContact alloc] initWithCNContact:contact];
                             if (contactResult.fullName.length > 0) {
                                 [contactNumbersArray addObject:contactResult];
                             }
@@ -164,52 +164,6 @@
             }
         });
     }
-}
-
-- (CSContact *)getInfoFromCNContact: (CNContact *)contact {
-    
-    NSString * fullName;
-    NSString * firstName;
-    NSString * lastName;
-    NSMutableArray<NSString *> * phoneNumbers = [NSMutableArray array];
-    NSMutableArray<NSString *> * emails = [NSMutableArray array];
-    UIImage * profileImage;
-    
-    firstName = contact.givenName;
-    lastName = contact.familyName;
-    if (lastName == nil) {
-        fullName=[NSString stringWithFormat:@"%@",firstName];
-    } else if (firstName == nil) {
-        fullName=[NSString stringWithFormat:@"%@",lastName];
-    } else {
-        fullName=[NSString stringWithFormat:@"%@ %@",firstName,lastName];
-    }
-    
-    UIImage *image = [UIImage imageWithData:contact.imageData];
-    if (image != nil) {
-        profileImage = image;
-    } else {
-        profileImage = [UIImage imageNamed:@"person-icon.png"];
-    }
-    
-    // get all email address
-    for (CNLabeledValue<NSString *> * emailLabeled in contact.emailAddresses) {
-        [emails addObject:emailLabeled.value];
-    }
-    
-    // get all phone number
-    for (CNLabeledValue<CNPhoneNumber *> * phoneLabeled in contact.phoneNumbers) {
-        CNPhoneNumber * phone = phoneLabeled.value;
-        [phoneNumbers addObject:phone.stringValue];
-    }
-    
-    CSContact * contactResult = [[CSContact alloc] init];
-    contactResult.fullName = [fullName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    contactResult.avatar = profileImage;
-    contactResult.emails = emails;
-    contactResult.phoneNumbers = phoneNumbers;
-    
-    return contactResult;
 }
 
 @end

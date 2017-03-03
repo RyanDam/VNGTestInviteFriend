@@ -17,6 +17,7 @@
 @property (nonatomic) NSArray<NSString *> * emails;
 
 - (id)initWithCNContact:(CNContact *)contact;
+
 - (id)initWithABRecord:(ABRecordRef)record;
 
 @end
