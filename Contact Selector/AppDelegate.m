@@ -9,10 +9,12 @@
 #import "AppDelegate.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import "CallObserver.h"
+#import "CallManager.h"
+#import "CallProvider.h"
 
-@import CallKit;
+@import PushKit;
 
-@interface AppDelegate ()
+@interface AppDelegate () <PKPushRegistryDelegate>
 
 @property (nonatomic) PKPushRegistry * pushRegistry;
 
@@ -26,8 +28,14 @@
 //    [[FBSDKApplicationDelegate sharedInstance] application:application
 //                             didFinishLaunchingWithOptions:launchOptions];
     
-    // init call observer
-    [CallObserver observer];
+    // PushKit setup
+    self.pushRegistry = [[PKPushRegistry alloc] initWithQueue:dispatch_get_main_queue()];
+    self.pushRegistry.delegate = self;
+    
+    // CallKit setup
+    self.callManager = [[CallManager alloc] init];
+    self.callProvider = [[CallProvider alloc] initWithManagement:self.callManager];
+    
     return YES;
 }
 
@@ -59,6 +67,29 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+#pragma mark - PKPushRegistryDelegate
+
+- (void)pushRegistry:(PKPushRegistry *)registry didUpdatePushCredentials:(PKPushCredentials *)credentials forType:(PKPushType)type {
+    // update token
+}
+
+- (void)pushRegistry:(PKPushRegistry *)registry didReceiveIncomingPushWithPayload:(PKPushPayload *)payload forType:(PKPushType)type {
+    if (type == PKPushTypeVoIP) {
+        // just recive VoIP call
+        NSString * idString = payload.dictionaryPayload[@"UUID"];
+        NSString * handleString = payload.dictionaryPayload[@"Handle"];
+        NSUUID * uuid = [[NSUUID alloc] initWithUUIDString:idString];
+    
+        // report incomming call to CallKit
+        [self.callProvider reportIncommingCallUUID:uuid handle:handleString completion:nil];
+        
+    }
+}
+
+- (void)simulateIncommingCall:(NSUUID *)uuid handle:(NSString *)handle {
+    [self.callProvider reportIncommingCallUUID:uuid handle:handle completion:nil];
 }
 
 @end

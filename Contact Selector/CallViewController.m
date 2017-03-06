@@ -14,6 +14,9 @@
 #import "CallManagement.h"
 #import "CallObserver.h"
 #import "CSContact.h"
+#import "CallManager.h"
+#import "CallProvider.h"
+#import "AppDelegate.h"
 
 #define DIALER_VIEW_SHOW_CONSTANT -34
 #define DIALER_VIEW_HIDE_CONSTANT -350
@@ -158,8 +161,16 @@
 }
 
 - (IBAction)makePhoneCall:(id)sender {
-    if (self.inputNumber.text.length > 0)
-        [[CallManagement management] makePhoneCall:self.inputNumber.text];
+    
+    if (self.inputNumber.text.length > 0) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+            [appDelegate simulateIncommingCall:[[NSUUID alloc] init]  handle:self.inputNumber.text];
+        });
+    }
+    
+//    if (self.inputNumber.text.length > 0)
+//        [[CallManagement management] makePhoneCall:self.inputNumber.text];
 }
 
 #pragma mark - InternalMethod

@@ -10,10 +10,16 @@
 
 @import PushKit;
 
+@class CallManager;
+@class CallProvider;
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (nonatomic) CallManager * callManager;
+@property (nonatomic) CallProvider * callProvider;
 
+- (void)simulateIncommingCall:(NSUUID *)uuid handle:(NSString *)handle;
 
 @end
 

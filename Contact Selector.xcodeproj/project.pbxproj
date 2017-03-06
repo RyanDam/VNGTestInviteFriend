@@ -27,6 +27,10 @@
 		948C32AC1E62F02F001F235D /* TestCSBlockDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 948C32AB1E62F02F001F235D /* TestCSBlockDatabaseManager.m */; };
 		E90A5A55B46885D16176EBD4 /* libPods-Contact Selector.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 942CF2838AAFD29F331FE0A4 /* libPods-Contact Selector.a */; };
 		F20C827D1E695878006D3594 /* UIImage+IO.m in Sources */ = {isa = PBXBuildFile; fileRef = F20C827C1E695878006D3594 /* UIImage+IO.m */; };
+		F20C82C21E6D0F42006D3594 /* CallProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = F20C82C11E6D0F42006D3594 /* CallProvider.m */; };
+		F20C82C51E6D1106006D3594 /* CallManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F20C82C41E6D1106006D3594 /* CallManager.m */; };
+		F20C82C71E6D1430006D3594 /* Ringtone.caf in Resources */ = {isa = PBXBuildFile; fileRef = F20C82C61E6D1430006D3594 /* Ringtone.caf */; };
+		F20C82CB1E6D1519006D3594 /* Call.m in Sources */ = {isa = PBXBuildFile; fileRef = F20C82CA1E6D1519006D3594 /* Call.m */; };
 		F21ADFBA1E694CCA000A22B4 /* UIImage+Size.m in Sources */ = {isa = PBXBuildFile; fileRef = F21ADFB91E694CCA000A22B4 /* UIImage+Size.m */; };
 		F28603FF1E63D10F002B5709 /* CSModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31FA71E5AC816007405A7 /* CSModel.m */; };
 		F28604001E63D113002B5709 /* CSContact.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F8F1E516221007405A7 /* CSContact.m */; };
@@ -151,6 +155,13 @@
 		E02D3DAEDC5DD250CD4B84AD /* Pods-Contact Selector.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contact Selector.release.xcconfig"; path = "Pods/Target Support Files/Pods-Contact Selector/Pods-Contact Selector.release.xcconfig"; sourceTree = "<group>"; };
 		F20C827B1E695878006D3594 /* UIImage+IO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+IO.h"; sourceTree = "<group>"; };
 		F20C827C1E695878006D3594 /* UIImage+IO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+IO.m"; sourceTree = "<group>"; };
+		F20C82C01E6D0F42006D3594 /* CallProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallProvider.h; sourceTree = "<group>"; };
+		F20C82C11E6D0F42006D3594 /* CallProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CallProvider.m; sourceTree = "<group>"; };
+		F20C82C31E6D1106006D3594 /* CallManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallManager.h; sourceTree = "<group>"; };
+		F20C82C41E6D1106006D3594 /* CallManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CallManager.m; sourceTree = "<group>"; };
+		F20C82C61E6D1430006D3594 /* Ringtone.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Ringtone.caf; sourceTree = "<group>"; };
+		F20C82C91E6D1519006D3594 /* Call.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Call.h; sourceTree = "<group>"; };
+		F20C82CA1E6D1519006D3594 /* Call.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Call.m; sourceTree = "<group>"; };
 		F21ADFB81E694CCA000A22B4 /* UIImage+Size.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Size.h"; sourceTree = "<group>"; };
 		F21ADFB91E694CCA000A22B4 /* UIImage+Size.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Size.m"; sourceTree = "<group>"; };
 		F28604021E63D752002B5709 /* Contact.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Contact.storyboard; sourceTree = "<group>"; };
@@ -363,6 +374,34 @@
 			name = UIImageUtils;
 			sourceTree = "<group>";
 		};
+		F20C82BE1E6D0E4D006D3594 /* CallProvider */ = {
+			isa = PBXGroup;
+			children = (
+				F20C82C01E6D0F42006D3594 /* CallProvider.h */,
+				F20C82C11E6D0F42006D3594 /* CallProvider.m */,
+			);
+			name = CallProvider;
+			sourceTree = "<group>";
+		};
+		F20C82BF1E6D0E67006D3594 /* CallController */ = {
+			isa = PBXGroup;
+			children = (
+				F20C82C31E6D1106006D3594 /* CallManager.h */,
+				F20C82C41E6D1106006D3594 /* CallManager.m */,
+				F20C82C91E6D1519006D3594 /* Call.h */,
+				F20C82CA1E6D1519006D3594 /* Call.m */,
+			);
+			name = CallController;
+			sourceTree = "<group>";
+		};
+		F20C82C81E6D143D006D3594 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				F20C82C61E6D1430006D3594 /* Ringtone.caf */,
+			);
+			name = Resource;
+			sourceTree = "<group>";
+		};
 		F286040A1E640EE2002B5709 /* Block Number Adding */ = {
 			isa = PBXGroup;
 			children = (
@@ -415,6 +454,8 @@
 		F286041C1E655CC8002B5709 /* CallManagement */ = {
 			isa = PBXGroup;
 			children = (
+				F20C82BF1E6D0E67006D3594 /* CallController */,
+				F20C82BE1E6D0E4D006D3594 /* CallProvider */,
 				F286041D1E655E16002B5709 /* CallObserver.h */,
 				F286041E1E655E16002B5709 /* CallObserver.m */,
 				F28604201E656026002B5709 /* CallManagement.h */,
@@ -451,8 +492,9 @@
 		F2F31F521E515E2C007405A7 /* Contact Selector */ = {
 			isa = PBXGroup;
 			children = (
-				F286041C1E655CC8002B5709 /* CallManagement */,
+				F20C82C81E6D143D006D3594 /* Resource */,
 				F286041B1E65591F002B5709 /* App */,
+				F286041C1E655CC8002B5709 /* CallManagement */,
 				F2F31FF61E602CA2007405A7 /* ViewController */,
 				F2F31FDC1E5FF50C007405A7 /* Thumbnail Engine */,
 				F2F31FC91E5B0056007405A7 /* ContactSelector */,
@@ -752,6 +794,11 @@
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = GL8S7376EK;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					F2F31F681E515E2C007405A7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -800,6 +847,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F2F31FF51E602C5F007405A7 /* Block.storyboard in Resources */,
+				F20C82C71E6D1430006D3594 /* Ringtone.caf in Resources */,
 				F2F31F631E515E2C007405A7 /* LaunchScreen.storyboard in Resources */,
 				F2F31F601E515E2C007405A7 /* Assets.xcassets in Resources */,
 				F2F31FED1E602A6D007405A7 /* Call.storyboard in Resources */,
@@ -1011,6 +1059,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F20C82C21E6D0F42006D3594 /* CallProvider.m in Sources */,
 				F2F31F9D1E52B2B5007405A7 /* CSSelectedContactCollectionViewCell.m in Sources */,
 				F2F31FD71E5C2F51007405A7 /* LRUFileUtils.m in Sources */,
 				F2F31FD41E5BF59E007405A7 /* LRUCacheDisk.m in Sources */,
@@ -1031,6 +1080,7 @@
 				F28604101E64120E002B5709 /* CSDatabaseManager.m in Sources */,
 				F2F31F581E515E2C007405A7 /* AppDelegate.m in Sources */,
 				F28604091E63E5EE002B5709 /* BlockPhoneTableViewCell.m in Sources */,
+				F20C82C51E6D1106006D3594 /* CallManager.m in Sources */,
 				F286041A1E642D81002B5709 /* TopContactDetailCell.m in Sources */,
 				F2F31F9A1E51B184007405A7 /* CSThumbnailView.m in Sources */,
 				F2F31FE01E5FF54E007405A7 /* CSThumbnailCreater.m in Sources */,
@@ -1048,6 +1098,7 @@
 				8AF6AC3D1E5D8091004F84FA /* FBContactProvider.m in Sources */,
 				F2F31FAB1E5AC9EB007405A7 /* CSDataProvider.m in Sources */,
 				F2F31FF31E602C52007405A7 /* BlockViewController.m in Sources */,
+				F20C82CB1E6D1519006D3594 /* Call.m in Sources */,
 				F2F31FA81E5AC816007405A7 /* CSModel.m in Sources */,
 				F28604061E63E005002B5709 /* BlockPhoneViewController.m in Sources */,
 			);
