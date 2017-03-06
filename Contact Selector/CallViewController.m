@@ -25,7 +25,6 @@
 
 @interface CallViewController () <UITableViewDataSource, UITableViewDelegate>
 
-@property (strong, nonatomic) CSContactProvider *contactProvider;
 @property (strong, nonatomic) CSContactBusiness *contactBusiness;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -57,9 +56,8 @@
     // Do any additional setup after loading the view.
     [self.tableView setDataSource:self];
     [self.tableView setDelegate:self];
-    
-    self.contactProvider = [CSContactProvider new];
-    self.contactBusiness = [CSContactBusiness new];
+
+    self.contactBusiness = [[CSContactBusiness alloc] init];
     self.cacheContact = [NSMutableDictionary new];
     
     self.inputNumber.userInteractionEnabled = NO;
@@ -70,7 +68,7 @@
         self.waitForLoading--;
     });
     
-    [self.contactProvider getDataArrayWithCompletion:^(NSArray<CSModel *> *data, NSError *err) {
+    [self.contactBusiness getDataArrayWithCompletion:^(NSArray<CSModel *> *data, NSError *err) {
         self.waitForLoading--;
         if (!err) {
             self.allContact = data;
@@ -214,22 +212,26 @@
         
         if ([self.cacheContact objectForKey:call.number] == nil) {
             
-            contact = [self.contactBusiness searchForContactFromDataArray:self.allContact withNumber:call.number];
-            
-            if (contact == nil) {
-                contact = [CSContact new];
-                contact.fullName = call.number;
-            }
-            
-            [self.cacheContact setValue:contact forKey:call.number];
+            [self.contactBusiness searchForContactWithNumber:call.number withCompletion:^(CSContact *contact) {
+                if (contact == nil) {
+                    contact = [CSContact new];
+                    contact.fullName = call.number;
+                }
+                
+                [self.cacheContact setValue:contact forKey:call.number];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    cell.fullName.text = contact.fullName;
+                    [cell.thumnailView setData:contact];
+                });
+            }];
             
         } else {
             contact = [self.cacheContact objectForKey:call.number];
+            cell.fullName.text = contact.fullName;
+            [cell.thumnailView setData:contact];
         }
-        
-        cell.fullName.text = contact.fullName;
-        [cell.thumnailView setData:contact];
-        
+ 
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
         [dateFormatter setDateFormat:@"dd.MM.YYYY HH:mm:ss"];
         

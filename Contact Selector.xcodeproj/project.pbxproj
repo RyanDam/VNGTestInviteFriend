@@ -327,6 +327,17 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
+		8A6B9D441E696681002ACB87 /* Data Business */ = {
+			isa = PBXGroup;
+			children = (
+				F2F31FAC1E5ACAE0007405A7 /* CSDataBusiness.h */,
+				F2F31FAD1E5ACAE0007405A7 /* CSDataBusiness.m */,
+				F2F31FB91E5AEA88007405A7 /* CSContactBusiness.h */,
+				F2F31FBA1E5AEA88007405A7 /* CSContactBusiness.m */,
+			);
+			name = "Data Business";
+			sourceTree = "<group>";
+		};
 		948C32941E62A44E001F235D /* Contact Selector Block */ = {
 			isa = PBXGroup;
 			children = (
@@ -499,19 +510,15 @@
 			children = (
 				F2F31FA91E5AC9EB007405A7 /* CSDataProvider.h */,
 				F2F31FAA1E5AC9EB007405A7 /* CSDataProvider.m */,
-				F2F31FAC1E5ACAE0007405A7 /* CSDataBusiness.h */,
-				F2F31FAD1E5ACAE0007405A7 /* CSDataBusiness.m */,
 				F2F31FB61E5AE943007405A7 /* CSContactProvider.h */,
 				F2F31FB71E5AE943007405A7 /* CSContactProvider.m */,
-				F2F31FB91E5AEA88007405A7 /* CSContactBusiness.h */,
-				F2F31FBA1E5AEA88007405A7 /* CSContactBusiness.m */,
 				8AF6AC3B1E5D8091004F84FA /* FBContactProvider.h */,
 				8AF6AC3C1E5D8091004F84FA /* FBContactProvider.m */,
 			);
 			name = "Data Provider";
 			sourceTree = "<group>";
 		};
-		F2F31F8D1E5161FB007405A7 /* Model */ = {
+		F2F31F8D1E5161FB007405A7 /* Data Model */ = {
 			isa = PBXGroup;
 			children = (
 				F2F31F8E1E516221007405A7 /* CSContact.h */,
@@ -519,7 +526,7 @@
 				F2F31FA61E5AC816007405A7 /* CSModel.h */,
 				F2F31FA71E5AC816007405A7 /* CSModel.m */,
 			);
-			name = Model;
+			name = "Data Model";
 			sourceTree = "<group>";
 		};
 		F2F31F941E51A7A4007405A7 /* View */ = {
@@ -549,7 +556,8 @@
 			children = (
 				F2F31F9E1E52B2CC007405A7 /* Cell */,
 				F2F31F941E51A7A4007405A7 /* View */,
-				F2F31F8D1E5161FB007405A7 /* Model */,
+				F2F31F8D1E5161FB007405A7 /* Data Model */,
+				8A6B9D441E696681002ACB87 /* Data Business */,
 				F2F31F861E515E75007405A7 /* Data Provider */,
 				F2F31F591E515E2C007405A7 /* ContactSelectorViewController.h */,
 				F2F31F5A1E515E2C007405A7 /* ContactSelectorViewController.m */,

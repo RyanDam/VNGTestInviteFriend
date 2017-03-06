@@ -8,19 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import "CSDataBusiness.h"
+#import "CSContact.h"
 
 @interface CSContactBusiness : NSObject <CSDataBusiness>
 
 @property (nonatomic) id<CSDataProvider> dataProvider;
 
-- (instancetype)initWithProvider:(id<CSDataProvider>)provider;
-
-- (id<CSDataProvider>)getDataProvider;
-
-- (void)getDataIndexFromDataArray:(CSDataArray *) dataArray dispatchQueue:(dispatch_queue_t)queue withCompletion:(void (^)(CSDataIndex * index))completion;
-
-- (void)getDataDictionaryFromDataArray:(CSDataArray *) dataArray dispatchQueue:(dispatch_queue_t)queue withCompletion:(void (^)(CSDataDictionary * dictionary))completion;
-
-- (void)performSearch:(NSString *)text onDataArray:(CSDataArray *)dataArray dispatchQueue:(dispatch_queue_t)queue withCompletion:(SearchCompleteBlock)completion;
+- (void)searchForContactWithNumber:(NSString *)phoneNumber withCompletion:(void(^)(CSContact *))completion;
 
 @end

@@ -8,28 +8,36 @@
 
 #import "CSContactBusiness.h"
 #import "CSContact.h"
+#import "CSContactProvider.h"
 
 @interface CSContactBusiness ()
 
-@property (nonatomic) dispatch_queue_t internalQueue;
+@property (strong, nonatomic) dispatch_queue_t internalQueue;
+@property (strong, nonatomic) id<CSDataProvider> currentProvider;
 
 @end
 
 @implementation CSContactBusiness
 
-- (instancetype)initWithProvider:(id<CSDataProvider>)provider {
-    static int queueCount = 0;
-    self = [super init];
-    if (self) {
-        self.dataProvider = provider;
-        NSString * queueLabel = [NSString stringWithFormat:@"businessQueue#%d", queueCount++];
-        self.internalQueue = dispatch_queue_create([queueLabel UTF8String], DISPATCH_QUEUE_CONCURRENT);
+- (id)init {
+    if (self = [super init]) {
+        self.internalQueue = dispatch_queue_create("com.vng.ContactSelector.CSContactBusiness", DISPATCH_QUEUE_CONCURRENT);
+        self.currentProvider = [CSContactProvider instance];
     }
     return self;
 }
 
-- (id<CSDataProvider>)getDataProvider {
-    return _dataProvider;
+- (id)initWithProvider:(id<CSDataProvider>)provider {
+    if (self = [super init]) {
+        self.internalQueue = dispatch_queue_create("com.vng.ContactSelector.CSContactBusiness", DISPATCH_QUEUE_CONCURRENT);
+        
+        if (provider == nil) {
+            self.currentProvider = [CSContactProvider instance];
+        } else {
+            self.currentProvider = provider;
+        }
+    }
+    return self;
 }
 
 - (void)getDataIndexFromDataArray:(CSDataArray *) dataArray dispatchQueue:(dispatch_queue_t)queue withCompletion:(void (^)(CSDataIndex * index))completion {
@@ -167,7 +175,41 @@
     }
 }
 
-- (CSModel *)searchForContactFromDataArray:(CSDataArray *)dataArray withNumber:(NSString *)phoneNumber {
+- (void)getDataIndexWithQueue:(dispatch_queue_t)queue withCompletion:(void (^)(CSDataIndex *))completion {
+    
+    [self.currentProvider getDataArrayWithCompletion:^(NSArray<CSModel *> *data, NSError *err) {
+        [self getDataIndexFromDataArray:data dispatchQueue:queue withCompletion:completion];
+    }];
+}
+
+- (void)getDataArrayWithCompletion:(void (^)(NSArray<CSModel *> *, NSError *))completion {
+    [self.currentProvider getDataArrayWithCompletion:^(NSArray<CSModel *> *data, NSError *err) {
+        completion(data, nil);
+    }];
+}
+
+- (void)getDataDictionaryWithQueue:(dispatch_queue_t)queue withCompletion:(void (^)(CSDataDictionary *))completion {
+    [self.currentProvider getDataArrayWithCompletion:^(NSArray<CSModel *> *data, NSError *err) {
+        [self getDataDictionaryFromDataArray:data dispatchQueue:dispatch_get_main_queue() withCompletion:completion];
+    }];
+}
+
+- (void)performSearch:(NSString *)text dispatchQueue:(dispatch_queue_t)queue withCompletion:(SearchCompleteBlock)completion {
+    [self.currentProvider getDataArrayWithCompletion:^(NSArray<CSModel *> *data, NSError *err) {
+        [self performSearch:text onDataArray:data dispatchQueue:dispatch_get_main_queue() withCompletion:completion];
+    }];
+}
+
+- (void)searchForContactWithNumber:(NSString *)phoneNumber withCompletion:(void(^)(CSContact *))completion {
+    if (completion) {
+        [self.currentProvider getDataArrayWithCompletion:^(NSArray<CSModel *> *data, NSError *err) {
+            CSContact *contact = [self searchForContactFromDataArray:data withNumber:phoneNumber];
+            completion(contact);
+        }];
+    }
+}
+
+- (CSContact *)searchForContactFromDataArray:(CSDataArray *)dataArray withNumber:(NSString *)phoneNumber {
 
     for (CSContact *contact in dataArray) {
         for (NSString* number in contact.phoneNumbers) {
