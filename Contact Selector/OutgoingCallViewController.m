@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import "CallManager.h"
 #import "Call.h"
+#import "CSCallHistoryManager.h"
 
 @interface OutgoingCallViewController ()
 
@@ -43,20 +44,30 @@
     
     // start call
     self.call = [self.appDelegate.callManager startCall:[NSUUID new] handle:self.callNumber];
+    
     self.call.stateDidChange = ^(CallState state) {
         
         NSString *stateString;
+        
         switch (state) {
+                
             case kConnecting:
                 stateString = @"Connecting";
                 break;
+                
             case kConnected:
-                [instance updateCallDurationTimer];
+                [instance setCallDurationTimer];
                 stateString = @"Connected";
                 break;
+                
             case kHeld:
                 stateString = @"Held";
                 break;
+                
+            case kEnd:
+                [instance addCallHistory];
+                break;
+                
             default:
                 break;
         }
@@ -72,7 +83,7 @@
     });
 }
 
-- (void)updateCallDurationTimer {
+- (void)setCallDurationTimer {
     [NSTimer scheduledTimerWithTimeInterval:1 repeats:YES block:^(NSTimer * _Nonnull timer) {
         self.timeLabel.text = [self durationLabelText:self.call];
     }];
@@ -89,6 +100,14 @@
     return [dateFormatter stringFromDate:dump];
 }
 
+- (void)addCallHistory {
+    CSCall *callHistory = [CSCall new];
+    callHistory.number = self.callNumber;
+    callHistory.start = [self.call connectedDate];
+    
+    [[CSCallHistoryManager manager] addCall:callHistory];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -97,6 +116,8 @@
 - (IBAction)endCall:(id)sender {
     
     [self.appDelegate.callManager endCall:_call];
+    
+    [self addCallHistory];
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }

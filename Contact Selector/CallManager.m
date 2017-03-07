@@ -52,6 +52,8 @@
     
     CXEndCallAction * endAct = [[CXEndCallAction alloc] initWithCallUUID:call.uuid];
     [self requestAction:endAct];
+    
+    [self.callList removeObject:call];
 }
 
 - (void)holdCall:(Call *)call {

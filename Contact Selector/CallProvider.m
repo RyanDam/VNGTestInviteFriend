@@ -133,7 +133,9 @@
         [call endCallWithCompletion:^(BOOL success) {
             if (success) {
                 // can setup audio here
+                
                 [self.manager removeCall:call];
+                
                 [action fulfill];
             } else {
                 [action fail];

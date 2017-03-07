@@ -17,6 +17,8 @@
 		8A6B9D351E652A4C002ACB87 /* CSCallHistoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A6B9D341E652A4C002ACB87 /* CSCallHistoryManager.m */; };
 		8A6B9D3E1E652C81002ACB87 /* CSCall.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A6B9D3D1E652C81002ACB87 /* CSCall.m */; };
 		8A6B9D411E655067002ACB87 /* CallCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A6B9D401E655067002ACB87 /* CallCell.m */; };
+		8A6B9D521E6EB11D002ACB87 /* OutgoingCall.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A6B9D4F1E6EB11D002ACB87 /* OutgoingCall.storyboard */; };
+		8A6B9D531E6EB11D002ACB87 /* OutgoingCallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A6B9D511E6EB11D002ACB87 /* OutgoingCallViewController.m */; };
 		8AF6AC3D1E5D8091004F84FA /* FBContactProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AF6AC3C1E5D8091004F84FA /* FBContactProvider.m */; };
 		8AF6AC3F1E5D8310004F84FA /* AccountKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AF6AC3E1E5D8310004F84FA /* AccountKit.framework */; };
 		948C32971E62A44E001F235D /* CallDirectoryHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 948C32961E62A44E001F235D /* CallDirectoryHandler.m */; };
@@ -135,6 +137,9 @@
 		8A6B9D3D1E652C81002ACB87 /* CSCall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSCall.m; sourceTree = "<group>"; };
 		8A6B9D3F1E655067002ACB87 /* CallCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallCell.h; sourceTree = "<group>"; };
 		8A6B9D401E655067002ACB87 /* CallCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CallCell.m; sourceTree = "<group>"; };
+		8A6B9D4F1E6EB11D002ACB87 /* OutgoingCall.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OutgoingCall.storyboard; sourceTree = "<group>"; };
+		8A6B9D501E6EB11D002ACB87 /* OutgoingCallViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutgoingCallViewController.h; sourceTree = "<group>"; };
+		8A6B9D511E6EB11D002ACB87 /* OutgoingCallViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OutgoingCallViewController.m; sourceTree = "<group>"; };
 		8AF6AC3B1E5D8091004F84FA /* FBContactProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBContactProvider.h; sourceTree = "<group>"; };
 		8AF6AC3C1E5D8091004F84FA /* FBContactProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBContactProvider.m; sourceTree = "<group>"; };
 		8AF6AC3E1E5D8310004F84FA /* AccountKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AccountKit.framework; path = ../AccountKit.framework; sourceTree = "<group>"; };
@@ -336,6 +341,16 @@
 				8A6B9D3D1E652C81002ACB87 /* CSCall.m */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		8A6B9D4E1E6EB0E0002ACB87 /* OutgoingCallViewController */ = {
+			isa = PBXGroup;
+			children = (
+				8A6B9D4F1E6EB11D002ACB87 /* OutgoingCall.storyboard */,
+				8A6B9D501E6EB11D002ACB87 /* OutgoingCallViewController.h */,
+				8A6B9D511E6EB11D002ACB87 /* OutgoingCallViewController.m */,
+			);
+			name = OutgoingCallViewController;
 			sourceTree = "<group>";
 		};
 		948C32941E62A44E001F235D /* Contact Selector Block */ = {
@@ -639,6 +654,7 @@
 		F2F31FF61E602CA2007405A7 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				8A6B9D4E1E6EB0E0002ACB87 /* OutgoingCallViewController */,
 				F28604111E642306002B5709 /* ContactDetailViewController */,
 				F2F31FF91E602CCD007405A7 /* ContactsViewController */,
 				F2F31FF81E602CB8007405A7 /* BlockViewController */,
@@ -787,12 +803,12 @@
 				TargetAttributes = {
 					948C32921E62A44E001F235D = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = M3984GFJZF;
+						DevelopmentTeam = GL8S7376EK;
 						ProvisioningStyle = Automatic;
 					};
 					F2F31F4F1E515E2C007405A7 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = M3984GFJZF;
+						DevelopmentTeam = GL8S7376EK;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -808,6 +824,7 @@
 					};
 					F2F31F731E515E2C007405A7 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = GL8S7376EK;
 						ProvisioningStyle = Automatic;
 						TestTargetID = F2F31F4F1E515E2C007405A7;
 					};
@@ -848,6 +865,7 @@
 			files = (
 				F2F31FF51E602C5F007405A7 /* Block.storyboard in Resources */,
 				F20C82C71E6D1430006D3594 /* Ringtone.caf in Resources */,
+				8A6B9D521E6EB11D002ACB87 /* OutgoingCall.storyboard in Resources */,
 				F2F31F631E515E2C007405A7 /* LaunchScreen.storyboard in Resources */,
 				F2F31F601E515E2C007405A7 /* Assets.xcassets in Resources */,
 				F2F31FED1E602A6D007405A7 /* Call.storyboard in Resources */,
@@ -1081,6 +1099,7 @@
 				F2F31F581E515E2C007405A7 /* AppDelegate.m in Sources */,
 				F28604091E63E5EE002B5709 /* BlockPhoneTableViewCell.m in Sources */,
 				F20C82C51E6D1106006D3594 /* CallManager.m in Sources */,
+				8A6B9D531E6EB11D002ACB87 /* OutgoingCallViewController.m in Sources */,
 				F286041A1E642D81002B5709 /* TopContactDetailCell.m in Sources */,
 				F2F31F9A1E51B184007405A7 /* CSThumbnailView.m in Sources */,
 				F2F31FE01E5FF54E007405A7 /* CSThumbnailCreater.m in Sources */,
@@ -1166,10 +1185,10 @@
 			baseConfigurationReference = 76EA5E48145619366A3202A2 /* Pods-Contact Selector Block.debug.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				DEVELOPMENT_TEAM = M3984GFJZF;
+				DEVELOPMENT_TEAM = GL8S7376EK;
 				INFOPLIST_FILE = "Contact Selector Block/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com..rstudio.Contact-Selector.Contact-Selector-Block";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.vng.ttphong.Contact-Selector.Contact-Selector-Block";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -1180,10 +1199,10 @@
 			baseConfigurationReference = A0C761B54E8ABA5DE1E4C01E /* Pods-Contact Selector Block.release.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				DEVELOPMENT_TEAM = M3984GFJZF;
+				DEVELOPMENT_TEAM = GL8S7376EK;
 				INFOPLIST_FILE = "Contact Selector Block/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com..rstudio.Contact-Selector.Contact-Selector-Block";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.vng.ttphong.Contact-Selector.Contact-Selector-Block";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -1285,7 +1304,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = M3984GFJZF;
+				DEVELOPMENT_TEAM = GL8S7376EK;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Contact\\ Selector",
@@ -1305,7 +1324,7 @@
 				INFOPLIST_FILE = "Contact Selector/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com..rstudio.Contact-Selector";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.vng.ttphong.Contact-Selector";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -1316,7 +1335,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = M3984GFJZF;
+				DEVELOPMENT_TEAM = GL8S7376EK;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Contact\\ Selector",
@@ -1336,7 +1355,7 @@
 				INFOPLIST_FILE = "Contact Selector/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com..rstudio.Contact-Selector";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.vng.ttphong.Contact-Selector";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -1373,6 +1392,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C41F8593C1D2E702072891AB /* Pods-Contact SelectorUITests.debug.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = GL8S7376EK;
 				INFOPLIST_FILE = "Contact SelectorUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.vng.duydv2.Contact-SelectorUITests";
@@ -1385,6 +1405,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1E00B9514368C1F1571C2AC5 /* Pods-Contact SelectorUITests.release.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = GL8S7376EK;
 				INFOPLIST_FILE = "Contact SelectorUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.vng.duydv2.Contact-SelectorUITests";
