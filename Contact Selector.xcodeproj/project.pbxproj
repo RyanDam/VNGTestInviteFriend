@@ -27,6 +27,7 @@
 		948C32AC1E62F02F001F235D /* TestCSBlockDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 948C32AB1E62F02F001F235D /* TestCSBlockDatabaseManager.m */; };
 		E90A5A55B46885D16176EBD4 /* libPods-Contact Selector.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 942CF2838AAFD29F331FE0A4 /* libPods-Contact Selector.a */; };
 		F20C827D1E695878006D3594 /* UIImage+IO.m in Sources */ = {isa = PBXBuildFile; fileRef = F20C827C1E695878006D3594 /* UIImage+IO.m */; };
+		F20C82D11E6D66F4006D3594 /* UIView+AutoLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = F20C82D01E6D66F4006D3594 /* UIView+AutoLayout.m */; };
 		F21ADFBA1E694CCA000A22B4 /* UIImage+Size.m in Sources */ = {isa = PBXBuildFile; fileRef = F21ADFB91E694CCA000A22B4 /* UIImage+Size.m */; };
 		F28603FF1E63D10F002B5709 /* CSModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31FA71E5AC816007405A7 /* CSModel.m */; };
 		F28604001E63D113002B5709 /* CSContact.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F8F1E516221007405A7 /* CSContact.m */; };
@@ -151,6 +152,8 @@
 		E02D3DAEDC5DD250CD4B84AD /* Pods-Contact Selector.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contact Selector.release.xcconfig"; path = "Pods/Target Support Files/Pods-Contact Selector/Pods-Contact Selector.release.xcconfig"; sourceTree = "<group>"; };
 		F20C827B1E695878006D3594 /* UIImage+IO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+IO.h"; sourceTree = "<group>"; };
 		F20C827C1E695878006D3594 /* UIImage+IO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+IO.m"; sourceTree = "<group>"; };
+		F20C82CF1E6D66F4006D3594 /* UIView+AutoLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+AutoLayout.h"; sourceTree = "<group>"; };
+		F20C82D01E6D66F4006D3594 /* UIView+AutoLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+AutoLayout.m"; sourceTree = "<group>"; };
 		F21ADFB81E694CCA000A22B4 /* UIImage+Size.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Size.h"; sourceTree = "<group>"; };
 		F21ADFB91E694CCA000A22B4 /* UIImage+Size.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Size.m"; sourceTree = "<group>"; };
 		F28604021E63D752002B5709 /* Contact.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Contact.storyboard; sourceTree = "<group>"; };
@@ -374,6 +377,15 @@
 			name = UIImageUtils;
 			sourceTree = "<group>";
 		};
+		F20C82CC1E6D572A006D3594 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				F2F31FDC1E5FF50C007405A7 /* Thumbnail Engine */,
+				F2F31FC91E5B0056007405A7 /* ContactSelector */,
+			);
+			name = Library;
+			sourceTree = "<group>";
+		};
 		F286040A1E640EE2002B5709 /* Block Number Adding */ = {
 			isa = PBXGroup;
 			children = (
@@ -462,11 +474,10 @@
 		F2F31F521E515E2C007405A7 /* Contact Selector */ = {
 			isa = PBXGroup;
 			children = (
-				F286041C1E655CC8002B5709 /* CallManagement */,
+				F20C82CC1E6D572A006D3594 /* Library */,
 				F286041B1E65591F002B5709 /* App */,
+				F286041C1E655CC8002B5709 /* CallManagement */,
 				F2F31FF61E602CA2007405A7 /* ViewController */,
-				F2F31FDC1E5FF50C007405A7 /* Thumbnail Engine */,
-				F2F31FC91E5B0056007405A7 /* ContactSelector */,
 				F2F31FE71E602895007405A7 /* MainTabBarController.h */,
 				F2F31FE81E602895007405A7 /* MainTabBarController.m */,
 				F2F31F5C1E515E2C007405A7 /* Main.storyboard */,
@@ -564,6 +575,8 @@
 				F2F31FC21E5AFA9D007405A7 /* CSPresenterViewController.h */,
 				F2F31FC31E5AFA9D007405A7 /* CSPresenterViewController.m */,
 				F2F31FC71E5AFB08007405A7 /* ContactSelector.storyboard */,
+				F20C82CF1E6D66F4006D3594 /* UIView+AutoLayout.h */,
+				F20C82D01E6D66F4006D3594 /* UIView+AutoLayout.m */,
 			);
 			name = ContactSelector;
 			sourceTree = "<group>";
@@ -753,12 +766,12 @@
 				TargetAttributes = {
 					948C32921E62A44E001F235D = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = GL8S7376EK;
+						DevelopmentTeam = M3984GFJZF;
 						ProvisioningStyle = Automatic;
 					};
 					F2F31F4F1E515E2C007405A7 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = GL8S7376EK;
+						DevelopmentTeam = M3984GFJZF;
 						ProvisioningStyle = Automatic;
 					};
 					F2F31F681E515E2C007405A7 = {
@@ -1044,6 +1057,7 @@
 				F2F31FE01E5FF54E007405A7 /* CSThumbnailCreater.m in Sources */,
 				F2F31F551E515E2C007405A7 /* main.m in Sources */,
 				F2F31FE31E5FF558007405A7 /* CSThumbnailEngine.m in Sources */,
+				F20C82D11E6D66F4006D3594 /* UIView+AutoLayout.m in Sources */,
 				F286040E1E640F7F002B5709 /* BlockNumberProvider.m in Sources */,
 				F21ADFBA1E694CCA000A22B4 /* UIImage+Size.m in Sources */,
 				F28604221E656026002B5709 /* CallManagement.m in Sources */,
@@ -1123,10 +1137,10 @@
 			baseConfigurationReference = 76EA5E48145619366A3202A2 /* Pods-Contact Selector Block.debug.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				DEVELOPMENT_TEAM = GL8S7376EK;
+				DEVELOPMENT_TEAM = M3984GFJZF;
 				INFOPLIST_FILE = "Contact Selector Block/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.vng.ttphong.Contact-Selector.Contact-Selector-Block";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rstudio.demo.Contact-Selector-Block";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -1137,10 +1151,10 @@
 			baseConfigurationReference = A0C761B54E8ABA5DE1E4C01E /* Pods-Contact Selector Block.release.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				DEVELOPMENT_TEAM = GL8S7376EK;
+				DEVELOPMENT_TEAM = M3984GFJZF;
 				INFOPLIST_FILE = "Contact Selector Block/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.vng.ttphong.Contact-Selector.Contact-Selector-Block";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rstudio.demo.Contact-Selector-Block";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -1242,7 +1256,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = GL8S7376EK;
+				DEVELOPMENT_TEAM = M3984GFJZF;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Contact\\ Selector",
@@ -1262,7 +1276,7 @@
 				INFOPLIST_FILE = "Contact Selector/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.vng.ttphong.Contact-Selector";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rstudio.demo.Contact-Selector";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -1273,7 +1287,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = GL8S7376EK;
+				DEVELOPMENT_TEAM = M3984GFJZF;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Contact\\ Selector",
@@ -1293,7 +1307,7 @@
 				INFOPLIST_FILE = "Contact Selector/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.vng.ttphong.Contact-Selector";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rstudio.demo.Contact-Selector";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

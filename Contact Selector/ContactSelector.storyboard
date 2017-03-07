@@ -73,7 +73,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CSContactTableViewCell" focusStyle="custom" rowHeight="64" id="pWY-nX-FjS" customClass="CSContactTableViewCell">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" focusStyle="custom" rowHeight="64" id="pWY-nX-FjS">
                                         <rect key="frame" x="0.0" y="28" width="375" height="64"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pWY-nX-FjS" id="5q2-Pm-4Jm">
@@ -123,13 +123,6 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <inset key="separatorInset" minX="120" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <connections>
-                                            <outlet property="checkboxView" destination="2c1-ty-cPA" id="Khy-VA-jL9"/>
-                                            <outlet property="leftConstraintThumbnailView" destination="9xf-RB-XTf" id="bGW-jj-UmH"/>
-                                            <outlet property="nameLabel" destination="SpW-28-vAj" id="AT3-2I-aCU"/>
-                                            <outlet property="seperatorView" destination="Zek-ze-Ztl" id="jzA-IK-fjp"/>
-                                            <outlet property="thumbnailView" destination="knW-IZ-YxD" id="2cI-8Q-2OM"/>
-                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CSSearchNoResultTableViewCell" rowHeight="191" id="mAP-3U-BRS" customClass="CSSearchNoResultTableViewCell">
                                         <rect key="frame" x="0.0" y="92" width="375" height="191"/>
@@ -208,7 +201,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tia-cx-32s" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="952.79999999999995" y="689.5052473763119"/>
+            <point key="canvasLocation" x="953" y="690"/>
         </scene>
         <!--Presenter View Controller-->
         <scene sceneID="yaJ-Wc-as7">

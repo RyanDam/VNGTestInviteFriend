@@ -33,8 +33,8 @@
 
 // Data select properties
 @property (nonatomic, copy) NSArray<NSString *> * originalDataIndex;
-@property (nonatomic, copy) NSDictionary<NSString *, NSArray<CSModel *> *> * originalDataDictionary;
 @property (nonatomic, copy) NSArray<NSString *> * dataIndex;
+@property (nonatomic, copy) NSDictionary<NSString *, NSArray<CSModel *> *> * originalDataDictionary;
 @property (nonatomic, copy) NSDictionary<NSString *, NSArray<CSModel *> *> * dataDictionary;
 @property (nonatomic, weak) id<CSDataBusiness> dataBusiness;
 @property (nonatomic, copy) NSArray<CSModel *> * dataArray;
@@ -92,8 +92,7 @@
 
 - (void)initView {
     
-    self.loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    self.loadingView.center = self.view.center;
+    [self initUIViewElements];
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
@@ -136,6 +135,16 @@
     }
     
     [self setHeaderTitle:@"Choose Friend"];
+}
+
+- (void)initUIViewElements {
+    
+    self.loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    self.loadingView.center = self.view.center;
+    
+    [self.tableView registerClass:[CSContactTableViewCell class] forCellReuseIdentifier:kCSContactTableViewCellID];
+//    [self.tableView registerNib:[UINib nibWithNibName:@"CSContactTableViewCell" bundle:nil] forCellReuseIdentifier:kCSContactTableViewCellID];
+    
 }
 
 - (void)setHeaderTitle:(NSString *)title {
@@ -463,6 +472,7 @@
     // Searching have result or normal state
     if (![self isUserSearchNoResult]) {
         CSContactTableViewCell * contactCell = (CSContactTableViewCell *) cell;
+        
         CSModel * data = [self getDataAtIndexPath:indexPath];
         contactCell.data = data;
         

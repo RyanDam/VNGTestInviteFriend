@@ -10,15 +10,17 @@
 #import "CSThumbnailView.h"
 #import "CSModel.h"
 
+#import "UIView+AutoLayout.h"
+
 NSString * kCSContactTableViewCellID = @"CSContactTableViewCell";
 
 @interface CSContactTableViewCell()
 
-@property (weak, nonatomic) IBOutlet CSThumbnailView *thumbnailView;
-@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
-@property (weak, nonatomic) IBOutlet UIView *seperatorView;
-@property (weak, nonatomic) IBOutlet UIImageView *checkboxView;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *leftConstraintThumbnailView;
+@property (nonatomic) CSThumbnailView *thumbnailView;
+@property (nonatomic) UILabel *nameLabel;
+@property (nonatomic) UIView *seperatorView;
+@property (nonatomic) UIImageView *checkboxView;
+@property (nonatomic) NSLayoutConstraint *leftConstraintThumbnailView;
 
 @property (nonatomic) NSInteger defaultLeftAvatarContraintValue;
 @property (nonatomic) NSInteger defaultHideCheckboxContraintValue;
@@ -38,6 +40,61 @@ NSString * kCSContactTableViewCellID = @"CSContactTableViewCell";
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    
+    self.defaultLeftAvatarContraintValue = 56;
+    self.defaultHideCheckboxContraintValue = 16;
+}
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        [self initUIElements];
+    }
+    
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        [self initUIElements];
+    }
+    
+    return self;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self initUIElements];
+    }
+    
+    return self;
+}
+
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        [self initUIElements];
+    }
+    
+    return self;
+}
+
+- (void)initUIElements {
+    
+    self.thumbnailView = [[CSThumbnailView alloc] initWithFrame:CGRectMake(0, 0, 42, 42)];
+    [self addSubview:self.thumbnailView];
+    
+    [self.thumbnailView atWidth:42];
+    [self.thumbnailView atHeight:42];
+    [self.thumbnailView atLeadingWith:self value:0];
+    [self.thumbnailView atRightMarginTo:self value:0];
+    
+//    [self.thumbnailView atCenterInParent];
+    
+//    [self.thumbnailView atCenterHorizonalInParent];
+//    [self.thumbnailView atCenterVerticalInParent];
     
     self.defaultLeftAvatarContraintValue = 56;
     self.defaultHideCheckboxContraintValue = 16;
