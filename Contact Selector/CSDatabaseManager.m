@@ -38,13 +38,10 @@
         
         NSFileManager * manager = [NSFileManager defaultManager];
         NSURL * url = [manager containerURLForSecurityApplicationGroupIdentifier:@"group.rstudio.Conact-Selector"];
-        
         NSString * databasePath = [[url.absoluteString stringByAppendingPathComponent:@"MainDatabase"] stringByAppendingPathExtension:@"db"];
-        
         NSLog(@"Database: %@", databasePath);
         
         self.internalDatabase = [FMDatabase databaseWithPath:databasePath];
-        
         if (![self.internalDatabase open]) {
             return nil;
         }

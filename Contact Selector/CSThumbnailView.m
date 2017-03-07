@@ -55,7 +55,6 @@
     if (self.highlightView == nil) {
         [self initHighlightView];
     }
-    
     self.highlightView.hidden = !flag;
 }
 

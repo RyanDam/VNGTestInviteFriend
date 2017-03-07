@@ -122,7 +122,6 @@
      ];
 }
 
-
 - (IBAction)hideDialler:(id)sender {
     
     if ([self isInputViewShowing])

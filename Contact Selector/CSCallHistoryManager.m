@@ -30,7 +30,6 @@ typedef NS_ENUM(NSInteger, CSCallCollum) {
     dispatch_once(&onceToken, ^{
         ret = [[CSCallHistoryManager alloc] init];
     });
-    
     return ret;
 }
 
@@ -66,7 +65,6 @@ typedef NS_ENUM(NSInteger, CSCallCollum) {
         
         [calls addObject:call];
     }
-    
     return [[calls reverseObjectEnumerator] allObjects];;
 }
 
@@ -75,7 +73,6 @@ typedef NS_ENUM(NSInteger, CSCallCollum) {
     BOOL ret = YES;
     
     ret = ret && [self.database executeUpdate:@"INSERT INTO CSCallTable (number, startDate, endDate) VALUES (?, ?, ?);", call.number, call.start, call.end];
-    
     return ret;
 }
 

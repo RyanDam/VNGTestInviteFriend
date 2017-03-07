@@ -194,20 +194,19 @@
     if (self.dataBusiness) {
         [self showLoadingState];
         if (self.dataBusiness) {
-            [self.dataBusiness getDataIndexWithQueue:dispatch_get_main_queue()
-                                      withCompletion:^(CSDataIndex *index) {
-                                          self.dataIndex = index;
-                                          self.originalDataIndex = [self.dataIndex copy];
-                                          [self.dataBusiness getDataDictionaryWithQueue:dispatch_get_main_queue()
-                                                                         withCompletion:^(CSDataDictionary *dictionary) {
-                                                                             
-                                                                             self.dataDictionary = dictionary;
-                                                                             
-                                                                             self.originalDataDictionary = [self.dataDictionary copy];
-                                                                             [self hideLoadingState];
-                                                                             [self.tableView reloadData];
-                                                                         }];
-                                      }];
+            [self.dataBusiness getDataIndexWithQueue:dispatch_get_main_queue() withCompletion:^(CSDataIndex *index) {
+                
+                self.dataIndex = index;
+                self.originalDataIndex = [self.dataIndex copy];
+                
+                [self.dataBusiness getDataDictionaryWithQueue:dispatch_get_main_queue() withCompletion:^(CSDataDictionary *dictionary) {
+                    
+                    self.dataDictionary = dictionary;
+                    self.originalDataDictionary = [self.dataDictionary copy];
+                    [self hideLoadingState];
+                    [self.tableView reloadData];
+                }];
+            }];
         }
     }
 }
@@ -344,37 +343,36 @@
             if (self.delegate && [self.delegate respondsToSelector:@selector(csViewController:didSelectData:)]) {
                 [self.delegate csViewController:self didSelectData:finalData];
             }
-            return;
-        }
-        
-        // Show selected contact collection view
-        if (self.selectedDatas.count == 0) {
-            self.collectionHeightConstraint.constant = self.defaultCollectionHeight;
-            [UIView animateWithDuration:0.13 animations:^{
-                [self.view layoutIfNeeded];
-            } completion:nil];
-        }
-        
-        // start add selected contact to collection view
-        [self.collectionView performBatchUpdates:^{
-            [self.selectedDatas addObject:finalData];
-            NSUInteger index = [self.selectedDatas indexOfObject:finalData];
-            NSIndexPath * indexPath = [NSIndexPath indexPathForRow:index inSection:0];
-            [self.collectionView insertItemsAtIndexPaths:@[indexPath]];
-        } completion:^(BOOL finished) {
-            if (finished) {
-                
-                [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.selectedDatas.count - 1 inSection:0]
-                                            atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
-                [self setCoutingValue:self.selectedDatas.count animate:YES];
-                
-                if (self.delegate && [self.delegate respondsToSelector:@selector(csViewController:didSelectData:)]) {
-                    [self.delegate csViewController:self didSelectData:finalData];
-                }
+        } else {
+            // Show selected contact collection view
+            if (self.selectedDatas.count == 0) {
+                self.collectionHeightConstraint.constant = self.defaultCollectionHeight;
+                [UIView animateWithDuration:0.13 animations:^{
+                    [self.view layoutIfNeeded];
+                } completion:nil];
             }
-        }];
-        // turn off search when done adding contact
-        [self forceEndSearch];
+            
+            // start add selected contact to collection view
+            [self.collectionView performBatchUpdates:^{
+                [self.selectedDatas addObject:finalData];
+                NSUInteger index = [self.selectedDatas indexOfObject:finalData];
+                NSIndexPath * indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+                [self.collectionView insertItemsAtIndexPaths:@[indexPath]];
+            } completion:^(BOOL finished) {
+                if (finished) {
+                    
+                    [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.selectedDatas.count - 1 inSection:0]
+                                                atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
+                    [self setCoutingValue:self.selectedDatas.count animate:YES];
+                    
+                    if (self.delegate && [self.delegate respondsToSelector:@selector(csViewController:didSelectData:)]) {
+                        [self.delegate csViewController:self didSelectData:finalData];
+                    }
+                }
+            }];
+            // turn off search when done adding contact
+            [self forceEndSearch];
+        }
     }
 }
 

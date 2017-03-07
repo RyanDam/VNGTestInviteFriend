@@ -58,11 +58,6 @@
     self.navigationItem.rightBarButtonItem = plusButton;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (void)addNewBlockNumber {
     
     BlockPhoneViewController * viewController = [BlockPhoneViewController viewController];

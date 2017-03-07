@@ -50,11 +50,8 @@ typedef NS_ENUM(NSInteger, CSBlockCollum) {
 - (NSArray<CSContact *> *)getAllBlockContact {
     
     NSString * query = [NSString stringWithFormat:@"SELECT * FROM %@", CSBlockTable];
-    
     FMResultSet * result = [self.database executeQuery:query];
-    
     NSMutableArray<CSContact *> * ret = [NSMutableArray array];
-    
     while ([result next]) {
         NSString * name = [result stringForColumnIndex:CSBlockCollumContactName];
         NSString * phoneNumber = [result stringForColumnIndex:CSBlockCollumPhoneNumber];

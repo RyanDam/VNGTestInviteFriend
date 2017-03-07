@@ -37,19 +37,7 @@
     
     [self initViewControllers];
     
-//    __weak typeof(self) softSelf = self;
-    [Utils refreshCallDirectionBlockListWithCompletion:^(NSError *error) {
-        if (error) {
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [Utils showMessage:error.localizedDescription inViewController:softSelf];
-//            });
-        }
-    }];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    [Utils refreshCallDirectionBlockListWithCompletion:nil];
 }
 
 - (void)initViewControllers {

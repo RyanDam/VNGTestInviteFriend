@@ -81,16 +81,6 @@
     // consider only loading a subset of numbers at a given time and using autorelease pool(s) to release objects allocated during each batch of numbers which are loaded.
     //
     // Numbers must be provided in numerically ascending order.
-    
-//    CXCallDirectoryPhoneNumber phoneNumbers[] = {  };
-//    NSArray<NSString *> *labels = @[ ];
-//    NSUInteger count = (sizeof(phoneNumbers) / sizeof(CXCallDirectoryPhoneNumber));
-//
-//    for (NSUInteger i = 0; i < count; i += 1) {
-//        CXCallDirectoryPhoneNumber phoneNumber = phoneNumbers[i];
-//        NSString *label = labels[i];
-//        [context addIdentificationEntryWithNextSequentialPhoneNumber:84966415777 label:@"ahaha"];
-//    }
 
     return YES;
 }

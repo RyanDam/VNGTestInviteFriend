@@ -385,18 +385,11 @@
 			name = Library;
 			sourceTree = "<group>";
 		};
-		F20C82D71E6E9AE7006D3594 /* UIUtils */ = {
+		F20C82DA1E6EAF8B006D3594 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
 				F20C82CF1E6D66F4006D3594 /* UIView+AutoLayout.h */,
 				F20C82D01E6D66F4006D3594 /* UIView+AutoLayout.m */,
-			);
-			name = UIUtils;
-			sourceTree = "<group>";
-		};
-		F20C82DA1E6EAF8B006D3594 /* Utils */ = {
-			isa = PBXGroup;
-			children = (
 				F20C82DB1E6EAFA2006D3594 /* Utils.h */,
 				F20C82DC1E6EAFA2006D3594 /* Utils.m */,
 			);
@@ -492,8 +485,8 @@
 			isa = PBXGroup;
 			children = (
 				F20C82D81E6EAB93006D3594 /* Contact Selector.entitlements */,
-				F20C82CC1E6D572A006D3594 /* Library */,
 				F286041B1E65591F002B5709 /* App */,
+				F20C82CC1E6D572A006D3594 /* Library */,
 				F286041C1E655CC8002B5709 /* CallManagement */,
 				F2F31FF61E602CA2007405A7 /* ViewController */,
 				F20C82DA1E6EAF8B006D3594 /* Utils */,
@@ -584,7 +577,6 @@
 		F2F31FC91E5B0056007405A7 /* ContactSelector */ = {
 			isa = PBXGroup;
 			children = (
-				F20C82D71E6E9AE7006D3594 /* UIUtils */,
 				F2F31F9E1E52B2CC007405A7 /* Cell */,
 				F2F31F941E51A7A4007405A7 /* View */,
 				F2F31F8D1E5161FB007405A7 /* Data Model */,
