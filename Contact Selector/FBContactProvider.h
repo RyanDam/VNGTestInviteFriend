@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "CSDataProvider.h"
 
-@interface FBContactProvider : NSObject <CSDataProvider>
+@interface FBContactProvider : NSObject
 
 @end

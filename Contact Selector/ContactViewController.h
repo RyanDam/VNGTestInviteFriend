@@ -6,9 +6,9 @@
 //  Copyright © 2017 CPU11815. All rights reserved.
 //
 
-#import "CSPresenterViewController.h"
+#import "ContactSelectorViewController.h"
 
-@interface ContactViewController : UIViewController
+@interface ContactViewController : ContactSelectorViewController
 
 + (instancetype)viewController;
 

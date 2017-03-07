@@ -10,21 +10,21 @@
 
 @interface UIView (AutoLayout)
 
-- (void)atWidth:(CGFloat)width;
-- (void)atHeight:(CGFloat)height;
+- (NSLayoutConstraint *)atWidth:(CGFloat)width;
+- (NSLayoutConstraint *)atHeight:(CGFloat)height;
 
-- (void)atLeftMarginTo:(UIView *)view value:(CGFloat)value;
-- (void)atRightMarginTo:(UIView *)view value:(CGFloat)value;
-- (void)atTopMarginTo:(UIView *)view value:(CGFloat)value;
-- (void)atBottomMarginTo:(UIView *)view value:(CGFloat)value;
+- (NSLayoutConstraint *)atLeftMarginTo:(UIView *)view value:(CGFloat)value;
+- (NSLayoutConstraint *)atRightMarginTo:(UIView *)view value:(CGFloat)value;
+- (NSLayoutConstraint *)atTopMarginTo:(UIView *)view value:(CGFloat)value;
+- (NSLayoutConstraint *)atBottomMarginTo:(UIView *)view value:(CGFloat)value;
 
-- (void)atCenterHorizonalInParent;
-- (void)atCenterVerticalInParent;
-- (void)atCenterInParent;
+- (NSLayoutConstraint *)atCenterHorizonalInParent;
+- (NSLayoutConstraint *)atCenterVerticalInParent;
+- (NSArray<NSLayoutConstraint *> *)atCenterInParent;
 
-- (void)atLeadingWith:(UIView *)view value:(CGFloat)value;
-- (void)atTrailingWith:(UIView *)view value:(CGFloat)value;
-- (void)atTopingWith:(UIView *)view value:(CGFloat)value;
-- (void)atBottomingWith:(UIView *)view value:(CGFloat)value;
+- (NSLayoutConstraint *)atLeadingWith:(UIView *)view value:(CGFloat)value;
+- (NSLayoutConstraint *)atTrailingWith:(UIView *)view value:(CGFloat)value;
+- (NSLayoutConstraint *)atTopingWith:(UIView *)view value:(CGFloat)value;
+- (NSLayoutConstraint *)atBottomingWith:(UIView *)view value:(CGFloat)value;
 
 @end

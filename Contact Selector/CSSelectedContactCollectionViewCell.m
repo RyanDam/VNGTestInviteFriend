@@ -9,6 +9,7 @@
 #import "CSSelectedContactCollectionViewCell.h"
 #import "CSThumbnailView.h"
 #import "CSContact.h"
+#import "UIView+AutoLayout.h"
 
 NSString * kCSSelectedContactCollectionViewCellID = @"CSSelectedContactCollectionViewCell";
 
@@ -16,7 +17,7 @@ NSString * kCSSelectedContactCollectionViewCellID = @"CSSelectedContactCollectio
     BOOL highlight;
 }
 
-@property (weak, nonatomic) IBOutlet CSThumbnailView *thumbnailView;
+@property (nonatomic) CSThumbnailView *thumbnailView;
 
 @end
 
@@ -27,8 +28,47 @@ NSString * kCSSelectedContactCollectionViewCellID = @"CSSelectedContactCollectio
 - (void)awakeFromNib {
     [super awakeFromNib];
     
+    
+}
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        [self initUIElements];
+    }
+    
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        [self initUIElements];
+    }
+    
+    return self;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self initUIElements];
+    }
+    
+    return self;
+}
+
+- (void)initUIElements {
+    
     self.clipsToBounds = YES;
     highlight = NO;
+    
+    self.thumbnailView = [[CSThumbnailView alloc] initWithFrame:self.frame];
+    [self.contentView addSubview:self.thumbnailView];
+    [self.thumbnailView atLeadingWith:self.contentView value:0];
+    [self.thumbnailView atTrailingWith:self.contentView value:0];
+    [self.thumbnailView atBottomingWith:self.contentView value:0];
+    [self.thumbnailView atTopingWith:self.contentView value:0];
 }
 
 - (void)setData:(CSModel *)newData; {

@@ -6,9 +6,9 @@
 //  Copyright © 2017 CPU11815. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "ContactSelectorViewController.h"
 
-@interface BlockViewController : UIViewController
+@interface BlockViewController : ContactSelectorViewController
 
 + (instancetype)viewController;
 

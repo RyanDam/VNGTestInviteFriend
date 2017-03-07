@@ -18,42 +18,30 @@
 
 @import CallKit;
 
-@interface BlockViewController () <CSViewControllerDelegate, CSViewControllerDataSource, BlockPhoneViewControllerDelegate>
+@interface BlockViewController () <CSViewControllerDelegate, BlockPhoneViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *containerView;
-
-@property (nonatomic) ContactSelectorViewController * contactSlecterVC;
-@property (nonatomic) id<CSDataBusiness> contactBusiness;
 
 @end
 
 @implementation BlockViewController
 
 + (instancetype)viewController {
-    UIStoryboard * storyboard = [UIStoryboard storyboardWithName:@"Block" bundle:nil];
-    BlockViewController * vc = [storyboard instantiateViewControllerWithIdentifier:@"BlockViewController"];
-    return vc;
+    return [[BlockViewController alloc] init];
 }
 
 - (void)viewDidLoad {
+    self.allowMutilSelection = NO;
     [super viewDidLoad];
     
     [self setupNavigation];
-    
-    self.contactBusiness = [[CSContactBusiness alloc] initWithProvider:[BlockNumberProvider instance]];
-    
-    self.contactSlecterVC = [ContactSelectorViewController viewController];
-    self.contactSlecterVC.delegate = self;
-    self.contactSlecterVC.dataSource = self;
-    [self.contactSlecterVC setAllowMutilSelection:NO];
-    
-    [self.containerView addSubview:self.contactSlecterVC.view];
+    self.dataBusiness = [[CSContactBusiness alloc] initWithProvider:[[BlockNumberProvider alloc] init]];
+    self.delegate = self;
+    [self notifyDatasetChanged];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    [self.contactSlecterVC notifyDatasetChanged];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -119,16 +107,9 @@
     if (model) {
         CSBlockDatebaseManager * manager = [CSBlockDatebaseManager manager];
         [manager blockContact:model];
-        [self.contactSlecterVC notifyDatasetChanged];
+        [self notifyDatasetChanged];
         [self needRefreshBlockPhoneExtention];
     }
-}
-
-#pragma mark - CSViewControllerDataSource
-
-- (id<CSDataBusiness>)dataBusinessForContactSelector:(ContactSelectorViewController *)csViewController {
-    
-    return self.contactBusiness;
 }
 
 #pragma mark - CSViewControllerDelegate

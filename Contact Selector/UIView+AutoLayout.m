@@ -10,7 +10,9 @@
 
 @implementation UIView (AutoLayout)
 
-- (void)atWidth:(CGFloat)width {
+- (NSLayoutConstraint *)atWidth:(CGFloat)width {
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+    
     NSLayoutConstraint *widthc = [NSLayoutConstraint
                                   constraintWithItem:self
                                   attribute:NSLayoutAttributeWidth
@@ -19,9 +21,13 @@
                                   attribute:NSLayoutAttributeNotAnAttribute
                                   multiplier:1.0
                                   constant:width];
-    [self addConstraint:widthc];
+    [self.superview addConstraint:widthc];
+    return widthc;
 }
-- (void)atHeight:(CGFloat)height {
+
+- (NSLayoutConstraint *)atHeight:(CGFloat)height {
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+    
     NSLayoutConstraint *heightc = [NSLayoutConstraint
                                   constraintWithItem:self
                                   attribute:NSLayoutAttributeHeight
@@ -30,10 +36,13 @@
                                   attribute:NSLayoutAttributeNotAnAttribute
                                   multiplier:1.0
                                   constant:height];
-    [self addConstraint:heightc];
+    [self.superview addConstraint:heightc];
+    return heightc;
 }
 
-- (void)atLeftMarginTo:(UIView *)view value:(CGFloat)value {
+- (NSLayoutConstraint *)atLeftMarginTo:(UIView *)view value:(CGFloat)value {
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+    
     NSLayoutConstraint *leftMargin = [NSLayoutConstraint
                                        constraintWithItem:self
                                        attribute:NSLayoutAttributeLeft
@@ -43,9 +52,12 @@
                                        multiplier:1.0f
                                        constant:value];
     [[self superview] addConstraint:leftMargin];
+    return leftMargin;
 }
 
-- (void)atRightMarginTo:(UIView *)view value:(CGFloat)value {
+- (NSLayoutConstraint *)atRightMarginTo:(UIView *)view value:(CGFloat)value {
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+    
     NSLayoutConstraint *rightMargin = [NSLayoutConstraint
                                      constraintWithItem:self
                                      attribute:NSLayoutAttributeRight
@@ -55,9 +67,12 @@
                                      multiplier:1.0f
                                      constant:value];
     [[self superview] addConstraint:rightMargin];
+    return rightMargin;
 }
 
-- (void)atTopMarginTo:(UIView *)view value:(CGFloat)value {
+- (NSLayoutConstraint *)atTopMarginTo:(UIView *)view value:(CGFloat)value {
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+    
     NSLayoutConstraint *topMargin = [NSLayoutConstraint
                                         constraintWithItem:self
                                         attribute:NSLayoutAttributeTop
@@ -67,9 +82,12 @@
                                         multiplier:1.0f
                                         constant:value];
     [[self superview] addConstraint:topMargin];
+    return topMargin;
 }
 
-- (void)atBottomMarginTo:(UIView *)view value:(CGFloat)value {
+- (NSLayoutConstraint *)atBottomMarginTo:(UIView *)view value:(CGFloat)value {
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+    
     NSLayoutConstraint *bottomMargin = [NSLayoutConstraint
                                    constraintWithItem:self
                                    attribute:NSLayoutAttributeBottom
@@ -79,9 +97,12 @@
                                    multiplier:1.0f
                                    constant:value];
     [[self superview] addConstraint:bottomMargin];
+    return bottomMargin;
 }
 
-- (void)atCenterHorizonalInParent {
+- (NSLayoutConstraint *)atCenterHorizonalInParent {
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+    
     NSLayoutConstraint *centerX = [NSLayoutConstraint
                                    constraintWithItem:self
                                    attribute:NSLayoutAttributeCenterX
@@ -91,9 +112,12 @@
                                    multiplier:1.0f
                                    constant:0.f];
     [[self superview] addConstraint:centerX];
+    return centerX;
 }
 
-- (void)atCenterVerticalInParent {
+- (NSLayoutConstraint *)atCenterVerticalInParent {
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+    
     NSLayoutConstraint *centerY = [NSLayoutConstraint
                                    constraintWithItem:self
                                    attribute:NSLayoutAttributeCenterY
@@ -103,14 +127,16 @@
                                    multiplier:1.0f
                                    constant:0.f];
     [[self superview] addConstraint:centerY];
+    return centerY;
 }
 
-- (void)atCenterInParent {
-    [self atCenterVerticalInParent];
-    [self atCenterHorizonalInParent];
+- (NSArray<NSLayoutConstraint *> *)atCenterInParent {
+    return @[[self atCenterVerticalInParent], [self atCenterHorizonalInParent]];
 }
 
-- (void)atLeadingWith:(UIView *)view value:(CGFloat)value {
+- (NSLayoutConstraint *)atLeadingWith:(UIView *)view value:(CGFloat)value {
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+    
     NSLayoutConstraint *leading = [NSLayoutConstraint
                                    constraintWithItem:self
                                    attribute:NSLayoutAttributeLeading
@@ -119,10 +145,13 @@
                                    attribute:NSLayoutAttributeLeading
                                    multiplier:1.0f
                                    constant:value];
-    [view addConstraint:leading];
+    [self.superview addConstraint:leading];
+    return leading;
 }
 
-- (void)atTrailingWith:(UIView *)view value:(CGFloat)value {
+- (NSLayoutConstraint *)atTrailingWith:(UIView *)view value:(CGFloat)value {
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+    
     NSLayoutConstraint *trail =[NSLayoutConstraint
                               constraintWithItem:self
                               attribute:NSLayoutAttributeTrailing
@@ -131,10 +160,13 @@
                               attribute:NSLayoutAttributeTrailing
                               multiplier:1.0f
                               constant:value];
-    [view addConstraint:trail];
+    [self.superview addConstraint:trail];
+    return trail;
 }
 
-- (void)atTopingWith:(UIView *)view value:(CGFloat)value {
+- (NSLayoutConstraint *)atTopingWith:(UIView *)view value:(CGFloat)value {
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+    
     NSLayoutConstraint *top =[NSLayoutConstraint
                                  constraintWithItem:self
                                  attribute:NSLayoutAttributeTop
@@ -143,10 +175,13 @@
                                  attribute:NSLayoutAttributeTop
                                  multiplier:1.0f
                                  constant:value];
-    [view addConstraint:top];
+    [self.superview addConstraint:top];
+    return top;
 }
 
-- (void)atBottomingWith:(UIView *)view value:(CGFloat)value {
+- (NSLayoutConstraint *)atBottomingWith:(UIView *)view value:(CGFloat)value {
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+    
     NSLayoutConstraint *bottom =[NSLayoutConstraint
                                  constraintWithItem:self
                                  attribute:NSLayoutAttributeBottom
@@ -155,7 +190,8 @@
                                  attribute:NSLayoutAttributeBottom
                                  multiplier:1.0f
                                  constant:value];
-    [view addConstraint:bottom];
+    [self.superview addConstraint:bottom];
+    return bottom;
 }
 
 @end

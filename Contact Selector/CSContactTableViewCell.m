@@ -38,13 +38,6 @@ NSString * kCSContactTableViewCellID = @"CSContactTableViewCell";
     return 64;
 }
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    
-    self.defaultLeftAvatarContraintValue = 56;
-    self.defaultHideCheckboxContraintValue = 16;
-}
-
 - (instancetype)init {
     self = [super init];
     if (self) {
@@ -83,21 +76,38 @@ NSString * kCSContactTableViewCellID = @"CSContactTableViewCell";
 
 - (void)initUIElements {
     
-    self.thumbnailView = [[CSThumbnailView alloc] initWithFrame:CGRectMake(0, 0, 42, 42)];
-    [self addSubview:self.thumbnailView];
-    
-    [self.thumbnailView atWidth:42];
-    [self.thumbnailView atHeight:42];
-    [self.thumbnailView atLeadingWith:self value:0];
-    [self.thumbnailView atRightMarginTo:self value:0];
-    
-//    [self.thumbnailView atCenterInParent];
-    
-//    [self.thumbnailView atCenterHorizonalInParent];
-//    [self.thumbnailView atCenterVerticalInParent];
-    
     self.defaultLeftAvatarContraintValue = 56;
     self.defaultHideCheckboxContraintValue = 16;
+    
+    self.thumbnailView = [[CSThumbnailView alloc] initWithFrame:CGRectMake(0, 0, 42, 42)];
+    [self.contentView addSubview:self.thumbnailView];
+    [self.thumbnailView atWidth:42];
+    [self.thumbnailView atHeight:42];
+    [self.thumbnailView atCenterVerticalInParent];
+    self.leftConstraintThumbnailView = [self.thumbnailView atLeadingWith:self.contentView value:56];
+    
+    self.checkboxView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
+    [self.contentView addSubview:self.checkboxView];
+    [self.checkboxView atWidth:24];
+    [self.checkboxView atHeight:24];
+    [self.checkboxView atCenterVerticalInParent];
+    [self.checkboxView atLeadingWith:self.contentView value:16];
+    
+    self.nameLabel = [[UILabel alloc] init];
+    self.nameLabel.textColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7f];
+    self.nameLabel.font = [UIFont systemFontOfSize:16];
+    [self.contentView addSubview:self.nameLabel];
+    [self.nameLabel atCenterVerticalInParent];
+    [self.nameLabel atLeftMarginTo:self.thumbnailView value:16];
+    [self.nameLabel atTrailingWith:self.contentView value:16];
+    
+    self.seperatorView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 20, 1)];
+    self.seperatorView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.05f];
+    [self.contentView addSubview:self.seperatorView];
+    [self.seperatorView atHeight:1];
+    [self.seperatorView atLeadingWith:self.nameLabel value:0];
+    [self.seperatorView atBottomingWith:self.contentView value:0];
+    [self.seperatorView atTrailingWith:self.contentView value:0];
 }
 
 /**

@@ -12,14 +12,13 @@
 #import "CSContactBusiness.h"
 #import "CSDataProvider.h"
 #import "CSDataBusiness.h"
-#import "CSPresenterViewController.h"
 #import "FBContactProvider.h"
 #import "CSThumbnailCreater.h"
 
 @import FBSDKLoginKit;
 @import FBSDKCoreKit;
 
-@interface MainViewController () <CSViewControllerDelegate, CSViewControllerDataSource>
+@interface MainViewController () <CSViewControllerDelegate>
 
 @property (nonatomic) id<CSDataBusiness> contactBusiness;
 @property (nonatomic) id<CSDataProvider> contactProvider;
@@ -60,25 +59,25 @@
     
     self.contactProvider = [[CSContactProvider alloc] init];
     
-    CSPresenterViewController * vc = [CSPresenterViewController presenter];
-
-    [vc setDelegateCS:self];
-    [vc setDataSourceCS:self];
-    
-    [self presentViewController:vc animated:YES completion:nil];
+//    CSPresenterViewController * vc = [CSPresenterViewController presenter];
+//
+//    [vc setDelegateCS:self];
+//    [vc setDataSourceCS:self];
+//    
+//    [self presentViewController:vc animated:YES completion:nil];
 }
 
 - (IBAction)onPressFacebookButton:(id)sender {
     
     if ([FBSDKAccessToken currentAccessToken]) {
-        self.contactProvider = [[FBContactProvider alloc] init];
+//        self.contactProvider = [[FBContactProvider alloc] init];
         
-        CSPresenterViewController * vc = [CSPresenterViewController presenter];
-        
-        [vc setDelegateCS:self];
-        [vc setDataSourceCS:self];
-        
-        [self presentViewController:vc animated:YES completion:nil];
+//        CSPresenterViewController * vc = [CSPresenterViewController presenter];
+//        
+//        [vc setDelegateCS:self];
+//        [vc setDataSourceCS:self];
+//        
+//        [self presentViewController:vc animated:YES completion:nil];
     } else {
         //NSLog(@"require login");
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Access Denied" message:@"You must login facebook first!" preferredStyle:UIAlertControllerStyleAlert];

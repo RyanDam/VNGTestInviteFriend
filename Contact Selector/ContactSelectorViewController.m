@@ -12,13 +12,15 @@
 #import "CSSelectedContactCollectionViewCell.h"
 #import "CSSearchNoResultTableViewCell.h"
 #import "CSModel.h"
+#import "UIView+AutoLayout.h"
 
 @interface ContactSelectorViewController () <UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, UISearchBarDelegate>
 
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBarView;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *collectionHeightConstraint;
+@property (nonatomic) UITableView *tableView;
+@property (nonatomic) UICollectionView *collectionView;
+@property (nonatomic) UISearchBar *searchBarView;
+@property (nonatomic) NSLayoutConstraint *collectionHeightConstraint;
+@property (nonatomic) UIView * loadingView;
 
 @property (nonatomic) NSUInteger defaultCollectionHeight;
 
@@ -26,7 +28,6 @@
 @property (nonatomic) CSSearchResult userSearchResult;
 
 // Navigation view
-@property (nonatomic) UIView * loadingView;
 @property (nonatomic) UIView * headerTitleView;
 @property (nonatomic) UILabel * headerTitleLabel;
 @property (nonatomic) UILabel * headerCountingLabel;
@@ -36,7 +37,6 @@
 @property (nonatomic, copy) NSArray<NSString *> * dataIndex;
 @property (nonatomic, copy) NSDictionary<NSString *, NSArray<CSModel *> *> * originalDataDictionary;
 @property (nonatomic, copy) NSDictionary<NSString *, NSArray<CSModel *> *> * dataDictionary;
-@property (nonatomic, weak) id<CSDataBusiness> dataBusiness;
 @property (nonatomic, copy) NSArray<CSModel *> * dataArray;
 @property (nonatomic) NSUInteger maxSelectedData;
 @property (nonatomic) NSMutableArray<CSModel *> * selectedDatas;
@@ -48,13 +48,11 @@
 @synthesize allowMutilSelection = _allowMutilSelection;
 
 + (ContactSelectorViewController *)viewController {
-    
-    UIStoryboard * storyboard = [UIStoryboard storyboardWithName:@"ContactSelector" bundle:nil];
-    ContactSelectorViewController * vc = [storyboard instantiateViewControllerWithIdentifier:@"ContactSelectorViewController"];
-    return vc;
+    return [[ContactSelectorViewController alloc] init];
 }
 
 - (void)viewDidLoad {
+    self.automaticallyAdjustsScrollViewInsets = YES;
     [super viewDidLoad];
     
     self.maxSelectedData = 10;
@@ -91,13 +89,50 @@
 }
 
 - (void)initView {
+    self.view.backgroundColor = [UIColor whiteColor];
     
-    [self initUIViewElements];
+    self.loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    self.loadingView.center = self.view.center;
     
-    self.tableView.dataSource = self;
-    self.tableView.delegate = self;
-    self.tableView.separatorColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.05];
-    self.tableView.sectionIndexBackgroundColor = [UIColor clearColor];
+        UICollectionViewFlowLayout* flowLayout = [[UICollectionViewFlowLayout alloc] init];
+    flowLayout.itemSize = CGSizeMake(42, 42);
+    flowLayout.sectionInset = UIEdgeInsetsMake(8, 10, 0, 10);
+    [flowLayout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
+    self.collectionView = [[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:flowLayout];
+    self.collectionView.backgroundColor = [UIColor colorWithRed:229.0/255.0 green:229.0/255.0 blue:229.0/255.0 alpha:1.0];
+    [self.view addSubview:self.collectionView];
+    // TODO not archo to top layout guild
+    [self.collectionView atTopingWith:(UIView *)self.topLayoutGuide value:64];
+    [self.collectionView atTrailingWith:self.view value:0];
+    [self.collectionView atLeadingWith:self.view value:0];
+    self.collectionHeightConstraint = [self.collectionView atHeight:50];
+    
+    self.searchBarView = [[UISearchBar alloc] init];
+    self.searchBarView.barTintColor = [UIColor colorWithRed:229.0/255.0 green:229.0/255.0 blue:229.0/255.0 alpha:1.0];
+    self.searchBarView.translucent = NO;
+    self.searchBarView.searchBarStyle = UISearchBarStyleProminent;
+    self.searchBarView.placeholder = @"Search for contacts";
+    [self.view addSubview:self.searchBarView];
+    [self.searchBarView atLeadingWith:self.view value:0];
+    [self.searchBarView atTrailingWith:self.view value:0];
+    [self.searchBarView atTopMarginTo:self.collectionView value:0];
+    [self.searchBarView atHeight:44];
+    
+    self.tableView = [[UITableView alloc] init];
+    [self.view addSubview:self.tableView];
+    [self.tableView atLeadingWith:self.view value:0];
+    [self.tableView atTrailingWith:self.view value:0];
+    // TODO not archo to bottom layout guild
+    [self.tableView atBottomingWith:(UIView *)self.bottomLayoutGuide value:-48];
+    [self.tableView atTopMarginTo:self.searchBarView value:0];
+    
+    UIBarButtonItem * cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(onCancelPressed)];
+    self.navigationItem.leftBarButtonItem = cancelButton;
+    
+    UIBarButtonItem * exportButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sendIcon"] style:UIBarButtonItemStylePlain target:self action:@selector(onExportPressed)];
+    self.navigationItem.rightBarButtonItem = exportButton;
+
+    // Setup View logic
     
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
@@ -105,9 +140,17 @@
     self.collectionView.bounces = YES;
     self.defaultCollectionHeight = 58;
     self.collectionHeightConstraint.constant = 0;
-    
+    [self.collectionView registerClass:[CSSelectedContactCollectionViewCell class] forCellWithReuseIdentifier:kCSSelectedContactCollectionViewCellID];
+
     self.searchBarView.backgroundImage = [[UIImage alloc] init];
     self.searchBarView.delegate = self;
+
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    self.tableView.separatorColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.05];
+    self.tableView.sectionIndexBackgroundColor = [UIColor clearColor];
+    [self.tableView registerClass:[CSContactTableViewCell class] forCellReuseIdentifier:kCSContactTableViewCellID];
+    [self.tableView registerClass:[CSSearchNoResultTableViewCell class] forCellReuseIdentifier:kCSSearchNoResultTableViewCellID];
     
     if (self.allowMutilSelection) {
         self.headerTitleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, self.navigationController.navigationBar.frame.size.height)];
@@ -137,16 +180,6 @@
     [self setHeaderTitle:@"Choose Friend"];
 }
 
-- (void)initUIViewElements {
-    
-    self.loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    self.loadingView.center = self.view.center;
-    
-    [self.tableView registerClass:[CSContactTableViewCell class] forCellReuseIdentifier:kCSContactTableViewCellID];
-//    [self.tableView registerNib:[UINib nibWithNibName:@"CSContactTableViewCell" bundle:nil] forCellReuseIdentifier:kCSContactTableViewCellID];
-    
-}
-
 - (void)setHeaderTitle:(NSString *)title {
     
     if (self.allowMutilSelection) {
@@ -158,28 +191,24 @@
 
 - (void)notifyDatasetChanged {
     
-    if (self.dataSource == nil) {
-        return;
-    }
-    
-    self.dataBusiness = [self.dataSource dataBusinessForContactSelector:self];
-    
-    [self showLoadingState];
     if (self.dataBusiness) {
-        [self.dataBusiness getDataIndexWithQueue:dispatch_get_main_queue()
-                                  withCompletion:^(CSDataIndex *index) {
-                                      self.dataIndex = index;
-                                      self.originalDataIndex = [self.dataIndex copy];
-                                      [self.dataBusiness getDataDictionaryWithQueue:dispatch_get_main_queue()
-                                                                     withCompletion:^(CSDataDictionary *dictionary) {
-                                                                         
-                                                                         self.dataDictionary = dictionary;
-                                                                         
-                                                                         self.originalDataDictionary = [self.dataDictionary copy];
-                                                                         [self hideLoadingState];
-                                                                         [self.tableView reloadData];
-                                                                     }];
-                                  }];
+        [self showLoadingState];
+        if (self.dataBusiness) {
+            [self.dataBusiness getDataIndexWithQueue:dispatch_get_main_queue()
+                                      withCompletion:^(CSDataIndex *index) {
+                                          self.dataIndex = index;
+                                          self.originalDataIndex = [self.dataIndex copy];
+                                          [self.dataBusiness getDataDictionaryWithQueue:dispatch_get_main_queue()
+                                                                         withCompletion:^(CSDataDictionary *dictionary) {
+                                                                             
+                                                                             self.dataDictionary = dictionary;
+                                                                             
+                                                                             self.originalDataDictionary = [self.dataDictionary copy];
+                                                                             [self hideLoadingState];
+                                                                             [self.tableView reloadData];
+                                                                         }];
+                                      }];
+        }
     }
 }
 
@@ -228,7 +257,7 @@
 
 #pragma mark - Navigation bar button event handler
 
-- (IBAction)onCancelPressed:(UIBarButtonItem *)sender {
+- (void)onCancelPressed {
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(onExitCSViewController:)]) {
         [self.delegate onExitCSViewController:self];
@@ -236,7 +265,7 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (IBAction)onExportPressed:(UIBarButtonItem *)sender {
+- (void)onExportPressed {
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(onExportCSViewController:withSelectedDatas:)]) {
         [self.delegate onExportCSViewController:self withSelectedDatas:self.selectedDatas];

@@ -86,24 +86,10 @@
 
 @end
 
-@protocol CSViewControllerDataSource <NSObject>
-
-@required
-
-/**
- Return data business
- 
- @param csViewController view controller need data business
- @return data business
- */
-- (id<CSDataBusiness>)dataBusinessForContactSelector:(ContactSelectorViewController *)csViewController;
-
-@end
-
 @interface ContactSelectorViewController : UIViewController
 
 @property (nonatomic, weak) id<CSViewControllerDelegate> delegate;
-@property (nonatomic, weak) id<CSViewControllerDataSource> dataSource;
+@property (nonatomic) id<CSDataBusiness> dataBusiness;
 @property (nonatomic) BOOL allowMutilSelection;
 
 + (ContactSelectorViewController *)viewController;

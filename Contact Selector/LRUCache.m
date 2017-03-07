@@ -43,25 +43,28 @@
 }
 
 - (instancetype)initWithName:(NSString *)cacheName maxSize:(NSUInteger)maxSize {
-    
-    self = [super init];
-    
-    if (self) {
-        self.internalCacheName = cacheName;
-        self.internalMaxSize = maxSize;
-        self.currentSize = 0;
-        self.dictionary = [NSMutableDictionary dictionary];
-        self.keySet = [NSMutableOrderedSet orderedSet];
+    if (cacheName) {
+        self = [super init];
         
-        NSString * queueName = [NSString stringWithFormat:@"queue#%@", cacheName];
-        self.internalQueue = dispatch_queue_create(queueName.UTF8String, DISPATCH_QUEUE_CONCURRENT);
+        if (self) {
+            self.internalCacheName = cacheName;
+            self.internalMaxSize = maxSize == 0 ? 5*1024*1024 : maxSize; // 5MB if max size is 0MB
+            self.currentSize = 0;
+            self.dictionary = [NSMutableDictionary dictionary];
+            self.keySet = [NSMutableOrderedSet orderedSet];
+            
+            NSString * queueName = [NSString stringWithFormat:@"queue#%@", cacheName];
+            self.internalQueue = dispatch_queue_create(queueName.UTF8String, DISPATCH_QUEUE_CONCURRENT);
+            
+            [LRUCacheDisk getInstanceWithName:cacheName withCompletion:^(LRUCacheDisk *diskCacher) {
+                self.diskCacher = diskCacher;
+            }];
+        }
         
-        [LRUCacheDisk getInstanceWithName:cacheName withCompletion:^(LRUCacheDisk *diskCacher) {
-            self.diskCacher = diskCacher;
-        }];
+        return self;
+    } else {
+        return nil;
     }
-    
-    return self;
 }
 
 - (NSString *)cacheName {
@@ -76,39 +79,41 @@
 
 - (void)addObject:(UIImage *)object forKey:(NSString *)key withCompletion:(LRUHandlerCompleteBlock)completion {
     
-    dispatch_barrier_async(self.internalQueue, ^{
-        NSUInteger size = [object getSizeInBytes];
-        
-        if ([self.keySet containsObject:key]) {
-            UIImage * oldItem = [self.dictionary objectForKey:key];
-            self.currentSize -= oldItem.getSizeInBytes;
-        }
-        
-        while (self.currentSize + size > self.internalMaxSize) {
-            [self tryMoveMostRareUsageObjectToDiskWithCompletion:^(UIImage * item) {
-                // TODO handle
-            }];
-        }
-        
-        if ([self.keySet containsObject:key]) {
-            [self.keySet moveObjectsAtIndexes:[NSIndexSet indexSetWithIndex:[self.keySet indexOfObject:key]] toIndex:0];
-        } else {
-            [self.keySet insertObject:key atIndex:0];
-        }
-        
-        
-        [self.dictionary setObject:object forKey:key];
-        self.currentSize += size;
-        
-        if (completion != nil) {
-            completion(object);
-        }
-    });
+    if (object && key) {
+        dispatch_barrier_async(self.internalQueue, ^{
+            NSUInteger size = [object getSizeInBytes];
+            
+            if ([self.keySet containsObject:key]) {
+                UIImage * oldItem = [self.dictionary objectForKey:key];
+                self.currentSize -= oldItem.getSizeInBytes;
+            }
+            
+            while (self.currentSize + size > self.internalMaxSize) {
+                [self tryMoveMostRareUsageObjectToDiskWithCompletion:^(UIImage * item) {
+                    // TODO handle
+                }];
+            }
+            
+            if ([self.keySet containsObject:key]) {
+                [self.keySet moveObjectsAtIndexes:[NSIndexSet indexSetWithIndex:[self.keySet indexOfObject:key]] toIndex:0];
+            } else {
+                [self.keySet insertObject:key atIndex:0];
+            }
+            
+            
+            [self.dictionary setObject:object forKey:key];
+            self.currentSize += size;
+            
+            if (completion != nil) {
+                completion(object);
+            }
+        });
+    }
 }
 
 - (void)objectForKey:(NSString *)key withCompletion:(LRUHandlerCompleteBlock)completion {
     
-    if (completion) {
+    if (completion && key) {
         dispatch_async(self.internalQueue, ^{
             if ([self.keySet containsObject:key]) {
                 NSUInteger index = [self.keySet indexOfObject:key];
@@ -143,7 +148,7 @@
 
 - (void)tryGetObjectFromDiskWithKey:(NSString *)key withCompletion:(LRUHandlerCompleteBlock)completion {
     
-    if (completion) {
+    if (completion && key) {
         NSString * mostRareKey = [self.keySet lastObject];
         if (mostRareKey != nil) {
             [self.diskCacher objectForKey:key withCompletion:^(UIImage *item, NSString *path, NSError *error) {
@@ -164,7 +169,7 @@
 - (void)tryMoveMostRareUsageObjectToDiskWithCompletion:(LRUHandlerCompleteBlock)completion {
     
     NSString * mostRareKey = [self.keySet lastObject];
-    if (mostRareKey != nil) {
+    if (mostRareKey) {
         [self removeObjectForKey:mostRareKey withCompletion:^(UIImage *item) {
             
             if (self.diskCacher) {
@@ -196,13 +201,14 @@
 }
 
 - (void)removeObjectForKey:(NSString *)key withCompletion:(LRUHandlerCompleteBlock)completion {
-    
-    if ([self.keySet containsObject:key]) {
-        UIImage * item = [self.dictionary objectForKey:key];
-        self.currentSize -= [item getSizeInBytes];
-        [self.dictionary removeObjectForKey:key];
-        if (completion) {
-            completion(item);
+    if (key) {
+        if ([self.keySet containsObject:key]) {
+            UIImage * item = [self.dictionary objectForKey:key];
+            self.currentSize -= [item getSizeInBytes];
+            [self.dictionary removeObjectForKey:key];
+            if (completion) {
+                completion(item);
+            }
         }
     }
 }

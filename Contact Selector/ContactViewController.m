@@ -22,48 +22,28 @@
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
-@interface ContactViewController () <CSViewControllerDelegate, CSViewControllerDataSource, CNContactViewControllerDelegate, ABNewPersonViewControllerDelegate>
+@interface ContactViewController () <CSViewControllerDelegate, CNContactViewControllerDelegate, ABNewPersonViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *containerView;
-@property (nonatomic) ContactSelectorViewController * contactSlecterVC;
-@property (nonatomic) id<CSDataBusiness> contactBusiness;
 
 @end
 
 @implementation ContactViewController
 
 + (instancetype)viewController {
-    UIStoryboard * storyboard = [UIStoryboard storyboardWithName:@"Contact" bundle:nil];
-    ContactViewController * vc = [storyboard instantiateViewControllerWithIdentifier:@"ContactViewController"];
-    return vc;
+    return [[ContactViewController alloc] init];
 }
 
 - (void)viewDidLoad {
+    self.allowMutilSelection = NO;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
     [self setupNavigation];
+    self.dataBusiness = [[CSContactBusiness alloc] init];
+    self.delegate = self;
     
-    self.contactBusiness = [[CSContactBusiness alloc] init];
-    
-    self.contactSlecterVC = [ContactSelectorViewController viewController];
-    self.contactSlecterVC.delegate = self;
-    self.contactSlecterVC.dataSource = self;
-    [self.contactSlecterVC setAllowMutilSelection:NO];
-    [self.containerView addSubview:self.contactSlecterVC.view];
-    
-    [self.contactSlecterVC notifyDatasetChanged];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-//    [self.contactSlecterVC notifyDatasetChanged];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    [self notifyDatasetChanged];
 }
 
 - (void)setupNavigation {
@@ -98,7 +78,7 @@
     
     [newPersonView.navigationController dismissViewControllerAnimated:YES completion:nil];
     if (person) {
-        [self.contactSlecterVC notifyDatasetChanged];
+        [self notifyDatasetChanged];
     }
 }
 
@@ -108,15 +88,8 @@
     
     [viewController.navigationController dismissViewControllerAnimated:YES completion:nil];
     if (contact) {
-        [self.contactSlecterVC notifyDatasetChanged];
+        [self notifyDatasetChanged];
     }
-}
-
-#pragma mark - CSViewControllerDataSource
-
-- (id<CSDataBusiness>)dataBusinessForContactSelector:(ContactSelectorViewController *)csViewController {
-    
-    return self.contactBusiness;
 }
 
 #pragma mark - CSViewControllerDelegate
