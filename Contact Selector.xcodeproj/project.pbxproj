@@ -1140,7 +1140,7 @@
 				DEVELOPMENT_TEAM = M3984GFJZF;
 				INFOPLIST_FILE = "Contact Selector Block/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.rstudio.demo.Contact-Selector-Block";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rstudio.demo.Contact-Selector.Contact-Selector-Block";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -1154,7 +1154,7 @@
 				DEVELOPMENT_TEAM = M3984GFJZF;
 				INFOPLIST_FILE = "Contact Selector Block/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.rstudio.demo.Contact-Selector-Block";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rstudio.demo.Contact-Selector.Contact-Selector-Block";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
