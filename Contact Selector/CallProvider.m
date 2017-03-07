@@ -178,6 +178,8 @@
 
 - (void)provider:(CXProvider *)provider timedOutPerformingAction:(CXAction *)action {
     NSLog(@"Call timeout");
+    
+    [action fulfill];
 }
 
 - (void)provider:(CXProvider *)provider didActivateAudioSession:(AVAudioSession *)audioSession {

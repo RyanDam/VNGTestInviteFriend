@@ -19,7 +19,7 @@
 @property (nonatomic) CallManager * callManager;
 @property (nonatomic) CallProvider * callProvider;
 
-- (void)simulateIncommingCall:(NSUUID *)uuid handle:(NSString *)handle;
+- (void)simulateIncommingCall:(NSUUID *)uuid handle:(NSString *)handle completion:(void (^)())completion;
 
 @end
 

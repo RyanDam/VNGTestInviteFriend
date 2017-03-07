@@ -88,8 +88,12 @@
     }
 }
 
-- (void)simulateIncommingCall:(NSUUID *)uuid handle:(NSString *)handle {
-    [self.callProvider reportIncommingCallUUID:uuid handle:handle completion:nil];
+- (void)simulateIncommingCall:(NSUUID *)uuid handle:(NSString *)handle completion:(void (^)())completion {
+    [self.callProvider reportIncommingCallUUID:uuid handle:handle completion:^(NSError *error) {
+        if (completion) {
+            completion();
+        }
+    }];
 }
 
 @end

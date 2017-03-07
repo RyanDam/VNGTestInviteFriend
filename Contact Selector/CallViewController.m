@@ -163,14 +163,18 @@
 - (IBAction)makePhoneCall:(id)sender {
     
     if (self.inputNumber.text.length > 0) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-            [appDelegate simulateIncommingCall:[[NSUUID alloc] init]  handle:self.inputNumber.text];
-        });
+        
+//        UIBackgroundTaskIdentifier identify = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//            AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+//            [appDelegate simulateIncommingCall:[[NSUUID alloc] init]  handle:self.inputNumber.text completion:^{
+//                [[UIApplication sharedApplication] endBackgroundTask:identify];
+//            }];
+//        });
+        
+        AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        [appDelegate.callManager startCall:[[NSUUID alloc] init] handle:self.inputNumber.text];
     }
-    
-//    if (self.inputNumber.text.length > 0)
-//        [[CallManagement management] makePhoneCall:self.inputNumber.text];
 }
 
 #pragma mark - InternalMethod
