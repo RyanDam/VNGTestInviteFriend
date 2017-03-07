@@ -221,7 +221,7 @@
  */
 - (void)setCoutingValue:(NSUInteger)num animate:(BOOL)animated{
     
-    self.headerCountingLabel.text = [NSString stringWithFormat:@"%ld/%ld", num, self.maxSelectedData];
+    self.headerCountingLabel.text = [NSString stringWithFormat:@"%ld/%ld", (unsigned long)num, (unsigned long)self.maxSelectedData];
     
     if (animated) {
         [UIView animateWithDuration:0.2 animations:^{
@@ -567,7 +567,7 @@
         if (self.selectedDatas.count < self.maxSelectedData || [self.selectedDatas containsObject:selectedData]) {
             result = indexPath;
         } else {
-            [self showMessage:[NSString stringWithFormat:@"You may select %ld friends at maximum", self.maxSelectedData]];
+            [self showMessage:[NSString stringWithFormat:@"You may select %ld friends at maximum", (unsigned long)self.maxSelectedData]];
             
             if (self.delegate && [self.delegate respondsToSelector:@selector(csViewController:reachedMaxSelectedDatas:)]) {
                 [self.delegate csViewController:self reachedMaxSelectedDatas:self.dataArray];

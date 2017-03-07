@@ -28,7 +28,7 @@
     return self;
 }
 
-- (bool) isHold {
+- (BOOL) isHold {
     return _callState == kHeld;
 }
 

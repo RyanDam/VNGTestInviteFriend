@@ -37,7 +37,7 @@
     if (self) {
         
         NSFileManager * manager = [NSFileManager defaultManager];
-        NSURL * url = [manager containerURLForSecurityApplicationGroupIdentifier:@"group.rstudio.Conact-Selector"];
+        NSURL * url = [manager containerURLForSecurityApplicationGroupIdentifier:@"group.ttphong.Contact-Selector"];
         NSString * databasePath = [[url.absoluteString stringByAppendingPathComponent:@"MainDatabase"] stringByAppendingPathExtension:@"db"];
         NSLog(@"Database: %@", databasePath);
         

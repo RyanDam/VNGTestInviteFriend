@@ -819,7 +819,7 @@
 				TargetAttributes = {
 					948C32921E62A44E001F235D = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = M3984GFJZF;
+						DevelopmentTeam = GL8S7376EK;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
@@ -829,10 +829,13 @@
 					};
 					F2F31F4F1E515E2C007405A7 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = M3984GFJZF;
+						DevelopmentTeam = GL8S7376EK;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
 						};
@@ -845,6 +848,7 @@
 					};
 					F2F31F731E515E2C007405A7 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = GL8S7376EK;
 						ProvisioningStyle = Automatic;
 						TestTargetID = F2F31F4F1E515E2C007405A7;
 					};
@@ -1204,10 +1208,10 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CODE_SIGN_ENTITLEMENTS = "Contact Selector Block/Contact Selector Block.entitlements";
-				DEVELOPMENT_TEAM = M3984GFJZF;
+				DEVELOPMENT_TEAM = GL8S7376EK;
 				INFOPLIST_FILE = "Contact Selector Block/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.rstudio.demo.Contact-Selector.Contact-Selector-Block";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ttphong.Contact-Selector.Contact-Selector-Block";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -1219,10 +1223,10 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CODE_SIGN_ENTITLEMENTS = "Contact Selector Block/Contact Selector Block.entitlements";
-				DEVELOPMENT_TEAM = M3984GFJZF;
+				DEVELOPMENT_TEAM = GL8S7376EK;
 				INFOPLIST_FILE = "Contact Selector Block/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.rstudio.demo.Contact-Selector.Contact-Selector-Block";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ttphong.Contact-Selector.Contact-Selector-Block";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -1325,7 +1329,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Contact Selector/Contact Selector.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = M3984GFJZF;
+				DEVELOPMENT_TEAM = GL8S7376EK;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Contact\\ Selector",
@@ -1345,7 +1349,7 @@
 				INFOPLIST_FILE = "Contact Selector/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.rstudio.demo.Contact-Selector";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ttphong.Contact-Selector";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -1357,7 +1361,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Contact Selector/Contact Selector.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = M3984GFJZF;
+				DEVELOPMENT_TEAM = GL8S7376EK;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Contact\\ Selector",
@@ -1377,7 +1381,7 @@
 				INFOPLIST_FILE = "Contact Selector/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.rstudio.demo.Contact-Selector";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ttphong.Contact-Selector";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -1414,6 +1418,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C41F8593C1D2E702072891AB /* Pods-Contact SelectorUITests.debug.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = GL8S7376EK;
 				INFOPLIST_FILE = "Contact SelectorUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.vng.duydv2.Contact-SelectorUITests";
@@ -1426,6 +1431,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1E00B9514368C1F1571C2AC5 /* Pods-Contact SelectorUITests.release.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = GL8S7376EK;
 				INFOPLIST_FILE = "Contact SelectorUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.vng.duydv2.Contact-SelectorUITests";

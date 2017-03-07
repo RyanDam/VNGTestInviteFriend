@@ -14,7 +14,7 @@
 
 - (void)setThumbnailText:(NSString *)text withCompletion:(void (^)(UIImage * image))completion {
     
-    LRUCache * cacher = [LRUCache getInstanceWithName:@"CSThumbnailEngineCache" hopeSize:1024*1024]; // 10MB;
+    LRUCache * cacher = [LRUCache getInstanceWithName:@"CSThumbnailEngineCache" hopeSize:10*1024*1024]; // 10MB;
     
     [self setImage:nil];
     if (text) {

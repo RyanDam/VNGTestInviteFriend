@@ -81,7 +81,7 @@
 
 - (void)addBlockPhoneViewController:(BlockPhoneViewController *)vc didAddModel:(CSContact *)model {
     
-    [self dismissViewControllerAnimated:vc.navigationController completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
     if (model) {
         CSBlockDatebaseManager * manager = [CSBlockDatebaseManager manager];
         [manager blockContact:model];
