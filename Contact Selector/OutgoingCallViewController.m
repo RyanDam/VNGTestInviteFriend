@@ -35,8 +35,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.callNumberLabel.text = self.callNumber;
-    self.callStatusLabel.text = @"Dialing";
+    [self initView];
     
     self.appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     
@@ -81,6 +80,16 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         [[self.appDelegate callManager] answerCall:self.call];
     });
+}
+
+- (void)initView {
+    
+    if (self.contact.fullName != nil)
+        self.callNumberLabel.text = self.contact.fullName;
+    else
+        self.callNumberLabel.text = self.callNumber;
+    
+    self.callStatusLabel.text = @"Dialing";
 }
 
 - (void)setCallDurationTimer {

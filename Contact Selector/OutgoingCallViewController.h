@@ -7,11 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CSModel.h"
 
 @interface OutgoingCallViewController : UIViewController
 
 + (instancetype)viewController;
 
 @property (strong, nonatomic) NSString *callNumber;
+
+@property (weak, nonatomic) CSModel *contact;
 
 @end

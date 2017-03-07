@@ -166,20 +166,14 @@
 - (IBAction)makePhoneCall:(id)sender {
     
     if (self.inputNumber.text.length > 0) {
-        
-//        UIBackgroundTaskIdentifier identify = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
-//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//            AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-//            [appDelegate simulateIncommingCall:[[NSUUID alloc] init]  handle:self.inputNumber.text completion:^{
-//                [[UIApplication sharedApplication] endBackgroundTask:identify];
-//            }];
-//        });
-        
-//        AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-//        [appDelegate.callManager startCall:[[NSUUID alloc] init] handle:self.inputNumber.text];
-        
+ 
         OutgoingCallViewController * vc = [OutgoingCallViewController viewController];
+        
+        CSModel *contact = [self searchForContactMatchWith:self.inputNumber.text];
+        
         vc.callNumber = self.inputNumber.text;
+        vc.contact = contact;
+        
         [self presentViewController:vc animated:YES completion:nil];
     }
 }
@@ -204,6 +198,25 @@
     }];
 }
 
+- (CSModel *)searchForContactMatchWith:(NSString *)phoneNumber {
+    
+    CSModel *contact;
+    if ([self.cacheContact objectForKey:phoneNumber] == nil) {
+        
+        contact = [self.contactBusiness searchForContactFromDataArray:self.allContact withNumber:phoneNumber];
+        
+        if (contact == nil) {
+            contact = [CSContact new];
+            contact.fullName = phoneNumber;
+        }
+        
+        [self.cacheContact setValue:contact forKey:phoneNumber];
+        
+    } else {
+        contact = [self.cacheContact objectForKey:phoneNumber];
+    }
+    return contact;
+}
 
 #pragma mark - UITableViewDataSource
 
@@ -232,23 +245,7 @@
         
         CSCall *call = self.calls[indexPath.row];
         
-        CSModel *contact;
-        
-        if ([self.cacheContact objectForKey:call.number] == nil) {
-            
-            contact = [self.contactBusiness searchForContactFromDataArray:self.allContact withNumber:call.number];
-            
-            if (contact == nil) {
-                contact = [CSContact new];
-                contact.fullName = call.number;
-            }
-            
-            [self.cacheContact setValue:contact forKey:call.number];
-            
-        } else {
-            contact = [self.cacheContact objectForKey:call.number];
-        }
-        
+        CSModel *contact = [self searchForContactMatchWith:call.number];
         cell.fullName.text = contact.fullName;
         [cell.thumnailView setData:contact];
         
