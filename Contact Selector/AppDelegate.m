@@ -9,10 +9,12 @@
 #import "AppDelegate.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import "CallObserver.h"
+#import "CallManager.h"
+#import "CallProvider.h"
 
-@import CallKit;
+@import PushKit;
 
-@interface AppDelegate ()
+@interface AppDelegate () <PKPushRegistryDelegate>
 
 @property (nonatomic) PKPushRegistry * pushRegistry;
 
@@ -22,12 +24,18 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-
-//    [[FBSDKApplicationDelegate sharedInstance] application:application
-//                             didFinishLaunchingWithOptions:launchOptions];
     
-    // init call observer
-    [CallObserver observer];
+    //    [[FBSDKApplicationDelegate sharedInstance] application:application
+    //                             didFinishLaunchingWithOptions:launchOptions];
+    
+    // PushKit setup
+    self.pushRegistry = [[PKPushRegistry alloc] initWithQueue:dispatch_get_main_queue()];
+    self.pushRegistry.delegate = self;
+    
+    // CallKit setup
+    self.callManager = [[CallManager alloc] init];
+    self.callProvider = [[CallProvider alloc] initWithManagement:self.callManager];
+    
     return YES;
 }
 
@@ -54,11 +62,38 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-//    [FBSDKAppEvents activateApp];
+    //    [FBSDKAppEvents activateApp];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+#pragma mark - PKPushRegistryDelegate
+
+- (void)pushRegistry:(PKPushRegistry *)registry didUpdatePushCredentials:(PKPushCredentials *)credentials forType:(PKPushType)type {
+    // update token
+}
+
+- (void)pushRegistry:(PKPushRegistry *)registry didReceiveIncomingPushWithPayload:(PKPushPayload *)payload forType:(PKPushType)type {
+    if (type == PKPushTypeVoIP) {
+        // just recive VoIP call
+        NSString * idString = payload.dictionaryPayload[@"UUID"];
+        NSString * handleString = payload.dictionaryPayload[@"Handle"];
+        NSUUID * uuid = [[NSUUID alloc] initWithUUIDString:idString];
+        
+        // report incomming call to CallKit
+        [self.callProvider reportIncommingCallUUID:uuid handle:handleString completion:nil];
+        
+    }
+}
+
+- (void)simulateIncommingCall:(NSUUID *)uuid handle:(NSString *)handle completion:(void (^)())completion {
+    [self.callProvider reportIncommingCallUUID:uuid handle:handle completion:^(NSError *error) {
+        if (completion) {
+            completion();
+        }
+    }];
 }
 
 @end

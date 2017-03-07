@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1217" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Outgoing Call View Controller-->
+        <scene sceneID="0ac-5g-ZHG">
+            <objects>
+                <viewController storyboardIdentifier="OutgoingCallViewController" id="Pzk-Jl-qdC" customClass="OutgoingCallViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ECb-rq-1Vz"/>
+                        <viewControllerLayoutGuide type="bottom" id="bNa-Wb-Tk4"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="6oW-ab-srH">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Number" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HEf-nO-zPZ">
+                                <rect key="frame" x="117" y="109.5" width="142" height="48"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oke-qH-6Kj">
+                                <rect key="frame" x="169.5" y="416" width="35" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="End"/>
+                                <connections>
+                                    <action selector="endCall:" destination="Pzk-Jl-qdC" eventType="touchUpInside" id="bpE-57-WPs"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gsD-IZ-5Pd">
+                                <rect key="frame" x="156" y="189.5" width="63" height="26.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FFJ-YW-gdX">
+                                <rect key="frame" x="188" y="232" width="0.0" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.77914902454387214" green="1" blue="0.80039113596109446" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="HEf-nO-zPZ" firstAttribute="centerY" secondItem="6oW-ab-srH" secondAttribute="centerY" constant="-200" id="64I-HE-8rw"/>
+                            <constraint firstItem="FFJ-YW-gdX" firstAttribute="top" secondItem="gsD-IZ-5Pd" secondAttribute="bottom" constant="16" id="6ch-bK-DBX"/>
+                            <constraint firstItem="FFJ-YW-gdX" firstAttribute="centerX" secondItem="6oW-ab-srH" secondAttribute="centerX" id="SKm-eu-2Jx"/>
+                            <constraint firstItem="oke-qH-6Kj" firstAttribute="centerX" secondItem="6oW-ab-srH" secondAttribute="centerX" id="SxH-QM-YeV"/>
+                            <constraint firstItem="oke-qH-6Kj" firstAttribute="top" secondItem="gsD-IZ-5Pd" secondAttribute="bottom" constant="200" id="X4C-0H-Noj"/>
+                            <constraint firstItem="gsD-IZ-5Pd" firstAttribute="top" secondItem="HEf-nO-zPZ" secondAttribute="bottom" constant="32" id="dge-23-vj4"/>
+                            <constraint firstItem="HEf-nO-zPZ" firstAttribute="centerX" secondItem="6oW-ab-srH" secondAttribute="centerX" id="ie1-jE-s6L"/>
+                            <constraint firstItem="gsD-IZ-5Pd" firstAttribute="centerX" secondItem="6oW-ab-srH" secondAttribute="centerX" id="uXD-cA-ooj"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="callNumberLabel" destination="HEf-nO-zPZ" id="WOY-Yt-Dik"/>
+                        <outlet property="callStatusLabel" destination="gsD-IZ-5Pd" id="MKQ-yd-0tR"/>
+                        <outlet property="timeLabel" destination="FFJ-YW-gdX" id="ncn-AT-fPh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="apE-3k-pCo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="512.79999999999995" y="-313.49325337331339"/>
+        </scene>
+    </scenes>
+</document>

@@ -14,6 +14,11 @@
 #import "CallManagement.h"
 #import "CallObserver.h"
 #import "CSContact.h"
+#import "CallManager.h"
+#import "CallProvider.h"
+#import "AppDelegate.h"
+#import "OutgoingCallViewController.h"
+#import "CSContact.h"
 
 #define DIALER_VIEW_SHOW_CONSTANT -34
 #define DIALER_VIEW_HIDE_CONSTANT -350
@@ -25,6 +30,7 @@
 
 @interface CallViewController () <UITableViewDataSource, UITableViewDelegate>
 
+@property (strong, nonatomic) CSContactProvider *contactProvider;
 @property (strong, nonatomic) CSContactBusiness *contactBusiness;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -56,8 +62,9 @@
     // Do any additional setup after loading the view.
     [self.tableView setDataSource:self];
     [self.tableView setDelegate:self];
-
-    self.contactBusiness = [[CSContactBusiness alloc] init];
+    
+    self.contactProvider = [CSContactProvider new];
+    self.contactBusiness = [CSContactBusiness new];
     self.cacheContact = [NSMutableDictionary new];
     
     self.inputNumber.userInteractionEnabled = NO;
@@ -68,7 +75,7 @@
         self.waitForLoading--;
     });
     
-    [self.contactBusiness getDataArrayWithCompletion:^(NSArray<CSModel *> *data, NSError *err) {
+    [self.contactProvider getDataArrayWithCompletion:^(NSArray<CSModel *> *data, NSError *err) {
         self.waitForLoading--;
         if (!err) {
             self.allContact = data;
@@ -79,13 +86,15 @@
             NSLog(@"%@", [err localizedDescription]);
         }
     }];
-
-    [[CallObserver observer] setRefreshUI:^{
-        self.calls = [[CSCallHistoryManager manager] getAllCalls];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView reloadData];
-        });
-    }];
+    
+    //    [[CallObserver observer] setRefreshUI:^{
+    //        self.calls = [[CSCallHistoryManager manager] getAllCalls];
+    //        dispatch_async(dispatch_get_main_queue(), ^{
+    //            [self.tableView reloadData];
+    //        });
+    //    }];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -122,6 +131,7 @@
      ];
 }
 
+
 - (IBAction)hideDialler:(id)sender {
     
     if ([self isInputViewShowing])
@@ -155,8 +165,19 @@
 }
 
 - (IBAction)makePhoneCall:(id)sender {
-    if (self.inputNumber.text.length > 0)
-        [[CallManagement management] makePhoneCall:self.inputNumber.text];
+    
+    if (self.inputNumber.text.length > 0) {
+        
+        OutgoingCallViewController * vc = [OutgoingCallViewController viewController];
+        
+        [self searchForContactMatchWith:self.inputNumber.text Completion:^(CSContact *contact) {
+            
+            vc.callNumber = self.inputNumber.text;
+            vc.contact = contact;
+            
+            [self presentViewController:vc animated:YES completion:nil];
+        }];
+    }
 }
 
 #pragma mark - InternalMethod
@@ -179,6 +200,24 @@
     }];
 }
 
+- (void)searchForContactMatchWith:(NSString *)phoneNumber Completion:(void(^)(CSContact *))completion {
+
+    if (![self.cacheContact objectForKey:phoneNumber]) {
+        
+        [self.contactBusiness searchForContactWithNumber:phoneNumber withCompletion:^(CSContact *contact) {
+            if (contact == nil) {
+                contact = [CSContact new];
+                contact.fullName = phoneNumber;
+            }
+            
+            completion(contact);
+            [self.cacheContact setValue:contact forKey:phoneNumber];
+        }];
+    } else {
+        completion([self.cacheContact objectForKey:phoneNumber]);
+    }
+
+}
 
 #pragma mark - UITableViewDataSource
 
@@ -197,7 +236,7 @@
     
     static NSString *calledCellID = @"calledCell";
     static NSString *loadingCellID = @"loadingCell";
-
+    
     CallCell *cell;
     
     if (self.waitForLoading > 0) {
@@ -207,30 +246,11 @@
         
         CSCall *call = self.calls[indexPath.row];
         
-        CSModel *contact;
-        
-        if ([self.cacheContact objectForKey:call.number] == nil) {
-            
-            [self.contactBusiness searchForContactWithNumber:call.number withCompletion:^(CSContact *contact) {
-                if (contact == nil) {
-                    contact = [CSContact new];
-                    contact.fullName = call.number;
-                }
-                
-                [self.cacheContact setValue:contact forKey:call.number];
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    cell.fullName.text = contact.fullName;
-                    [cell.thumnailView setData:contact];
-                });
-            }];
-            
-        } else {
-            contact = [self.cacheContact objectForKey:call.number];
+        [self searchForContactMatchWith:call.number Completion:^(CSContact *contact) {
             cell.fullName.text = contact.fullName;
             [cell.thumnailView setData:contact];
-        }
- 
+        }];
+
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
         [dateFormatter setDateFormat:@"dd.MM.YYYY HH:mm:ss"];
         
@@ -262,13 +282,13 @@
 
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

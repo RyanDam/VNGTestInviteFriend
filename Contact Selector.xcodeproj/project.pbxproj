@@ -17,6 +17,11 @@
 		8A6B9D351E652A4C002ACB87 /* CSCallHistoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A6B9D341E652A4C002ACB87 /* CSCallHistoryManager.m */; };
 		8A6B9D3E1E652C81002ACB87 /* CSCall.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A6B9D3D1E652C81002ACB87 /* CSCall.m */; };
 		8A6B9D411E655067002ACB87 /* CallCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A6B9D401E655067002ACB87 /* CallCell.m */; };
+		8A6B9D591E6ECAC7002ACB87 /* CallManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A6B9D561E6ECAC7002ACB87 /* CallManager.m */; };
+		8A6B9D5A1E6ECAC7002ACB87 /* Call.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A6B9D581E6ECAC7002ACB87 /* Call.m */; };
+		8A6B9D5D1E6ECB15002ACB87 /* CallProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A6B9D5C1E6ECB15002ACB87 /* CallProvider.m */; };
+		8A6B9D621E6ECB4B002ACB87 /* OutgoingCall.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A6B9D5F1E6ECB4B002ACB87 /* OutgoingCall.storyboard */; };
+		8A6B9D631E6ECB4B002ACB87 /* OutgoingCallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A6B9D611E6ECB4B002ACB87 /* OutgoingCallViewController.m */; };
 		8AF6AC3D1E5D8091004F84FA /* FBContactProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AF6AC3C1E5D8091004F84FA /* FBContactProvider.m */; };
 		8AF6AC3F1E5D8310004F84FA /* AccountKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AF6AC3E1E5D8310004F84FA /* AccountKit.framework */; };
 		948C32971E62A44E001F235D /* CallDirectoryHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 948C32961E62A44E001F235D /* CallDirectoryHandler.m */; };
@@ -130,6 +135,15 @@
 		8A6B9D3D1E652C81002ACB87 /* CSCall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSCall.m; sourceTree = "<group>"; };
 		8A6B9D3F1E655067002ACB87 /* CallCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallCell.h; sourceTree = "<group>"; };
 		8A6B9D401E655067002ACB87 /* CallCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CallCell.m; sourceTree = "<group>"; };
+		8A6B9D551E6ECAC7002ACB87 /* CallManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallManager.h; sourceTree = "<group>"; };
+		8A6B9D561E6ECAC7002ACB87 /* CallManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CallManager.m; sourceTree = "<group>"; };
+		8A6B9D571E6ECAC7002ACB87 /* Call.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Call.h; sourceTree = "<group>"; };
+		8A6B9D581E6ECAC7002ACB87 /* Call.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Call.m; sourceTree = "<group>"; };
+		8A6B9D5B1E6ECB15002ACB87 /* CallProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallProvider.h; sourceTree = "<group>"; };
+		8A6B9D5C1E6ECB15002ACB87 /* CallProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CallProvider.m; sourceTree = "<group>"; };
+		8A6B9D5F1E6ECB4B002ACB87 /* OutgoingCall.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OutgoingCall.storyboard; sourceTree = "<group>"; };
+		8A6B9D601E6ECB4B002ACB87 /* OutgoingCallViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutgoingCallViewController.h; sourceTree = "<group>"; };
+		8A6B9D611E6ECB4B002ACB87 /* OutgoingCallViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OutgoingCallViewController.m; sourceTree = "<group>"; };
 		8AF6AC3B1E5D8091004F84FA /* FBContactProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBContactProvider.h; sourceTree = "<group>"; };
 		8AF6AC3C1E5D8091004F84FA /* FBContactProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBContactProvider.m; sourceTree = "<group>"; };
 		8AF6AC3E1E5D8310004F84FA /* AccountKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AccountKit.framework; path = ../AccountKit.framework; sourceTree = "<group>"; };
@@ -339,6 +353,36 @@
 			name = "Data Business";
 			sourceTree = "<group>";
 		};
+		8A6B9D541E6ECA8F002ACB87 /* CallController */ = {
+			isa = PBXGroup;
+			children = (
+				8A6B9D551E6ECAC7002ACB87 /* CallManager.h */,
+				8A6B9D561E6ECAC7002ACB87 /* CallManager.m */,
+				8A6B9D571E6ECAC7002ACB87 /* Call.h */,
+				8A6B9D581E6ECAC7002ACB87 /* Call.m */,
+			);
+			name = CallController;
+			sourceTree = "<group>";
+		};
+		8A6B9D5E1E6ECB1A002ACB87 /* CallProvider */ = {
+			isa = PBXGroup;
+			children = (
+				8A6B9D5B1E6ECB15002ACB87 /* CallProvider.h */,
+				8A6B9D5C1E6ECB15002ACB87 /* CallProvider.m */,
+			);
+			name = CallProvider;
+			sourceTree = "<group>";
+		};
+		8A6B9D641E6ECB4F002ACB87 /* OutgoingCallViewController */ = {
+			isa = PBXGroup;
+			children = (
+				8A6B9D5F1E6ECB4B002ACB87 /* OutgoingCall.storyboard */,
+				8A6B9D601E6ECB4B002ACB87 /* OutgoingCallViewController.h */,
+				8A6B9D611E6ECB4B002ACB87 /* OutgoingCallViewController.m */,
+			);
+			name = OutgoingCallViewController;
+			sourceTree = "<group>";
+		};
 		948C32941E62A44E001F235D /* Contact Selector Block */ = {
 			isa = PBXGroup;
 			children = (
@@ -448,6 +492,8 @@
 		F286041C1E655CC8002B5709 /* CallManagement */ = {
 			isa = PBXGroup;
 			children = (
+				8A6B9D5E1E6ECB1A002ACB87 /* CallProvider */,
+				8A6B9D541E6ECA8F002ACB87 /* CallController */,
 				F286041D1E655E16002B5709 /* CallObserver.h */,
 				F286041E1E655E16002B5709 /* CallObserver.m */,
 				F28604201E656026002B5709 /* CallManagement.h */,
@@ -625,6 +671,7 @@
 		F2F31FF61E602CA2007405A7 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				8A6B9D641E6ECB4F002ACB87 /* OutgoingCallViewController */,
 				F28604111E642306002B5709 /* ContactDetailViewController */,
 				F2F31FF91E602CCD007405A7 /* ContactsViewController */,
 				F2F31FF81E602CB8007405A7 /* BlockViewController */,
@@ -842,6 +889,7 @@
 				F2F31FED1E602A6D007405A7 /* Call.storyboard in Resources */,
 				F2F31F5E1E515E2C007405A7 /* Main.storyboard in Resources */,
 				F28604161E64233E002B5709 /* ContactDetail.storyboard in Resources */,
+				8A6B9D621E6ECB4B002ACB87 /* OutgoingCall.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1056,6 +1104,7 @@
 				F2F31FFD1E6031D2007405A7 /* ContactViewController.m in Sources */,
 				F2F31FAE1E5ACAE0007405A7 /* CSDataBusiness.m in Sources */,
 				F2F31F901E516221007405A7 /* CSContact.m in Sources */,
+				8A6B9D631E6ECB4B002ACB87 /* OutgoingCallViewController.m in Sources */,
 				8A6B9D411E655067002ACB87 /* CallCell.m in Sources */,
 				F2F31F5B1E515E2C007405A7 /* ContactSelectorViewController.m in Sources */,
 				F20C827D1E695878006D3594 /* UIImage+IO.m in Sources */,
@@ -1067,6 +1116,7 @@
 				F2F31F581E515E2C007405A7 /* AppDelegate.m in Sources */,
 				F28604091E63E5EE002B5709 /* BlockPhoneTableViewCell.m in Sources */,
 				F286041A1E642D81002B5709 /* TopContactDetailCell.m in Sources */,
+				8A6B9D591E6ECAC7002ACB87 /* CallManager.m in Sources */,
 				F2F31F9A1E51B184007405A7 /* CSThumbnailView.m in Sources */,
 				F2F31FE01E5FF54E007405A7 /* CSThumbnailCreater.m in Sources */,
 				F2F31F551E515E2C007405A7 /* main.m in Sources */,
@@ -1084,6 +1134,8 @@
 				8AF6AC3D1E5D8091004F84FA /* FBContactProvider.m in Sources */,
 				F2F31FAB1E5AC9EB007405A7 /* CSDataProvider.m in Sources */,
 				F2F31FF31E602C52007405A7 /* BlockViewController.m in Sources */,
+				8A6B9D5A1E6ECAC7002ACB87 /* Call.m in Sources */,
+				8A6B9D5D1E6ECB15002ACB87 /* CallProvider.m in Sources */,
 				F2F31FA81E5AC816007405A7 /* CSModel.m in Sources */,
 				F28604061E63E005002B5709 /* BlockPhoneViewController.m in Sources */,
 			);
