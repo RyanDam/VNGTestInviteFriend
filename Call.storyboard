@@ -459,6 +459,13 @@
                                             <action selector="hideDialler:" destination="Mhv-iw-uxe" eventType="touchUpInside" id="Evr-EV-hix"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zuj-No-7hZ">
+                                        <rect key="frame" x="32" y="260" width="76" height="30"/>
+                                        <state key="normal" title="Incomming"/>
+                                        <connections>
+                                            <action selector="simulateIncommingCall:" destination="Mhv-iw-uxe" eventType="touchUpInside" id="tSi-h0-pKa"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.912479967948718" green="0.912479967948718" blue="0.912479967948718" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -482,7 +489,9 @@
                                     <constraint firstItem="ILj-qe-iO3" firstAttribute="leading" secondItem="AM4-gW-o5j" secondAttribute="trailing" id="SRo-fp-zmo"/>
                                     <constraint firstAttribute="trailing" secondItem="d21-8Q-coF" secondAttribute="trailing" constant="48" id="SiW-Hh-3nb"/>
                                     <constraint firstItem="WTF-m8-kIa" firstAttribute="leading" secondItem="yZo-T2-6MG" secondAttribute="leading" id="UXP-Bv-d8k"/>
+                                    <constraint firstAttribute="bottom" secondItem="zuj-No-7hZ" secondAttribute="bottom" constant="60" id="UvE-49-3zJ"/>
                                     <constraint firstItem="3EG-x6-EIx" firstAttribute="width" secondItem="Y5A-Yc-XK2" secondAttribute="width" id="Vh8-ew-mHy"/>
+                                    <constraint firstItem="zuj-No-7hZ" firstAttribute="leading" secondItem="yZo-T2-6MG" secondAttribute="leading" constant="32" id="WUG-6X-2e9"/>
                                     <constraint firstItem="qzk-6n-itT" firstAttribute="top" secondItem="yZo-T2-6MG" secondAttribute="top" id="Wbg-7x-61q"/>
                                     <constraint firstItem="3EG-x6-EIx" firstAttribute="leading" secondItem="yZo-T2-6MG" secondAttribute="leading" id="YSn-nl-MrO"/>
                                     <constraint firstItem="Y5A-Yc-XK2" firstAttribute="top" secondItem="AM4-gW-o5j" secondAttribute="bottom" id="Ype-OD-szH"/>
@@ -512,7 +521,6 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="VB4-PG-HkW" firstAttribute="top" secondItem="z6M-ss-dZf" secondAttribute="bottom" id="2E0-ni-Ble"/>
                             <constraint firstItem="uoO-jR-H2l" firstAttribute="top" secondItem="VB4-PG-HkW" secondAttribute="bottom" id="47A-nn-lwJ"/>
                             <constraint firstItem="yZo-T2-6MG" firstAttribute="leading" secondItem="sEe-2G-ew0" secondAttribute="leading" id="5Db-US-niI"/>
                             <constraint firstItem="uoO-jR-H2l" firstAttribute="leading" secondItem="sEe-2G-ew0" secondAttribute="leading" id="Cot-WY-Ntd"/>
@@ -524,6 +532,7 @@
                             <constraint firstAttribute="trailing" secondItem="39C-So-qSh" secondAttribute="trailing" constant="32" id="aCw-dG-LdA"/>
                             <constraint firstItem="yZo-T2-6MG" firstAttribute="top" secondItem="uoO-jR-H2l" secondAttribute="bottom" constant="-40" id="e7S-E6-fAv"/>
                             <constraint firstAttribute="trailing" secondItem="VB4-PG-HkW" secondAttribute="trailing" id="p2j-xf-NkL"/>
+                            <constraint firstItem="VB4-PG-HkW" firstAttribute="top" secondItem="z6M-ss-dZf" secondAttribute="bottom" id="ytx-PU-Ixw"/>
                         </constraints>
                     </view>
                     <connections>

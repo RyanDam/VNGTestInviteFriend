@@ -179,6 +179,21 @@
         }];
     }
 }
+- (IBAction)simulateIncommingCall:(id)sender {
+    AppDelegate * delegate = (AppDelegate *) [UIApplication sharedApplication].delegate;
+    
+    UIBackgroundTaskIdentifier iden = [[UIApplication sharedApplication] beginBackgroundTaskWithName:@"NAME" expirationHandler:nil];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [delegate simulateIncommingCall:[[NSUUID alloc] init] handle:@"ABC" completion:^{
+                [[UIApplication sharedApplication] endBackgroundTask:iden];
+            }];
+        });
+    });
+    
+    
+}
 
 #pragma mark - InternalMethod
 
@@ -262,6 +277,7 @@
 
 #pragma mark - UITableViewDelegate
 
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (self.waitForLoading > 0)
         return LOADING_CELL_HEIGHT;
@@ -269,11 +285,18 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    
     NSString *phoneNumber = self.calls[indexPath.row].number;
     
-    [[CallManagement management] makePhoneCall:phoneNumber];
-    
-    NSLog(@"select");
+    OutgoingCallViewController * vc = [OutgoingCallViewController viewController];
+
+    vc.contact = self.cacheContact[phoneNumber];
+    vc.callNumber = phoneNumber;
+        
+    [self presentViewController:vc animated:YES completion:nil];
+
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
