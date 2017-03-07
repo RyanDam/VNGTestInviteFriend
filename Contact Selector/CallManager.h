@@ -14,7 +14,9 @@
 
 @property (nonatomic, readonly) NSArray * allCall;
 
-- (void)startCall:(NSUUID *)uuid handle:(NSString *)handle;
+- (Call *)startCall:(NSUUID *)uuid handle:(NSString *)handle;
+
+- (void)answerCall:(Call *)call;
 
 - (void)endCall:(Call *)call;
 

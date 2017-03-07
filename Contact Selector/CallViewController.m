@@ -17,6 +17,7 @@
 #import "CallManager.h"
 #import "CallProvider.h"
 #import "AppDelegate.h"
+#import "OutgoingCallViewController.h"
 
 #define DIALER_VIEW_SHOW_CONSTANT -34
 #define DIALER_VIEW_HIDE_CONSTANT -350
@@ -85,12 +86,14 @@
         }
     }];
 
-    [[CallObserver observer] setRefreshUI:^{
-        self.calls = [[CSCallHistoryManager manager] getAllCalls];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView reloadData];
-        });
-    }];
+//    [[CallObserver observer] setRefreshUI:^{
+//        self.calls = [[CSCallHistoryManager manager] getAllCalls];
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [self.tableView reloadData];
+//        });
+//    }];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -172,8 +175,12 @@
 //            }];
 //        });
         
-        AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-        [appDelegate.callManager startCall:[[NSUUID alloc] init] handle:self.inputNumber.text];
+//        AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+//        [appDelegate.callManager startCall:[[NSUUID alloc] init] handle:self.inputNumber.text];
+        
+        OutgoingCallViewController * vc = [OutgoingCallViewController viewController];
+        vc.callNumber = self.inputNumber.text;
+        [self presentViewController:vc animated:YES completion:nil];
     }
 }
 

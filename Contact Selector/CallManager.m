@@ -29,12 +29,23 @@
     return self;
 }
 
-- (void)startCall:(NSUUID *)uuid handle:(NSString *)handle {
+- (Call *)startCall:(NSUUID *)uuid handle:(NSString *)handle {
+    
+    Call *call = [[Call alloc] initWithUUID:uuid isOutgoing:YES];
+    [_callList addObject:call];
     
     CXHandle * handlecx = [[CXHandle alloc] initWithType:CXHandleTypePhoneNumber value:handle];
     CXStartCallAction * callAct = [[CXStartCallAction alloc] initWithCallUUID:uuid handle:handlecx];
     [callAct setVideo:NO];
     [self requestAction:callAct];
+    
+    return call;
+}
+
+- (void)answerCall:(Call *)call {
+    call.connectedDate = [NSDate new];
+    CXAnswerCallAction *answer = [[CXAnswerCallAction alloc] initWithCallUUID:call.uuid];
+    [self requestAction:answer];
 }
 
 - (void)endCall:(Call *)call {
@@ -70,10 +81,11 @@
 - (Call *)getCallByUUID:(NSUUID *)uuid {
     Call * result = nil;
     if (uuid) {
-        for (int i = 0; i < self.callList.count || result == nil; i++) {
+        for (int i = 0; i < self.callList.count; i++) {
             Call * call = self.callList[i];
             if ([call.uuid.UUIDString compare:uuid.UUIDString] == NSOrderedSame) {
                 result = call;
+                break;
             }
         }
     }

@@ -8,14 +8,26 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum {
+    kConnecting,
+    kConnected,
+    kHeld,
+    kEnd
+} CallState;
+
 @interface Call : NSObject
 
 @property (nonatomic) NSUUID * uuid;
 @property (nonatomic) NSString * handle;
-@property (nonatomic, readonly) BOOL isConnected;
+
+@property (nonatomic) NSDate * connectedDate;
+@property (nonatomic) BOOL isOutgoing;
+@property (nonatomic) CallState callState;
 @property (nonatomic, readonly) BOOL isHold;
-@property (nonatomic, readonly) NSDate * connectedDate;
-@property (nonatomic, readonly) BOOL isOutgoing;
+@property (nonatomic, readonly) NSTimeInterval duration;
+
+@property (nonatomic) void (^stateDidChange)(CallState);
+
 
 - (instancetype)initWithUUID:(NSUUID *)uuid isOutgoing:(BOOL)flag;
 

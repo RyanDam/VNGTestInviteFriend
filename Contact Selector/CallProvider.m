@@ -94,13 +94,11 @@
 
 - (void)provider:(CXProvider *)provider performStartCallAction:(CXStartCallAction *)action {
     
-    Call * call = [[Call alloc] initWithUUID:action.callUUID isOutgoing:YES];
-    call.handle = action.handle.value;
+    Call * call = [self.manager getCallByUUID:action.UUID];
     
     [call startCallWithCompletion:^(BOOL success) {
         if (success) {
             [action fulfill];
-            [self.manager addCall:call];
             
             [self.provider reportOutgoingCallWithUUID:call.uuid startedConnectingAtDate:[NSDate date]];
         } else {
@@ -110,7 +108,7 @@
 }
 
 - (void)provider:(CXProvider *)provider performAnswerCallAction:(CXAnswerCallAction *)action {
-    
+
     Call * call = [self.manager getCallByUUID:action.callUUID];
     if (call) {
         [call answerCallWithCompletion:^(BOOL success) {
