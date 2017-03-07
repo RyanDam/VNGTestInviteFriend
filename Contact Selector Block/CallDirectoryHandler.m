@@ -70,8 +70,6 @@
         
         CXCallDirectoryPhoneNumber phoneNumber = (CXCallDirectoryPhoneNumber)[myNumber longLongValue];
         
-        //        CXCallDirectoryPhoneNumber phoneNumber = 84969143732;
-        
         [context addBlockingEntryWithNextSequentialPhoneNumber:phoneNumber];
     }
 
@@ -91,7 +89,7 @@
 //    for (NSUInteger i = 0; i < count; i += 1) {
 //        CXCallDirectoryPhoneNumber phoneNumber = phoneNumbers[i];
 //        NSString *label = labels[i];
-//        [context addIdentificationEntryWithNextSequentialPhoneNumber:phoneNumber label:label];
+//        [context addIdentificationEntryWithNextSequentialPhoneNumber:84966415777 label:@"ahaha"];
 //    }
 
     return YES;
@@ -106,6 +104,10 @@
     // This may be used to store the error details in a location accessible by the extension's containing app, so that the
     // app may be notified about errors which occured while loading data even if the request to load data was initiated by
     // the user in Settings instead of via the app itself.
+    
+    if (error) {
+        NSLog(@"CallDirection %@", error.localizedDescription);
+    }
 }
 
 @end

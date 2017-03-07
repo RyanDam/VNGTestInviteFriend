@@ -35,10 +35,11 @@
     
     self = [super init];
     if (self) {
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-        NSString * appPath = paths[0];
         
-        NSString * databasePath = [[appPath stringByAppendingPathComponent:@"MainDatabase"] stringByAppendingPathExtension:@"db"];
+        NSFileManager * manager = [NSFileManager defaultManager];
+        NSURL * url = [manager containerURLForSecurityApplicationGroupIdentifier:@"group.rstudio.Conact-Selector"];
+        
+        NSString * databasePath = [[url.absoluteString stringByAppendingPathComponent:@"MainDatabase"] stringByAppendingPathExtension:@"db"];
         
         NSLog(@"Database: %@", databasePath);
         

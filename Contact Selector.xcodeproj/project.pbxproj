@@ -151,6 +151,8 @@
 		F20C827C1E695878006D3594 /* UIImage+IO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+IO.m"; sourceTree = "<group>"; };
 		F20C82CF1E6D66F4006D3594 /* UIView+AutoLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+AutoLayout.h"; sourceTree = "<group>"; };
 		F20C82D01E6D66F4006D3594 /* UIView+AutoLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+AutoLayout.m"; sourceTree = "<group>"; };
+		F20C82D81E6EAB93006D3594 /* Contact Selector.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Contact Selector.entitlements"; sourceTree = "<group>"; };
+		F20C82D91E6EABEF006D3594 /* Contact Selector Block.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Contact Selector Block.entitlements"; sourceTree = "<group>"; };
 		F21ADFB81E694CCA000A22B4 /* UIImage+Size.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Size.h"; sourceTree = "<group>"; };
 		F21ADFB91E694CCA000A22B4 /* UIImage+Size.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Size.m"; sourceTree = "<group>"; };
 		F28604041E63E005002B5709 /* BlockPhoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlockPhoneViewController.h; sourceTree = "<group>"; };
@@ -337,6 +339,7 @@
 		948C32941E62A44E001F235D /* Contact Selector Block */ = {
 			isa = PBXGroup;
 			children = (
+				F20C82D91E6EABEF006D3594 /* Contact Selector Block.entitlements */,
 				948C32951E62A44E001F235D /* CallDirectoryHandler.h */,
 				948C32961E62A44E001F235D /* CallDirectoryHandler.m */,
 				948C32981E62A44E001F235D /* Info.plist */,
@@ -476,6 +479,7 @@
 		F2F31F521E515E2C007405A7 /* Contact Selector */ = {
 			isa = PBXGroup;
 			children = (
+				F20C82D81E6EAB93006D3594 /* Contact Selector.entitlements */,
 				F20C82CC1E6D572A006D3594 /* Library */,
 				F286041B1E65591F002B5709 /* App */,
 				F286041C1E655CC8002B5709 /* CallManagement */,
@@ -765,11 +769,21 @@
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = M3984GFJZF;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					F2F31F4F1E515E2C007405A7 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = M3984GFJZF;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					F2F31F681E515E2C007405A7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -1131,6 +1145,7 @@
 			baseConfigurationReference = 76EA5E48145619366A3202A2 /* Pods-Contact Selector Block.debug.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CODE_SIGN_ENTITLEMENTS = "Contact Selector Block/Contact Selector Block.entitlements";
 				DEVELOPMENT_TEAM = M3984GFJZF;
 				INFOPLIST_FILE = "Contact Selector Block/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
@@ -1145,6 +1160,7 @@
 			baseConfigurationReference = A0C761B54E8ABA5DE1E4C01E /* Pods-Contact Selector Block.release.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CODE_SIGN_ENTITLEMENTS = "Contact Selector Block/Contact Selector Block.entitlements";
 				DEVELOPMENT_TEAM = M3984GFJZF;
 				INFOPLIST_FILE = "Contact Selector Block/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
@@ -1249,6 +1265,7 @@
 			baseConfigurationReference = F851B4EF959439346D64593F /* Pods-Contact Selector.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Contact Selector/Contact Selector.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = M3984GFJZF;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1280,6 +1297,7 @@
 			baseConfigurationReference = E02D3DAEDC5DD250CD4B84AD /* Pods-Contact Selector.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Contact Selector/Contact Selector.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = M3984GFJZF;
 				FRAMEWORK_SEARCH_PATHS = (

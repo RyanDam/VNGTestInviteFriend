@@ -73,7 +73,10 @@
 - (void)needRefreshBlockPhoneExtention {
     CXCallDirectoryManager * manager = [CXCallDirectoryManager sharedInstance];
     
-    [manager getEnabledStatusForExtensionWithIdentifier:@"com.vng.ttphong.Contact-Selector.Contact-Selector-Block" completionHandler:^(CXCallDirectoryEnabledStatus enabledStatus, NSError * _Nullable error) {
+    NSString* appID = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIdentifier"];
+    NSString * callDirectionID = [appID stringByAppendingString:@".Contact-Selector-Block"];
+    
+    [manager getEnabledStatusForExtensionWithIdentifier:callDirectionID completionHandler:^(CXCallDirectoryEnabledStatus enabledStatus, NSError * _Nullable error) {
         
         if (error) {
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -87,7 +90,7 @@
                 [self showMessage:@"Please enable to block contact in \nSettings > Phone > Call Blocking & Identification > enable Contact Selector"];
             });
         } else {
-            [manager reloadExtensionWithIdentifier:@"com.vng.ttphong.Contact-Selector.Contact-Selector-Block" completionHandler:^(NSError * _Nullable error) {
+            [manager reloadExtensionWithIdentifier:callDirectionID completionHandler:^(NSError * _Nullable error) {
                 if (error) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self showMessage:error.localizedDescription];
@@ -103,7 +106,6 @@
 - (void)addBlockPhoneViewController:(BlockPhoneViewController *)vc didAddModel:(CSContact *)model {
     
     [self dismissViewControllerAnimated:vc.navigationController completion:nil];
-    
     if (model) {
         CSBlockDatebaseManager * manager = [CSBlockDatebaseManager manager];
         [manager blockContact:model];
