@@ -11,6 +11,7 @@
 #import "CallViewController.h"
 #import "BlockViewController.h"
 #import "ContactSelectorViewController.h"
+#import "Utils.h"
 
 @import CallKit;
 
@@ -36,7 +37,14 @@
     
     [self initViewControllers];
     
-    [self needRefreshBlockPhoneExtention];
+//    __weak typeof(self) softSelf = self;
+    [Utils refreshCallDirectionBlockListWithCompletion:^(NSError *error) {
+        if (error) {
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                [Utils showMessage:error.localizedDescription inViewController:softSelf];
+//            });
+        }
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -63,37 +71,6 @@
     self.viewControllers = @[self.callVC, contactWrapper, blockWrapper];
     
     self.delegate = self;
-}
-
-- (void)needRefreshBlockPhoneExtention {
-    CXCallDirectoryManager * manager = [CXCallDirectoryManager sharedInstance];
-    
-    NSString* appID = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIdentifier"];
-    NSString * callDirectionID = [appID stringByAppendingString:@".Contact-Selector-Block"];
-    
-    [manager getEnabledStatusForExtensionWithIdentifier:callDirectionID completionHandler:^(CXCallDirectoryEnabledStatus enabledStatus, NSError * _Nullable error) {
-        
-        if (error) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self showMessage:error.localizedDescription];
-            });
-            return;
-        }
-        
-        if (enabledStatus == CXCallDirectoryEnabledStatusDisabled || enabledStatus == CXCallDirectoryEnabledStatusUnknown) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self showMessage:@"Please enable to block contact in \nSettings > Phone > Call Blocking & Identification > enable Contact Selector"];
-            });
-        } else {
-            [manager reloadExtensionWithIdentifier:callDirectionID completionHandler:^(NSError * _Nullable error) {
-                if (error) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self showMessage:error.localizedDescription];
-                    });
-                }
-            }];
-        }
-    }];
 }
 
 #pragma mark - UITabBarControllerDelegate
@@ -147,17 +124,4 @@
             break;
     }
 }
-
-#pragma mark - Utils
-
-- (void)showMessage:(NSString *)message {
-    
-    UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"Message"
-                                                                    message:message
-                                                             preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDestructive handler:nil];
-    [alert addAction:dismissAction];
-    [self presentViewController:alert animated:YES completion:nil];
-}
-
 @end

@@ -108,7 +108,4 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-#pragma mark - Utils
-
-
 @end

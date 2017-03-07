@@ -28,6 +28,7 @@
 		E90A5A55B46885D16176EBD4 /* libPods-Contact Selector.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 942CF2838AAFD29F331FE0A4 /* libPods-Contact Selector.a */; };
 		F20C827D1E695878006D3594 /* UIImage+IO.m in Sources */ = {isa = PBXBuildFile; fileRef = F20C827C1E695878006D3594 /* UIImage+IO.m */; };
 		F20C82D11E6D66F4006D3594 /* UIView+AutoLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = F20C82D01E6D66F4006D3594 /* UIView+AutoLayout.m */; };
+		F20C82DD1E6EAFA2006D3594 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = F20C82DC1E6EAFA2006D3594 /* Utils.m */; };
 		F21ADFBA1E694CCA000A22B4 /* UIImage+Size.m in Sources */ = {isa = PBXBuildFile; fileRef = F21ADFB91E694CCA000A22B4 /* UIImage+Size.m */; };
 		F28603FF1E63D10F002B5709 /* CSModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31FA71E5AC816007405A7 /* CSModel.m */; };
 		F28604001E63D113002B5709 /* CSContact.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F31F8F1E516221007405A7 /* CSContact.m */; };
@@ -153,6 +154,8 @@
 		F20C82D01E6D66F4006D3594 /* UIView+AutoLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+AutoLayout.m"; sourceTree = "<group>"; };
 		F20C82D81E6EAB93006D3594 /* Contact Selector.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Contact Selector.entitlements"; sourceTree = "<group>"; };
 		F20C82D91E6EABEF006D3594 /* Contact Selector Block.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Contact Selector Block.entitlements"; sourceTree = "<group>"; };
+		F20C82DB1E6EAFA2006D3594 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
+		F20C82DC1E6EAFA2006D3594 /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		F21ADFB81E694CCA000A22B4 /* UIImage+Size.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Size.h"; sourceTree = "<group>"; };
 		F21ADFB91E694CCA000A22B4 /* UIImage+Size.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Size.m"; sourceTree = "<group>"; };
 		F28604041E63E005002B5709 /* BlockPhoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlockPhoneViewController.h; sourceTree = "<group>"; };
@@ -391,6 +394,15 @@
 			name = UIUtils;
 			sourceTree = "<group>";
 		};
+		F20C82DA1E6EAF8B006D3594 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				F20C82DB1E6EAFA2006D3594 /* Utils.h */,
+				F20C82DC1E6EAFA2006D3594 /* Utils.m */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
 		F286040A1E640EE2002B5709 /* Block Number Adding */ = {
 			isa = PBXGroup;
 			children = (
@@ -484,6 +496,7 @@
 				F286041B1E65591F002B5709 /* App */,
 				F286041C1E655CC8002B5709 /* CallManagement */,
 				F2F31FF61E602CA2007405A7 /* ViewController */,
+				F20C82DA1E6EAF8B006D3594 /* Utils */,
 				F2F31FE71E602895007405A7 /* MainTabBarController.h */,
 				F2F31FE81E602895007405A7 /* MainTabBarController.m */,
 				F2F31F5C1E515E2C007405A7 /* Main.storyboard */,
@@ -1044,6 +1057,7 @@
 				F2F31F9D1E52B2B5007405A7 /* CSSelectedContactCollectionViewCell.m in Sources */,
 				F2F31FD71E5C2F51007405A7 /* LRUFileUtils.m in Sources */,
 				F2F31FD41E5BF59E007405A7 /* LRUCacheDisk.m in Sources */,
+				F20C82DD1E6EAFA2006D3594 /* Utils.m in Sources */,
 				8A6B9D3E1E652C81002ACB87 /* CSCall.m in Sources */,
 				F2F31FA11E56E187007405A7 /* CSSearchNoResultTableViewCell.m in Sources */,
 				F2F31F971E51B06B007405A7 /* CSContactTableViewCell.m in Sources */,

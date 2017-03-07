@@ -11,6 +11,7 @@
 #import "TopContactDetailCell.h"
 #import "CSBlockDatebaseManager.h"
 #import "CallManagement.h"
+#import "Utils.h"
 #import <MessageUI/MessageUI.h>
 
 NSString * kTopDetailCellID = @"TopContactDetailCell";
@@ -48,7 +49,7 @@ NSString * kUnBlockCellID = @"UnblockContactID";
     if ([self isContactHavePhone]) {
         [[CallManagement management] makePhoneCall:self.contact.phoneNumbers[0]];
     } else {
-        [self showMessage:@"This contact does not have a phone number"];
+        [Utils showMessage:@"This contact does not have a phone number" inViewController:self];
     }
 }
 
@@ -65,7 +66,7 @@ NSString * kUnBlockCellID = @"UnblockContactID";
         // Present the view controller modally.
         [self presentViewController:composeVC animated:YES completion:nil];
     } else {
-        [self showMessage:@"This contact does not have a phone number"];
+        [Utils showMessage:@"This contact does not have a phone number" inViewController:self];
     }
 }
 
@@ -76,7 +77,7 @@ NSString * kUnBlockCellID = @"UnblockContactID";
         [manager blockContact:self.contact];
         [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
     } else {
-        [self showMessage:@"This contact does not have a phone number"];
+        [Utils showMessage:@"This contact does not have a phone number" inViewController:self];
     }
 }
 
@@ -195,16 +196,6 @@ NSString * kUnBlockCellID = @"UnblockContactID";
 - (BOOL)isContactHavePhone {
     
     return self.contact.phoneNumbers.count > 0;
-}
-
-- (void)showMessage:(NSString *)message {
-    
-    UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"Message"
-                                                                    message:message
-                                                             preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDestructive handler:nil];
-    [alert addAction:dismissAction];
-    [self presentViewController:alert animated:YES completion:nil];
 }
 
 @end
