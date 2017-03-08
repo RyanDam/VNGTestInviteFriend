@@ -63,8 +63,11 @@
                 stateString = @"Held";
                 break;
                 
+            case kUnHeld:
+                stateString = @"Activated";
+                
             case kEnd:
-                [instance addCallHistory];
+                [instance endCallAction];
                 break;
                 
             default:
@@ -110,6 +113,7 @@
 }
 
 - (void)addCallHistory {
+    
     CSCall *callHistory = [CSCall new];
     callHistory.number = self.callNumber;
     callHistory.start = [self.call connectedDate];
@@ -117,17 +121,16 @@
     [[CSCallHistoryManager manager] addCall:callHistory];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (IBAction)endCall:(id)sender {
     
     [self.appDelegate.callManager endCall:_call];
+
+    [self endCallAction];
+}
+
+- (void)endCallAction {
     
     [self addCallHistory];
-    
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
