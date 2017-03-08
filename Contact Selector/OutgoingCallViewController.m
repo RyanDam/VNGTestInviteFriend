@@ -54,9 +54,9 @@
                 stateString = @"Connecting";
                 break;
                 
-            case kConnected:
+            case kActivated:
                 [instance setCallDurationTimer];
-                stateString = @"Connected";
+                stateString = @"Activated";
                 break;
                 
             case kHeld:

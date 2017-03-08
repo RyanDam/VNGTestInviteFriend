@@ -59,7 +59,7 @@
     self.callConnectedDate = [NSDate date];
     
     if (self.stateDidChange)
-        self.stateDidChange(kConnected);
+        self.stateDidChange(kActivated);
     
     if (completion) {
         completion(YES);
@@ -88,7 +88,8 @@
 
 - (void)unholdCallWithCompletion:(void (^)(BOOL success))completion {
         
-    // do something
+    if (self.stateDidChange)
+        self.stateDidChange(kUnHeld);
     
     if (completion) {
         completion(YES);

@@ -10,8 +10,9 @@
 
 typedef enum {
     kConnecting,
-    kConnected,
+    kActivated,
     kHeld,
+    kUnHeld,
     kEnd
 } CallState;
 

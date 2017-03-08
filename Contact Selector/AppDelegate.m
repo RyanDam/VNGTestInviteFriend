@@ -8,7 +8,6 @@
 
 #import "AppDelegate.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
-#import "CallObserver.h"
 #import "CallManager.h"
 #import "CallProvider.h"
 
